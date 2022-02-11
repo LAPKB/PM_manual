@@ -1,0 +1,74 @@
+--- 
+title: "Pmetrics User Manual"
+author: "LAPKB"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  This is the manual for the Pmetrics population modeling and simulation
+  package for R.
+link-citations: yes
+#github-repo: LAPKB/PM_manual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.kable.NA = ".")
+```
+
+# Preface
+
+This is the manual for Pmetrics, a population modeling and simulation package for R.
+
+Pmetrics is the result of years of labor from many people. It was created by the Laboratory of Applied Pharmacokinetics and Bioinformatics (LAPKB).
+
+## A brief history
+
+LAPKB, established in 1973 as LAPK by Roger Jelliffe, MD, has been continually associated with the University of Southern California and  the USC Keck School of Medicine. Since 2012, it has been housed under the Saban Research Institute at Children's Hospital Los Angeles (CHLA).
+
+Since its inception, LAPKB has been a pharmacometric resource for optimal study and control of pharmacokinetic/pharmacodynamic systems and for individualized drug therapy and personalized medicine. It has been continually supported by grants, including from The National Institute for General Medical Studies (NIGMS), National Institute of Biomedical Imagining and Bioengineering (NIBIB), the Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD),  the US Food and Drug Administration (FDA), and by the Stella Slutzky Kunin Memorial Research Fund.
+
+The laboratory has employed physicians, pharmacists, engineers, statisticians, and mathematicians. LAPKB has special strengths in nonparametric statistical methods, optimal stochastic control, optimal design of pharmacokinetic experiments and clinical trials, and practical application of tools for optimal clinical therapy.
+
+The laboratory also seeks collaborative relationships to further the understanding and development of this field of Clinical Pharmacology. These collaborations may take the form of clinical trials and evaluations of therapeutic methods or of development and software implementation of new concepts. Educational opportunities in the form of workshops and visiting scholars are available to physicians, pharmacists, engineers, mathematicians, and other investigators. 
+
+## People
+
+This is not an exhaustive list by any means, but highlights some individuals who have made exceptional contributions to the lab.
+
+* Roger Jellife, MD - founder and pioneer. Passed away  June 22, 2002.
+* Alan Schumitzky, PhD - Emeritus Professor of Mathematics at USC. Professor Schumitzky's research interests are focused on estimation and control theory, applied pharmacokinetics, complex analysis, and software development. He developed NPEM, co-developed NPAG, NPOD, and every other algorithm from the lab, and he continues to share his genius.
+* Robert Leary, PhD - co-developer of NPAG and former consultant to the lab. 
+* David Bayard, PhD - consultant to the lab and expert in optimal control. He developed the Multiple Model algorithm powering BestDose, as well as the MMopt optimal sampling algorithm.
+* Michael van Guilder PhD - consultant to the lab who turned all of the ideas into working, stable, reliable Fortran code.
+* Walter Yamada, PhD - Current scientific programmer, modeler, and the person who knows the code the best and manages the lab on a daily basis. He developed the Poisson likelihood function and makes updates to the code every day.
+* Julian Otalvaro - Scientfic programmer who has transformed Pmetrics by developing the R6 framework, moving it to Github, and just about every other aspect of the package. He is also one of the labs experts in machine learning.
+* Rong Chen, PhD - post-doc and author of RPEM. He is our expert in Fortran and use of MPI to parallelize code.
+* Alona Kryshchenko, PhD - consulant and co-developer of NPOD.
+* Michael Neely, MD - current leader of the lab, physician and dabbler in statistics. He wrote all of the original Pmetrics package and continues to write to this day, in addition to all the other jobs associate with Principle Investigator and Chief of the Division of Infectious Diseases at CHLA.
+
+## Citing Pmetrics
+
+Please help us maintain our funding to provide Pmetrics as a free
+research tool to the pharmacometric community. If you use Pmetrics in a
+publication, you can cite it as below.
+
+```{r} 
+citation("Pmetrics")
+```
+
+## Donate
+
+If you appreciate the enormous work to develop and maintain Pmetrics,
+please consider a [donation](https://www.paypal.com/donate?token=3aF-w2c7Dw35BWYefFIX1QUD9j7Uu2J3KGkmh7vWF_A8ifjKc8E1Bp05NmDCH__6GwB49bXYOp_tKNpw).
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

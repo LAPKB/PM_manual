@@ -1,0 +1,35 @@
+---
+title: "PM_model Object Generator"
+author: "Michael Neely"
+date: "11/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PM_model Object Generator
+
+PM_model is an object factory that would generate the right object representation based on the parameters supplied.
+
+## Legacy runs
+
+For legacy runs it is enough to provide the path to the model file to PM_model, it would create a PM_model_legacy object that can be interpreted by PM_fit.
+
+```{r echo=F, results='asis'}
+data <- "data.csv"
+model <- Pmetrics::PM_model("model.txt")
+
+pk_problem <- Pmetrics::PM_fit$new(data,model)
+```
+
+In general, is possible just to pass the path tho de model file directly to the PM_fit$new(...) function. It would automatically detect that it is a legacy run and will call the PM_model function automatically.
+
+```{r echo=F, results='asis'}
+pk_problem <- Pmetrics::PM_fit$new(model = "model.txt", data = "data.csv")
+```
+
+## Non-legacy runs
+
+TBD

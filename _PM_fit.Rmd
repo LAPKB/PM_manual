@@ -1,0 +1,20 @@
+---
+title: "PM_fit Class"
+author: "Michael Neely"
+date: "10/29/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PM_fit Class
+
+A PM_fit class represents a population modeling problem that would be fitted using one of more of the solvers included in Pmetrics.
+
+To instantiate this class it is neccesary to call the PM_fit$new(data=..., model=...) function. This function receives two parameters data and model who specifies the path of the data file to be used (Refer to the Pmetric's manual to know the requirements of this file) and the model that the user wants to fit using that data.
+
+For legacy runs, the model can be also a path to an specific model file (Also refer to the manual for specific instructions about how to build that model file). For non-legacy runs, Pmetrics provide the function PM_model that builds the model object automatically based on the available information (for more details please refer to the PM_model secction of the Pmetrics Manual).

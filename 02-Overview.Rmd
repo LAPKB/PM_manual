@@ -1,0 +1,174 @@
+# Pmetrics Overview
+
+## Software engines
+
+There are three main software engines that Pmetrics controls.
+
+* **IT2B** is the ITerative 2-stage Bayesian parametric population PK modeling
+program. It is generally used to estimate parameter ranges to pass to
+NPAG. It will estimate values for population model parameters under the
+assumption that the underlying distributions of those values are normal
+or transformed to normal.
+
+* **NPAG** is the Non-parametric Adaptive Grid software. It will create a
+non-parametric population model consisting of discrete support points,
+each with a set of estimates for all parameters in the model plus an
+associated probability (weight) of that set of estimates. There can be
+at most one point for each subject in the study population. There is no
+need for any assumption about the underlying distribution of model
+parameter values.
+
+* The **Simulator** is a semi-parametric Monte Carlo simulation software
+program that can use the output of IT2B or NPAG to build randomly
+generated response profiles (e.g. time-concentration curves) for a given
+population model, parameter estimates, and data input. Simulation from a
+non-parametric joint density model, i.e. NPAG output, is possible, with
+each point serving as the mean of a multivariate normal distribution,
+weighted according to the weight of the point. The covariance matrix of
+the entire set of support points is divided equally among the points for
+the purposes of simulation.
+
+## Pmetrics control functions
+
+<span class="r6">R6</span>
+
+Pmetrics uses `PM_model` to create model objects and `PM_fit` to create
+objects that combine the model with the data, ready to be run (fitted),
+generating probability distributions for primary model parameters.
+
+These functions replace the following Legacy functions: `ITrun`, `ERRrun`, 
+`NPrun`.
+
+`PMload` is aliased as `PM_load` for consistency with the above functions.
+Similar to the Legacy version, it loads the results of a run into R to be 
+accessible to the user for analysis, plotting, etc. Different from the Legacy
+version, it loads the results into another R6 object, `PM_result` instead of
+the current environment.  
+
+Invoking the simulator in R6 is unchanged, i.e. use `SIMrun`.
+
+
+<span class="legacy">Legacy</span>
+
+Pmetrics has groups of R functions named logically to run each of these
+programs and to extract the output. Again, these are extensively
+documented within R by using the `help(command)` or `?command syntax`.
+
+* `ITrun`, `ITparse`, `ERRrun`
+
+* `NPrun`, `NPparse`
+
+* `PMload`, `PMsave`, `PMreport`
+
+* `SIMrun`, `SIMparse`
+
+### Run functions
+
+<span class="r6">R6</span>
+
+Once a `PM_fit` object is created, which combines a model with a data file,
+it can be run by using the syntax `$run()` to access the appropriate function
+defined for the `PM_fit` object. 
+
+```{r echo=T, eval=FALSE}
+run1 <- PM_fit(model,data)
+run1$run(options)
+```
+
+
+<span class="r6">R6</span> <span class="legacy">Legacy</span>
+
+For IT2B and NPAG, the "run" functions generate batch files, which when
+executed, launch the software programs to do the analysis. `$run(engine="err")`
+or `ERRrun()` is a special implementation of IT2B designed to estimate 
+the assay error polynomial coefficients from the data, when they cannot be calculated from assay validation data (using `makeErrorPoly()`) supplied by the
+analytical laboratory. The batch files contain all the information
+necessary to complete a run, tidy the output into a date/time stamped
+directory with meaningful subdirectories, extract the information,
+generate a report, and a saved Rdata file of parsed output which can be
+quickly and easily loaded into R. On Mac (Unix) and Linux systems, 
+the batch file automatically launches in a Terminal window. 
+Prior to v1.9, on Windows systems, the batch file was launched manually, 
+but as of v1.9, this manual step is no longer necessary. The execution of
+the program to do the actual model parameter estimation is independent
+of R, so that the user is free to use R for other purposes.
+
+For the Simulator, the `SIMrun` function will execute the program
+directly within R.
+
+### Parse functions
+
+<span class="r6">R6</span> <span class="legacy">Legacy</span>
+
+For all programs, the "parse" functions will extract the primary output
+from the program into meaningful R data objects. For IT2B and NPAG, this
+is done automatically at the end of a successful run, and the objects
+are saved in the output subdirectory as IT2Bout.Rdata or NPAGout.Rdata,
+respectively. These functions generally run automatically and are not
+necessary for the user to access.
+
+### Saving and loading functions
+
+<span class="r6">R6</span> 
+
+After a successful IT2B or NPAG run, `PMload` or `PM_load` creates a 
+`PM_result` object rather than loading run results into the current 
+environment and suffixed with the run number.
+
+```{r echo=T, eval=FALSE}
+fit1 <- PM_load(1)
+plot(fit1$op)
+```
+
+<span class="legacy">Legacy</span> 
+
+For IT2B and NPAG, the `PM_load` function can be used to load either
+of the above .Rdata files after a successful run. Objects will be loaded
+into the current environment in R and suffixed with ".run", where "run" is
+the run number.
+
+```{r echo=T, eval=F}
+PM_load(1)
+plot(op.1)
+```
+
+<span class="update">Update</span>
+`PMsave` is the
+companion to `PMload` and can re-save modified objects to the .Rdata file.
+
+
+### Report generation
+
+<span class="r6">R6</span> <span class="legacy">Legacy</span>
+
+The `PMreport` function is automatically run at the end of a successful
+NPAG and IT2B run, and it will generate an HTML page with summaries of
+the run, as well as the .Rdata files and other objects. The default
+browser will be automatically launched for viewing of the HTML report
+page. <!--It will also generate a .tex file suitable for processing by a
+LATEX engine to generate a pdf report.--> See the [Pmetrics
+Outputs](#outputs) section.
+
+## Data manipulation functions
+
+<span class="r6">R6</span> <span class="legacy">Legacy</span>
+
+Within Pmetrics there are also functions to manipulate data .csv files
+and process and plot extracted data.
+
+* Manipulate data .csv files: `PMreadMatrix`, `PMcheck`, `PMwriteMatrix`,
+`PMmatrixRelTime`, `PMwrk2csv`, `NM2PM`, `PMmb2csv`
+
+* Process data: `makeAUC`, `makeCov`, `makeCycle`, `makeFinal`, `makeOP`, `makePTA`,
+`makeErrorPoly`
+
+* Plot data: `plot.PMcov`, `plot.PMcycle`, `plot.PMfinal`, `plot.PMmatrix`,
+`plot.PMop`,`plot.PMsim`, `plot.PMvalid`, `plot.PMpta`
+
+* Model selection and diagnostics: `PMcompare`, `plot.PMop` (with residual
+option), `makeValid`, `plot.PMvalid`, `PMstep`
+
+* Pmetrics function defaults: `setPMoptions`, `getPMoptions`
+
+Again, all functions have extensive help files and examples which can be
+examined in R by using the `help(command)` or `?command` syntax.
