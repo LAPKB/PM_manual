@@ -1,0 +1,123 @@
+---
+title: "Data file specification"
+author: "Michael Neely"
+date: "10/29/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- ## R Markdown -->
+
+<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
+
+<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
+
+<!-- ```{r cars} -->
+<!-- summary(cars) -->
+<!-- ``` -->
+
+<!-- ## Including Plots -->
+
+<!-- You can also embed plots, for example: -->
+
+<!-- ```{r pressure, echo=FALSE} -->
+<!-- plot(pressure) -->
+<!-- ``` -->
+
+<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+
+#  File format
+
+Files are in comma-separated-values (.csv) format. Examples of programs
+that can save .csv files are any text editor (e.g. TextEdit on Mac,
+Notepad on Windows) or spreadsheet program (e.g. Excel). 
+
+**IMPORTANT**: The names mandatory and optional columns are fixed. Other names
+will be interpreted as covariates. The order of the columns can be variable.
+All row entries must be numeric, with the
+exception of ID and "." for non-required placeholder entries.
+Any row
+that begins with "\#" will be ignored, which is helpful if you want to
+exclude data from the analysis, but preserve the integrity of the
+original dataset, or to add comment lines.
+
+**At minimum**, a data file must have these columns: ID, TIME, DUR, DOSE, OUT.
+
+```{r echo=F, results='asis'}
+library(knitr)
+tab <- read.csv("Data/mdata.csv")
+tab$OUT <- as.character(tab$OUT)
+kable(tab)
+```
+
+* ***ID*** This field is **mandatory**. It can be numeric or character and
+identifies each individual. All rows must contain an ID, and all
+records from one individual must be contiguous.  IDs should be 11 characters
+or less but may be any alphanumeric combination. **There can be at
+most 800 subjects per run.**
+
+* ***EVID*** This field is **optional**. This is the event ID field.  It can be 0, 1, or 4. 
+
+    + 0 = observation
+
+    + 1 = input (e.g. dose)
+
+    + 2, 3 are unused
+
+    + 4 = reset, where all compartment values are set to 0 and the time
+counter is reset to 0. This is useful when an individual has multiple
+sampling episodes that are widely spaced in time with no new
+information gathered. This is a dose event, so dose information needs
+to be complete.
+
+    + If an EVID column is not supplied, row events with a value in the DOSE column will be assigned EVID = 1, and row events with a value in the OUT column will be assigned EVID = 0. If EVID = 4 is necessary, the column must be used. However, only rows with an EVID value of 4 need to be specified, as the default behavior will still be applied to regular dose and observation rows.
+
+* ***DATE*** This field is **optional**. If specified, it will be a calendar date. The default format is US, i.e. mm-dd-yyyy. However, this can be changed using setPMoptions().
+
+* ***TIME*** This field is **mandatory**. This is the elapsed time in decimal hours since the first
+event. If a DATE column is specified, it is clock time in the default format of hh:mm. This format can be changed using setPMoptions(). If a DATE column is not specified, TIME is a whole number indicating relative time, with 0 in the first row.
+Every row must have an entry, and within a given ID, rows
+must be sorted chronologically, earliest to latest.
+
+* ***DUR*** This field is **mandatory**. This is the duration of an infusion in hours. For any dose event, there must be an entry for DUR. It is ignored for observation events and should be set to ".". For a bolus (i.e. an oral dose), set the value equal to 0. Values >0 are interpreted as infusions. The compartment receiving either the bolus or the infusion is specified in the model object.
+
+* ***DOSE*** This field is **mandatory**. This is the dose (input) amount. If a value is supplied for both the DOSE field and the OUT field in the same event, PMcheck() will flag an error. On event with an observation, this field should be ".".
+
+* ***ADDL*** This field is **optional**. It specifies the number of additional doses to give at
+interval II. If not used, it is assumed to be 0. If used, it is ignored for observation events. If used, be sure to adjust the time entry for the subsequent row, if
+necessary, to account for the extra doses. If set to -1, the dose is
+assumed to be given under steady-state conditions. ADDL = -1 can only be
+used for the first dose event for a given subject, or an EVID = 4 event,
+as you cannot suddenly be at steady state in the middle of dosing
+record, unless all compartments/times are reset to 0 (as for an EVID = 4
+event). To clarify further, when ADDL = -1, all compartments in the
+model will contain the predicted amounts of drug at the end of the
+100th II interval.
+
+* ***II*** This field is **optional**. It is the interdose interval and is only relevant if ADDL
+is not equal to 0, in which case it cannot be missing. If ADDL = 0 or is
+missing or not used, II is ignored.
+
+* ***INPUT*** This field is **optional**. This defines which input (i.e. drug) the DOSE corresponds to. Inputs are defined in the model file. It is only required when there are more than one input, e.g. two drugs in the model. Default value is 1. A value for input is required for dose events to indicate which input the dose amount corresponds to, and for observation events to indicated the associated input for the purposes of calculating relative time after input.
+
+* ***OUT*** This field is **mandatory**. This is the observation, or output value. For events with missing DOSE, there must be an entry for OUT. To code a missing observation, use a value of -99 for OUT. To code a observation that was reported as below a limit of quantification, use -88 for OUT. For DOSE events, it should be coded as ".". There can be at most 150 observations for a given subject.
+
+* ***OUTEQ*** This field is **optional**. This is the output equation number that corresponds to the OUT value. Output equations are defined in the model file. This field is only required if there are multiple outputs, e.g. drug concentration plus metabolite or effect. Default value for observation events is 1.
+
+* ***TYPE*** This field is **optional**. It specifies the type of output in OUT. Default is 1 for a real number. Use 2 for integer (count) data.
+
+* ***TRANS*** This field is **optional**. It indicates any transformation applied to the OUT value. Default is 1 for none. Use 2 for log base 10 and 3 for natural log.
+
+* ***C0, C1, C2, C3*** These fields are **optional**. if not used, values for these coefficients will be obtained from the model object. If included in the data file, for example because groups of subjects have an output measured by differing assays, these are the coefficients for the assay error
+polynomial for that observation. Each subject may have up to one set
+of coefficients per output equation. If more than one set is detected
+for a given subject and output equation, the last set will be used. If at least one of these is specified in the data file, any column not used will be assumed to be the value in the model object. Rows without values, e.g. ".", will also have values populated from the model object.
+
+* ***Covariates*** Any column named differently from the reserved names above is assumed to be a covariate, one column per covariate. The first row for any subject
+must have a value for all covariates, since the first row is always a dose.
+Covariate values are applied at the time of doses. To change a covariate value at a time other than a dose time, use a dose event with DOSE = 0 and DUR = 0.
