@@ -522,7 +522,7 @@ letters are required). Fortran is also case-insensitive, so in variable
 names and expressions case is ignored. Details of each block are next,
 followed by a [complete example](#completeEx).
 
-Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the \#EXTRA block. If you wish to do this, insert \[format\] and \[/format\] before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.
+Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the \#EXTRA block. If you wish to do this, insert [format] and [\/format] before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.
 
 Comments: You can insert comments into your model text file by starting a line with a capital "C" followed by a space. These lines will be removed/ignored in the final fortran code.
 
@@ -570,7 +570,7 @@ differently for NPAG, IT2B, and the simulator.
     Runs]{.underline}](\l)).
 
 Example:
-
+<div class="script">
 \#Pri\
 KE, +0, 5\
 V, 0.01, 100\
@@ -580,7 +580,7 @@ KPC, 0 , 5\
 Tlag1, 0, 2\
 IC3, 0, 10000\
 FA1, 0.5!
-
+</div>
 
 ### Covariates {#cov}
 
@@ -597,10 +597,12 @@ conditional relationships. This is accomplished in the [\#Sec](#sec) block.
 
 Example:
 
+<div class="script">
 \#Cov\
 wt\
 cyp\
 IC!
+</div>
 
 where IC will be piece-wise constant and the other two will be linearly
 interpolated for missing values.
@@ -619,26 +621,30 @@ Fortran notation, the "&" is used henceforth.
 
 Example:
 
+<div class="script">
 \#Sec\
 CL = Ke \* V \* wt\*\*0.75\
 & IF(cyp .GT. 1) CL = CL \* cyp
+</div>
 
 ### Bolus inputs {#bol}
 
 Example:
 
+<div class="script">
 \#Bol\
 NBCOMP(1) = 2
-
+</div>
 
 ### Initial conditions {#ini}
 
 Example:
 
+<div class="script">
 \#Ini\
-X(2) = IC\*V (i.e. IC is a covariate with the measured trough
-concentration prior to an observed dose)\
-X(3) = IC3 (i.e. IC3 is a fitted amount in this unobserved compartment)
+X(2) = IC\*V\
+X(3) = IC3\
+</div>
 
 In the first case, the initial condition for compartment 2 becomes the
 value of the IC covariate (defined in \#Covariate block) multiplied by
@@ -667,26 +673,30 @@ be ignored.
 
 Example:
 
+<div class="script">
 \#Fa\
 FA(1) = FA1
-
-#### 
+</div>
 
 ### Lag time {#lag}
 
 Example:
 
+<div class="script">
 \#Lag\
 TLAG(1) = Tlag1
+</div>
 
 ### Differential equations {#dif}
 
 Example:
 
+<div class="script">
 \#Dif\
 XP(1) = -KA\*X(1)\
 XP(2) = RATEIV(1) + KA\*X(1) - (KE+KCP)\*X(2) + KPC\*X(3)\
 XP(3) = KCP\*X(2) - KPC\*X(3)
+</div>
 
 ### Outputs {#out}
 
@@ -702,6 +712,7 @@ covariates.
 
 Examples:
 
+<div class="script">
 \#Out\
 Y(1) = X(2)/V
 
@@ -710,6 +721,7 @@ Y(1) = X(2)/V
 RES = B(1) \* KIN/(KIN-KOUT) \* (EXP(-KOUT\*TPD)-EXP(-KIN\*TPD))
 
 Y(1) = RES/VD
+</div>
 
 ### Error {#err}
 
@@ -732,21 +744,22 @@ be used.
 Example 1: estimated $\lambda$, starting at 0.4, one output, use data file
 coefficients but if missing, use 0.1,0.1,0,0.
 
+<div class="script">
 \#Err\
-L=0.4
-0.1,0.1,0,0
+L=0.4\
+0.1,0.1,0,0\
+</div>
 
 Example 2: fixed $\gamma$ of 2, two outputs, use data file coefficients but
 if missing, use 0.1,0.1,0,0 for the first output, but use 0.3, 0.1, 0, 0
 for output 2 regardless of what is in the data file.
 
+<div class="script">
 \#Err\
-G=2!
-
-0.1,0.1,0,0
-
-0.3,0.1,0,0!
-
+G=2!\
+0.1,0.1,0,0\
+0.3,0.1,0,0!\
+</div>
 
 ### Extra
 
@@ -800,6 +813,7 @@ variable names. They can be used in equations, however.
 Here is a complete example of a model file, as of Pmetrics version 0.40
 and higher:
 
+<div class="script">
 \#Pri\
 KE, 0, 5\
 V0, 0.1, 100\
@@ -822,6 +836,7 @@ Y(1) = X(2)/V\
 \#Err\
 L=0.4\
 0.1,0.1,0,0\
+</div>
 
 *Notes*:
 
