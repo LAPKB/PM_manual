@@ -44,7 +44,6 @@ sec
 bol
 ini
 Fa
-section
 lag
 dif
 out
@@ -53,3 +52,11 @@ extra
 reserved
 completeEx
 brief-fortran-tutorial
+how-to-use-r-and-pmetrics
+setting-up-a-pmetrics-project
+getting-the-required-inputs-to-run-pmetrics
+r6
+legacy
+using-scripts-to-control-pmetrics
+loading-results-after-a-completed-run
+using-shiny-to-control-pmetrics

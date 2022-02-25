@@ -27,7 +27,7 @@ package for R.</p>" />
 <meta name="author" content="LAPKB" />
 
 
-<meta name="date" content="2022-02-10" />
+<meta name="date" content="2022-02-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -35,7 +35,7 @@ package for R.</p>" />
   
   
 <link rel="prev" href="general-workflow.html"/>
-
+<link rel="next" href="how-to-use-r-and-pmetrics.html"/>
 <script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -204,6 +204,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3.13" data-path="pmetrics-input-files.html"><a href="pmetrics-input-files.html#completeEx"><i class="fa fa-check"></i><b>5.3.13</b> Complete Example</a></li>
 <li class="chapter" data-level="5.3.14" data-path="pmetrics-input-files.html"><a href="pmetrics-input-files.html#brief-fortran-tutorial"><i class="fa fa-check"></i><b>5.3.14</b> Brief Fortran Tutorial</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html"><i class="fa fa-check"></i><b>6</b> How to use R and Pmetrics</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#setting-up-a-pmetrics-project"><i class="fa fa-check"></i><b>6.1</b> Setting up a Pmetrics project</a></li>
+<li class="chapter" data-level="6.2" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#getting-the-required-inputs-to-run-pmetrics"><i class="fa fa-check"></i><b>6.2</b> Getting the required inputs to run Pmetrics</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#r6"><i class="fa fa-check"></i><b>6.2.1</b> R6</a></li>
+<li class="chapter" data-level="6.2.2" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#legacy"><i class="fa fa-check"></i><b>6.2.2</b> Legacy</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-scripts-to-control-pmetrics"><i class="fa fa-check"></i><b>6.3</b> Using scripts to control Pmetrics</a></li>
+<li class="chapter" data-level="6.4" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#loading-results-after-a-completed-run"><i class="fa fa-check"></i><b>6.4</b> Loading results after a completed run</a></li>
+<li class="chapter" data-level="6.5" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-shiny-to-control-pmetrics"><i class="fa fa-check"></i><b>6.5</b> Using Shiny to control Pmetrics</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -905,7 +917,7 @@ case-insensitive (i.e. the capitalization here is just to show which
 letters are required). Fortran is also case-insensitive, so in variable
 names and expressions case is ignored. Details of each block are next,
 followed by a <a href="pmetrics-input-files.html#completeEx">complete example</a>.</p>
-<p>Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the #EXTRA block. If you wish to do this, insert <span class="math display">\[format\]</span> and <span class="math display">\[/format\]</span> before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.</p>
+<p>Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the #EXTRA block. If you wish to do this, insert [format] and [/format] before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.</p>
 <p>Comments: You can insert comments into your model text file by starting a line with a capital “C” followed by a space. These lines will be removed/ignored in the final fortran code.</p>
 <div id="pri" class="section level3" number="5.3.1">
 <h3><span class="header-section-number">5.3.1</span> Primary variables</h3>
@@ -946,7 +958,8 @@ is set to NA, which will mean that these ranges will be used as the
 limits to truncate the simulation (see <a href="\l"><u>Simulator
 Runs</u></a>).</p></li>
 </ul>
-<p>Example:</p>
+Example:
+<div class="script">
 <p>#Pri<br />
 KE, +0, 5<br />
 V, 0.01, 100<br />
@@ -956,6 +969,7 @@ KPC, 0 , 5<br />
 Tlag1, 0, 2<br />
 IC3, 0, 10000<br />
 FA1, 0.5!</p>
+</div>
 </div>
 <div id="cov" class="section level3" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> Covariates</h3>
@@ -969,10 +983,12 @@ described as the user wishes by mathematical equations and Fortran code,
 allowing for exploration of complex, non-linear, time-dependent, and/or
 conditional relationships. This is accomplished in the <a href="pmetrics-input-files.html#sec">#Sec</a> block.</p>
 <p>Example:</p>
+<div class="script">
 <p>#Cov<br />
 wt<br />
 cyp<br />
 IC!</p>
+</div>
 <p>where IC will be piece-wise constant and the other two will be linearly
 interpolated for missing values.</p>
 </div>
@@ -988,23 +1004,29 @@ symbol was “+” before each line, but to avoid confusion with the use of
 “+” in the Primary block for IT2B models, and to be consistent with
 Fortran notation, the “&amp;” is used henceforth.</p>
 <p>Example:</p>
+<div class="script">
 <p>#Sec<br />
 CL = Ke * V * wt**0.75<br />
 &amp; IF(cyp .GT. 1) CL = CL * cyp</p>
 </div>
+</div>
 <div id="bol" class="section level3" number="5.3.4">
 <h3><span class="header-section-number">5.3.4</span> Bolus inputs</h3>
 <p>Example:</p>
+<div class="script">
 <p>#Bol<br />
 NBCOMP(1) = 2</p>
+</div>
 </div>
 <div id="ini" class="section level3" number="5.3.5">
 <h3><span class="header-section-number">5.3.5</span> Initial conditions</h3>
 <p>Example:</p>
+<div class="script">
 <p>#Ini<br />
-X(2) = IC*V (i.e. IC is a covariate with the measured trough
-concentration prior to an observed dose)<br />
-X(3) = IC3 (i.e. IC3 is a fitted amount in this unobserved compartment)</p>
+X(2) = IC*V<br />
+X(3) = IC3<br />
+</p>
+</div>
 <p>In the first case, the initial condition for compartment 2 becomes the
 value of the IC covariate (defined in #Covariate block) multiplied by
 the current estimate of V during each iteration. This is useful when a
@@ -1029,25 +1051,28 @@ conditional statements in Fortran code. An "&amp;" continuation prefix is
 not necessary in this block for any statement, although if present, will
 be ignored.</p>
 <p>Example:</p>
+<div class="script">
 <p>#Fa<br />
 FA(1) = FA1</p>
-<div id="section" class="section level4" number="5.3.6.1">
-<h4><span class="header-section-number">5.3.6.1</span> </h4>
 </div>
 </div>
 <div id="lag" class="section level3" number="5.3.7">
 <h3><span class="header-section-number">5.3.7</span> Lag time</h3>
 <p>Example:</p>
+<div class="script">
 <p>#Lag<br />
 TLAG(1) = Tlag1</p>
+</div>
 </div>
 <div id="dif" class="section level3" number="5.3.8">
 <h3><span class="header-section-number">5.3.8</span> Differential equations</h3>
 <p>Example:</p>
+<div class="script">
 <p>#Dif<br />
 XP(1) = -KA*X(1)<br />
 XP(2) = RATEIV(1) + KA*X(1) - (KE+KCP)*X(2) + KPC*X(3)<br />
 XP(3) = KCP*X(2) - KPC*X(3)</p>
+</div>
 </div>
 <div id="out" class="section level3" number="5.3.9">
 <h3><span class="header-section-number">5.3.9</span> Outputs</h3>
@@ -1061,11 +1086,13 @@ to as Y(1), Y(2), etc. These equations may also define a model
 explicitly as a function of primary and secondary variables and
 covariates.</p>
 <p>Examples:</p>
+<div class="script">
 <p>#Out<br />
 Y(1) = X(2)/V</p>
 <p>#OUT</p>
 <p>RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))</p>
 <p>Y(1) = RES/VD</p>
+</div>
 </div>
 <div id="err" class="section level3" number="5.3.10">
 <h3><span class="header-section-number">5.3.10</span> Error</h3>
@@ -1084,16 +1111,22 @@ declaration line contains an exclamation point (!) the values here will
 be used.</p>
 <p>Example 1: estimated <span class="math inline">\(\lambda\)</span>, starting at 0.4, one output, use data file
 coefficients but if missing, use 0.1,0.1,0,0.</p>
+<div class="script">
 <p>#Err<br />
-L=0.4
-0.1,0.1,0,0</p>
+L=0.4<br />
+0.1,0.1,0,0<br />
+</p>
+</div>
 <p>Example 2: fixed <span class="math inline">\(\gamma\)</span> of 2, two outputs, use data file coefficients but
 if missing, use 0.1,0.1,0,0 for the first output, but use 0.3, 0.1, 0, 0
 for output 2 regardless of what is in the data file.</p>
+<div class="script">
 <p>#Err<br />
-G=2!</p>
-<p>0.1,0.1,0,0</p>
-<p>0.3,0.1,0,0!</p>
+G=2!<br />
+0.1,0.1,0,0<br />
+0.3,0.1,0,0!<br />
+</p>
+</div>
 </div>
 <div id="extra" class="section level3" number="5.3.11">
 <h3><span class="header-section-number">5.3.11</span> Extra</h3>
@@ -1103,123 +1136,125 @@ Occasionally, for very complex models, additional Fortran subroutines are requir
 which can be called from other blocks with appropriate call functions.
 As stated earlier, sometimes it is important to preserve spacing and
 formatting in Fortran code that you might insert into blocks,
-particularly the #EXTRA block. If you wish to do this, insert [format] and [/format] in the fortran model file.</p>
+particularly the #EXTRA block. If you wish to do this, insert [format] and [/format] in the fortran model file around the affected code.</p>
 </div>
 <div id="reserved" class="section level3" number="5.3.12">
 <h3><span class="header-section-number">5.3.12</span> Reserved Names</h3>
 <p>The following cannot be used as primary, covariate, or secondary
 variable names. They can be used in equations, however.</p>
 <table>
+<thead>
+<tr class="header">
+<th align="left">Reserved Variable</th>
+<th align="left">Function in Pmetrics</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>Reserved Variable</strong></td>
-<td align="left"><strong>Function in Pmetrics</strong></td>
-</tr>
-<tr class="even">
 <td align="left">ndim</td>
 <td align="left">internal</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">t</td>
 <td align="left">time</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">x</td>
 <td align="left">array of compartment amounts</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">xp</td>
 <td align="left">array of first derivative of compartment amounts</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">rpar</td>
 <td align="left">internal</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">ipar</td>
 <td align="left">internal</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">p</td>
 <td align="left">array of primary parameters</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">r</td>
 <td align="left">input rates</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">b</td>
 <td align="left">input boluses</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">npl</td>
 <td align="left">internal</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">numeqt</td>
 <td align="left">output equation number</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">ndrug</td>
 <td align="left">input number</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">nadd</td>
 <td align="left">covariate number</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">rateiv</td>
 <td align="left">intravenous input for inputs when DUR&gt;0 in data files</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">cv</td>
 <td align="left">covariate values array</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">n</td>
 <td align="left">number of compartments</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">nd</td>
 <td align="left">internal</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">ni</td>
 <td align="left">internal</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">nup</td>
 <td align="left">internal</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">nuic</td>
 <td align="left">internal</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">np</td>
 <td align="left">number of primary parameters</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">nbcomp</td>
 <td align="left">bolus compartment array</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">psym</td>
 <td align="left">names of primary parameters</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">fa</td>
 <td align="left">biovailability</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">tlag</td>
 <td align="left">lag time</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">tin</td>
 <td align="left">internal</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">tout</td>
 <td align="left">internal</td>
 </tr>
@@ -1230,6 +1265,7 @@ variable names. They can be used in equations, however.</p>
 <h3><span class="header-section-number">5.3.13</span> Complete Example</h3>
 <p>Here is a complete example of a model file, as of Pmetrics version 0.40
 and higher:</p>
+<div class="script">
 <p>#Pri<br />
 KE, 0, 5<br />
 V0, 0.1, 100<br />
@@ -1253,6 +1289,7 @@ Y(1) = X(2)/V<br />
 L=0.4<br />
 0.1,0.1,0,0<br />
 </p>
+</div>
 <p><em>Notes</em>:</p>
 <p>By omitting a #Diffeq block with ODEs, Pmetrics understands that you
 are specifying the model to be solved algebraically. In this case, at
@@ -1266,28 +1303,30 @@ the central to a peripheral compartment, respectively.</p>
 <p>Much more detailed help is available from
 <a href="http://www.cs.mtu.edu/\~shene/COURSES/cs201/NOTES/fortran.html" class="uri">http://www.cs.mtu.edu/\~shene/COURSES/cs201/NOTES/fortran.html</a>.</p>
 <table>
+<thead>
+<tr class="header">
+<th align="left">Arithmetic Operator</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>Arithmetic Operator</strong></td>
-<td align="left"><strong>Meaning</strong></td>
-</tr>
-<tr class="even">
 <td align="left">+</td>
 <td align="left">addition</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">-</td>
 <td align="left">subtraction</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">*</td>
 <td align="left">multiplication</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">/</td>
 <td align="left">division</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">**</td>
 <td align="left">exponentiation</td>
 </tr>
@@ -1378,8 +1417,8 @@ the central to a peripheral compartment, respectively.</p>
           </div>
         </div>
       </div>
-<a href="general-workflow.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="general-workflow.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-to-use-r-and-pmetrics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -37,3 +37,9 @@ h1 {
   text-shadow: 1px 1px black;
   padding: 3px;
 }
+
+.script {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: lightgrey;
+  color: #446e9b;
+}

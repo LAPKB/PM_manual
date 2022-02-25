@@ -117,7 +117,7 @@
 
 \title{Pmetrics User Manual}
 \author{LAPKB}
-\date{2022-02-10}
+\date{2022-02-18}
 
 \begin{document}
 \maketitle
@@ -1259,7 +1259,7 @@ letters are required). Fortran is also case-insensitive, so in variable
 names and expressions case is ignored. Details of each block are next,
 followed by a \protect\hyperlink{completeEx}{complete example}.
 
-Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the \#EXTRA block. If you wish to do this, insert \[format\] and \[/format\] before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.
+Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the \#EXTRA block. If you wish to do this, insert {[}format{]} and {[}/format{]} before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.
 
 Comments: You can insert comments into your model text file by starting a line with a capital ``C'' followed by a space. These lines will be removed/ignored in the final fortran code.
 
@@ -1379,9 +1379,8 @@ NBCOMP(1) = 2
 Example:
 
 \#Ini\\
-X(2) = IC*V (i.e.~IC is a covariate with the measured trough
-concentration prior to an observed dose)\\
-X(3) = IC3 (i.e.~IC3 is a fitted amount in this unobserved compartment)
+X(2) = IC*V\\
+X(3) = IC3\\
 
 In the first case, the initial condition for compartment 2 becomes the
 value of the IC covariate (defined in \#Covariate block) multiplied by
@@ -1413,9 +1412,6 @@ Example:
 
 \#Fa\\
 FA(1) = FA1
-
-\hypertarget{section}{%
-\subsubsection{}\label{section}}
 
 \hypertarget{lag}{%
 \subsection{Lag time}\label{lag}}
@@ -1482,19 +1478,17 @@ Example 1: estimated \(\lambda\), starting at 0.4, one output, use data file
 coefficients but if missing, use 0.1,0.1,0,0.
 
 \#Err\\
-L=0.4
-0.1,0.1,0,0
+L=0.4\\
+0.1,0.1,0,0\\
 
 Example 2: fixed \(\gamma\) of 2, two outputs, use data file coefficients but
 if missing, use 0.1,0.1,0,0 for the first output, but use 0.3, 0.1, 0, 0
 for output 2 regardless of what is in the data file.
 
 \#Err\\
-G=2!
-
-0.1,0.1,0,0
-
-0.3,0.1,0,0!
+G=2!\\
+0.1,0.1,0,0\\
+0.3,0.1,0,0!\\
 
 \hypertarget{extra}{%
 \subsection{Extra}\label{extra}}
@@ -1505,7 +1499,7 @@ Occasionally, for very complex models, additional Fortran subroutines are requir
 which can be called from other blocks with appropriate call functions.
 As stated earlier, sometimes it is important to preserve spacing and
 formatting in Fortran code that you might insert into blocks,
-particularly the \#EXTRA block. If you wish to do this, insert {[}format{]} and {[}/format{]} in the fortran model file.
+particularly the \#EXTRA block. If you wish to do this, insert {[}format{]} and {[}/format{]} in the fortran model file around the affected code.
 
 \hypertarget{reserved}{%
 \subsection{Reserved Names}\label{reserved}}
@@ -1513,39 +1507,65 @@ particularly the \#EXTRA block. If you wish to do this, insert {[}format{]} and 
 The following cannot be used as primary, covariate, or secondary
 variable names. They can be used in equations, however.
 
-\begin{longtable}[]{@{}ll@{}}
-\toprule
-\endhead
-\textbf{Reserved Variable} & \textbf{Function in Pmetrics} \\
-ndim & internal \\
-t & time \\
-x & array of compartment amounts \\
-xp & array of first derivative of compartment amounts \\
-rpar & internal \\
-ipar & internal \\
-p & array of primary parameters \\
-r & input rates \\
-b & input boluses \\
-npl & internal \\
-numeqt & output equation number \\
-ndrug & input number \\
-nadd & covariate number \\
-rateiv & intravenous input for inputs when DUR\textgreater0 in data files \\
-cv & covariate values array \\
-n & number of compartments \\
-nd & internal \\
-ni & internal \\
-nup & internal \\
-nuic & internal \\
-np & number of primary parameters \\
-nbcomp & bolus compartment array \\
-psym & names of primary parameters \\
-fa & biovailability \\
-tlag & lag time \\
-tin & internal \\
-tout & internal \\
-\bottomrule
-\end{longtable}
+\begin{tabular}{l|l}
+\hline
+Reserved Variable & Function in Pmetrics\\
+\hline
+ndim & internal\\
+\hline
+t & time\\
+\hline
+x & array of compartment amounts\\
+\hline
+xp & array of first derivative of compartment amounts\\
+\hline
+rpar & internal\\
+\hline
+ipar & internal\\
+\hline
+p & array of primary parameters\\
+\hline
+r & input rates\\
+\hline
+b & input boluses\\
+\hline
+npl & internal\\
+\hline
+numeqt & output equation number\\
+\hline
+ndrug & input number\\
+\hline
+nadd & covariate number\\
+\hline
+rateiv & intravenous input for inputs when DUR>0 in data files\\
+\hline
+cv & covariate values array\\
+\hline
+n & number of compartments\\
+\hline
+nd & internal\\
+\hline
+ni & internal\\
+\hline
+nup & internal\\
+\hline
+nuic & internal\\
+\hline
+np & number of primary parameters\\
+\hline
+nbcomp & bolus compartment array\\
+\hline
+psym & names of primary parameters\\
+\hline
+fa & biovailability\\
+\hline
+tlag & lag time\\
+\hline
+tin & internal\\
+\hline
+tout & internal\\
+\hline
+\end{tabular}
 
 \hypertarget{completeEx}{%
 \subsection{Complete Example}\label{completeEx}}
@@ -1592,17 +1612,21 @@ The comment line ``C this weight is in kg'' will be ignored.
 Much more detailed help is available from
 \url{http://www.cs.mtu.edu//~shene/COURSES/cs201/NOTES/fortran.html}.
 
-\begin{longtable}[]{@{}ll@{}}
-\toprule
-\endhead
-\textbf{Arithmetic Operator} & \textbf{Meaning} \\
-+ & addition \\
-- & subtraction \\
-* & multiplication \\
-/ & division \\
-** & exponentiation \\
-\bottomrule
-\end{longtable}
+\begin{tabular}{l|l}
+\hline
+Arithmetic Operator & Meaning\\
+\hline
++ & addition\\
+\hline
+- & subtraction\\
+\hline
+* & multiplication\\
+\hline
+/ & division\\
+\hline
+** & exponentiation\\
+\hline
+\end{tabular}
 
 \begin{longtable}[]{@{}lll@{}}
 \toprule
@@ -1654,6 +1678,228 @@ CL = CL
 END IF \\
 \bottomrule
 \end{longtable}
+
+\hypertarget{how-to-use-r-and-pmetrics}{%
+\chapter{How to use R and Pmetrics}\label{how-to-use-r-and-pmetrics}}
+
+In this section, we suggest a workflow to help you maintain organized
+modeling projects.
+
+\hypertarget{setting-up-a-pmetrics-project}{%
+\section{Setting up a Pmetrics project}\label{setting-up-a-pmetrics-project}}
+
+When beginning a new modeling project, it is convenient to use the
+command \texttt{PMtree}. This command will set up a new directory
+in the current working directory named whatever you have included as the
+``project name''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{PMtree}\NormalTok{(}\StringTok{"DrugX"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+In the above example, a directory called ``DrugX'' will be created
+in the current working directory in R, which you can check with the \texttt{getwd} function. Beneath the new DrugX directory, several subdirectories will
+be also created.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Rscript} contains a skeleton R script to begin Pmetrics runs in the new project.
+\item
+  \textbf{Runs} should contain all files required for a run (described next) and it will also contain the resulting numerically ordered run directories created after each Pmetrics NPAG or IT2B run.
+\item
+  \textbf{Sim} can contain any files related to simulations
+\item
+  \textbf{src} is a repository for original and manipulated source data files
+\end{itemize}
+
+You are free to edit this directory tree structure as you please, or make your
+own entirely.
+
+\hypertarget{getting-the-required-inputs-to-run-pmetrics}{%
+\section{Getting the required inputs to run Pmetrics}\label{getting-the-required-inputs-to-run-pmetrics}}
+
+\hypertarget{r6}{%
+\subsection{R6}\label{r6}}
+
+{R6}
+
+When you wish to execute a Pmetrics run, you must ensure that an
+appropriate Pmetrics data.csv file is in the working
+directory, i.e.~the Runs subdirectory of the project directory. R can be
+used to help prepare the data.csv file by importing and manipulating
+spreadsheets (e.g.~\texttt{read.csv}). The Pmetrics function \texttt{PMcheck} can be
+used to check a .csv file or an R dataframe that is to be saved as a
+Pmetrics data.csv file for errors. It can also check a model file for
+errors in the context of a datafile, e.g.~covariates that do not match.
+\texttt{PMcheck(...,fix=T)} attempts to automatically rid data files of errors.
+The function \texttt{PMwriteMatrix} can be used to write the R data object in
+the correct format for use by IT2B, NPAG, or the Simulator.
+
+We have discussed the creation of model objects with \texttt{PM\_model}.
+
+To bring these together, use the \texttt{PM\_fit} object creator. It only needs two arguments: the name of the data file in the working directory or
+{Update}in memory loaded via \texttt{PMreadMatrix}and a model object. \texttt{PM\_fit} will accept a model object created by \texttt{PM\_model} or the name of a model file in Legacy format and in the working directory.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Example 1 {-} data file and PM\_model object}
+\NormalTok{fit1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(}\AttributeTok{data =} \StringTok{"data.csv"}\NormalTok{, }\AttributeTok{model =}\NormalTok{ mod1)}
+
+\CommentTok{\#Example 2 {-} data object and model file}
+\NormalTok{PMdata }\OtherTok{\textless{}{-}} \FunctionTok{PMreadMatrix}\NormalTok{(}\StringTok{"data.csv"}\NormalTok{)}
+\NormalTok{fit2 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(}\AttributeTok{data =}\NormalTok{ PMdata, }\AttributeTok{model =} \StringTok{"model.txt"}\NormalTok{)}
+
+\CommentTok{\#Example 3 {-} data and model objects}
+\NormalTok{fit3 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(PMdata, mod1)}
+\end{Highlighting}
+\end{Shaded}
+
+Once the \texttt{PM\_fit} object is created it has only one function defined for it: \texttt{\$run()}. Arguments for this function can be found in the help for \texttt{PM\_fit} and later in this manual.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#default run parameters}
+\NormalTok{fit3}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{()}
+
+\CommentTok{\#change the cycle number from default 100}
+\NormalTok{fit3}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(}\AttributeTok{cycles=}\DecValTok{500}\NormalTok{)}
+
+\CommentTok{\#change the engine from default NPAG}
+\NormalTok{fit3}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(}\AttributeTok{engine =} \StringTok{"RPEM"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
+
+\hypertarget{legacy}{%
+\subsection{Legacy}\label{legacy}}
+
+{Legacy}
+
+When you wish to execute a Pmetrics run, you must ensure that
+both of the appropriate Pmetrics data.csv and model.txt files are in the working
+directory, i.e.~the Runs subdirectory of the project directory. The names are supplied as arguments to \texttt{NPrun}, \texttt{ITrun}, and \texttt{ERRrun}. A shorthand notation is to supply the number of a previous run for either the data, model or both files so that you do not have to manually copy them into the working directory.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Using default names data.csv and model.txt}
+\FunctionTok{NPrun}\NormalTok{()}
+
+\CommentTok{\#Using custom names}
+\FunctionTok{ITrun}\NormalTok{(}\AttributeTok{model =} \StringTok{"model1.txt"}\NormalTok{, }\AttributeTok{data =} \StringTok{"mydata.csv"}\NormalTok{)}
+
+\CommentTok{\#Grab data from run 1 and use default model.txt}
+\FunctionTok{NPrun}\NormalTok{(}\AttributeTok{data=}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\#Use model and data from run 2 and continue where run 2 ended}
+\FunctionTok{NPrun}\NormalTok{(}\AttributeTok{data=}\DecValTok{2}\NormalTok{, }\AttributeTok{model=}\DecValTok{2}\NormalTok{, }\AttributeTok{prior=}\DecValTok{2}\NormalTok{, }\AttributeTok{cycles=}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
+
+You can also download sample data and scripts from the \href{http://lapk.org/pmetrics.php}{Pmetrics
+downloads} section of our
+website. Edit prior versions of model files to make new model files.
+
+\hypertarget{using-scripts-to-control-pmetrics}{%
+\section{Using scripts to control Pmetrics}\label{using-scripts-to-control-pmetrics}}
+
+As you will see in the skeleton R script made by \texttt{PMtree} and placed in
+the Rscript subdirectory, if this is a first-time run, the R commands to
+run IT2B or NPAG are as follows. Recall that the ``\#'' character is a
+comment character.
+
+library(Pmetrics)\\
+\#Run 1 - add your run description here\\
+setwd(``working directory'')\\
+NPrun() \#for NPAG or ITrun() for IT2B\\
+
+The first line will load the Pmetrics library of functions. The second
+line sets the working directory to the specified path. The third line
+generates the batch file to run NPAG or IT2B and saves it to the working
+directory.
+
+\textbf{NOTE}: On Mac systems, the batch file will be automatically launched
+in a Terminal window. On Windows systems prior to version 1.9, the batch
+file must be launched manually by double clicking the \emph{npscript.bat} or
+\emph{itscript.bat} file in the working directory. As of version 1.9, Windows
+users no longer need to do this.
+
+\texttt{ITrun} and \texttt{NPrun} are described in full detail via their help commands in R and later in this manual. At minimum, they require a data file and a model file. If the default names of ``data.csv'' and ``model.txt'' are used, they may be called with no arguments. Again, the data and model files must be in the current working directory, usually the Runs folder.
+
+Both functions return the full path of the output directory to
+the clipboard. By default, runs are placed in folders numbered
+sequentially, beginning with ``1''.
+
+\hypertarget{loading-results-after-a-completed-run}{%
+\section{Loading results after a completed run}\label{loading-results-after-a-completed-run}}
+
+Now the output of IT2B or NPAG needs to be loaded into R, so the next
+command does this.
+
+\texttt{PMload(run\_number)}
+
+Details of these commands and what is loaded are described in the R
+documentation (?PMload) and in the following section. The run\_number
+should be included within the parentheses to be appended to the names of
+loaded R objects, allowing for comparison between runs, e.g.~\texttt{PMload(1)}.
+Finally, at this point other Pmetrics commands can be added to the
+script to process the data, such as the following.
+
+plot(final.1)\\
+plot(cycle.1)\\
+plot(op.1,type=``pop'') or plot(op.1\$pop1)\\
+plot(op.1) \#default is to plot posterior predictions for output 1\\
+plot(op.1,type=``pop'',resid=T)\\
+
+Of course, the full power of R can be used in scripts to analyze data,
+but these simple statements serve as examples.
+
+If you do not use the \texttt{PMtree} structure, we suggest that the R script
+for a particular project be saved into a folder called ``Rscript'' or some
+other meaningful name in the working directory. Folders are not be moved
+by the batch file. Within the script, number runs sequentially and use
+comments liberally to distinguish runs, as shown below.
+
+library(Pmetrics)\\
+\#Run 1 - Ka, Kel, V, all subjects\\
+setwd(``working directory'')\\
+NPrun() \#assumes model=``model.txt'' and data=``data.csv''\\
+PMload(1)
+...
+
+Remember in R that the command \texttt{example(function)} will provide examples
+for the specified function. Most Pmetrics functions have examples.
+
+\hypertarget{using-shiny-to-control-pmetrics}{%
+\section{Using Shiny to control Pmetrics}\label{using-shiny-to-control-pmetrics}}
+
+Shiny is an R package made by the same group who produces Rstudio. While
+you are learning to use Pmetrics, you can use a graphical user interface
+that teaches you how to build code. Currently we have implemented Shiny
+interfaces for NPAG, IT2B and many plots in Pmetrics.
+
+To use these Shiny interfaces, type \texttt{PMcode("x")}, where x is the function
+you wish. Currently you have two choices: ``run'' and ``plot''.
+
+\texttt{PMcode("run")} will launch the following dialog window in your default
+browser. As you make your selections, you will see R code generated
+which you can copy back to your script and execute. Simply close the
+browser window when you are finished.
+
+You can select from an NPAG or IT2B run, and then use the Data, Model,
+and Run tabs to navigate to different options. With a valid Pmetrics
+model and data file loaded, you will see a summary of the model in the
+Current Model window.
+
+If you use \texttt{PMcode("plot")} you will see the dialog window below. It will
+allow you to select various Pmetrics objects that have been already
+loaded with \texttt{PMload}, and offer you many plot options, as well as the
+code to generate you selected plot.
 
   \bibliography{book.bib,packages.bib}
 

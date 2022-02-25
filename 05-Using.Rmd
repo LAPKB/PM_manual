@@ -31,13 +31,8 @@ own entirely.
 ### R6
 <span class="r6">R6</span>
 
-
-
-### Legacy
-<span class="legacy">Legacy</span>
-
-When you wish to execute a Pmetrics run, you must ensure that
-appropriate Pmetrics model.txt and data.csv files are in the working
+When you wish to execute a Pmetrics run, you must ensure that an
+appropriate Pmetrics data.csv file is in the working
 directory, i.e. the Runs subdirectory of the project directory. R can be
 used to help prepare the data.csv file by importing and manipulating
 spreadsheets (e.g. `read.csv`). The Pmetrics function `PMcheck` can be
@@ -47,6 +42,64 @@ errors in the context of a datafile, e.g. covariates that do not match.
 `PMcheck(...,fix=T)` attempts to automatically rid data files of errors.
 The function `PMwriteMatrix` can be used to write the R data object in
 the correct format for use by IT2B, NPAG, or the Simulator.
+
+We have discussed the creation of model objects with `PM_model`.
+
+To bring these together, use the `PM_fit` object creator. It only needs two arguments: the name of the data file in the working directory or
+<span class="update">Update</span>in memory loaded via `PMreadMatrix`and a model object. `PM_fit` will accept a model object created by `PM_model` or the name of a model file in Legacy format and in the working directory.
+
+``` {r echo=T, eval=F}
+
+#Example 1 - data file and PM_model object
+fit1 <- PM_fit(data = "data.csv", model = mod1)
+
+#Example 2 - data object and model file
+PMdata <- PMreadMatrix("data.csv")
+fit2 <- PM_fit(data = PMdata, model = "model.txt")
+
+#Example 3 - data and model objects
+fit3 <- PM_fit(PMdata, mod1)
+
+```
+
+Once the `PM_fit` object is created it has only one function defined for it: `$run()`. Arguments for this function can be found in the help for `PM_fit` and later in this manual. 
+
+``` {r echo=T, eval=F}
+#default run parameters
+fit3$run()
+
+#change the cycle number from default 100
+fit3$run(cycles=500)
+
+#change the engine from default NPAG
+fit3$run(engine = "RPEM")
+```
+
+See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
+
+### Legacy
+<span class="legacy">Legacy</span>
+
+When you wish to execute a Pmetrics run, you must ensure that 
+both of the appropriate Pmetrics data.csv and model.txt files are in the working
+directory, i.e. the Runs subdirectory of the project directory. The names are supplied as arguments to `NPrun`, `ITrun`, and `ERRrun`. A shorthand notation is to supply the  number of a previous run for either the data, model or both files so that you do not have to manually copy them into the working directory.
+
+``` {r echo=T, eval=F}
+#Using default names data.csv and model.txt
+NPrun()
+
+#Using custom names
+ITrun(model = "model1.txt", data = "mydata.csv")
+
+#Grab data from run 1 and use default model.txt
+NPrun(data=1)
+
+#Use model and data from run 2 and continue where run 2 ended
+NPrun(data=2, model=2, prior=2, cycles=1000)
+```
+
+See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
+
 
 You can also download sample data and scripts from the [Pmetrics
 downloads](http://lapk.org/pmetrics.php) section of our
@@ -59,13 +112,12 @@ the Rscript subdirectory, if this is a first-time run, the R commands to
 run IT2B or NPAG are as follows. Recall that the "\#" character is a
 comment character.
 
-library(Pmetrics)
-
-\#Run 1 - add your run description here
-
-setwd("working directory")
-
-NPrun() \#for NPAG or ITrun() for IT2B
+<div class="script">
+library(Pmetrics)\
+\#Run 1 - add your run description here\
+setwd("working directory")\
+NPrun() \#for NPAG or ITrun() for IT2B\
+</div>
 
 The first line will load the Pmetrics library of functions. The second
 line sets the working directory to the specified path. The third line
@@ -78,7 +130,7 @@ file must be launched manually by double clicking the *npscript.bat* or
 *itscript.bat* file in the working directory. As of version 1.9, Windows
 users no longer need to do this.
 
-`ITrun` and `NPrun` are described in full detail via their help commands in R. At minimum, they require a data file and a model file. If the default names of "data.csv" and "model.txt" are used, they may be called with no arguments. Again, the data and model files must be in the current working directory, usually the Runs folder. 
+`ITrun` and `NPrun` are described in full detail via their help commands in R and later in this manual. At minimum, they require a data file and a model file. If the default names of "data.csv" and "model.txt" are used, they may be called with no arguments. Again, the data and model files must be in the current working directory, usually the Runs folder. 
 
 Both functions return the full path of the output directory to
 the clipboard. By default, runs are placed in folders numbered
@@ -115,17 +167,14 @@ other meaningful name in the working directory. Folders are not be moved
 by the batch file. Within the script, number runs sequentially and use
 comments liberally to distinguish runs, as shown below.
 
-library(Pmetrics)
-
-\#Run 1 - Ka, Kel, V, all subjects
-
-setwd("working directory")
-
-NPrun() \#assumes model="model.txt" and data="data.csv"
-
+<div class="script">
+library(Pmetrics)\
+\#Run 1 - Ka, Kel, V, all subjects\
+setwd("working directory")\
+NPrun() \#assumes model="model.txt" and data="data.csv"\
 PMload(1)
-
 \...
+</div>
 
 Remember in R that the command `example(function)` will provide examples
 for the specified function. Most Pmetrics functions have examples.
