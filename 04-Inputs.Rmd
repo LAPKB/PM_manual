@@ -155,19 +155,19 @@ with `?NM2PM` in R.
 <span class="r6">R6</span>
 
 In R6 Pmetrics, use the `PM_model` function to create models directly
-in R. See `?PM_model` for help on this object class. Blocks in the legacy model.txt files which were delimited with the "#" character become lists or character vectors in R6.
+in R. See `?PM_model` for help on this object class. Blocks in the legacy model.txt files which were delimited with the "#" character become listsin R6.
 
 The R6 model components are:
 
-* [PRImary](#priR6) (list)
-* [COVariate](#covR6) (character vector)
-* [SECondary](#secR6) (character vector)
-* [BOLus](#bolR6) (character vector)
-* [INItial conditions](#iniR6) (character vector)
-* [F (bioavailability)](#FaR6) (character vector)
-* [LAG time](#lagR6) (character vector)
-* [DIFferential equations](#diffR6) (list)
-* [OUTputs](#outR6) (list)
+* [PRImary](#priR6)
+* [COVariate](#covR6)
+* [SECondary](#secR6)
+* [BOLus](#bolR6)
+* [INItial conditions](#iniR6)
+* [F (bioavailability)](#FaR6)
+* [LAG time](#lagR6)
+* [DIFferential equations](#diffR6)
+* [OUTputs](#outR6)
 
 
 ### PRImary variables {#priR6}
@@ -182,7 +182,7 @@ between 2 and 32, with at most 30 random or 20 fixed.**
 Each variable can be specified by `range` or `msd`. The first defines the absolute search space for that parameter for NPAG/NPOD. For IT2B/RPEM, it defines the mean of the piror as the midpoint of the range, and the range covers 6 standard deviations, e.g. ±3 SD above and below the mean, or 99.7% of the piror distribution. `msd` is the companion function that specifies a mean and SD in IT2B and RPEM. For NPAG/NPOD, it will be converted in to a range in the reverse fashion as described for `range`. For both specifying functions, `gtz` is an argument to force the parameter value to be positive, i.e. `gtz=T`, which is the default. To allow negative parameters, set `gtz=F`.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = list(
     Ke = range(0,5),
     V = msd(100,20),
@@ -206,9 +206,9 @@ subject must have a value for every covariate in the data file.
 To specify a new covariate value at a time other than a dose, enter a dose event in the data file with 0 dose amount and the new covariate value.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = list(...),
-  cov = c("wt","age")
+  cov = list("wt","age")
 ))
 ```
 
@@ -220,19 +220,20 @@ Equation syntax must be Fortran. Specify each variable equation as a character v
 statements, but because expressions in this block are translated into
 variable declarations in Fortran, expressions other than of the form \"X = function(Y)\" must be on a new line, prefixed by \"&\" and contain only variables which have been previously defined in the Primary, Covariate, or Secondary blocks. 
 
-In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is >18, in which case weight is capped at 75 kg.
+In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is >18, in which case weight is capped at 75 kg. It's the same for CL0. Note that the conditional statement is not named.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
-    Ke = range(0,5),
+    CL0 = range(0,5),
     V0 = msd(10,3),
     eff = range(-2,2,gtz=F)
   ),
-  cov = c("wt","age"),
-  sec = c(
-    "V = V0*wt",
-    "&IF(age >18) V = V0 * 75"
+  cov = list("wt","age"),
+  sec = list(
+    V = "V0*wt",
+    "&IF(age >18) V = V0 * 75",
+    CL = "CL0 * wt"
   )
 ))
 ```
@@ -246,8 +247,8 @@ compartment 2, etc. This can be overridden with NBOLUS(input number) =
 compartment number.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
-  bol = "NBCOMP(1) = 2"
+mod <- PM_model$new(list(
+  bol = list("NBCOMP(1) = 2")
 ))
 ```
 ### INItial conditions {#iniR6}
@@ -255,16 +256,16 @@ mod <- PM_model(list(
 By default, all model compartments have zero amounts at time 0. This can be changed by specifying the compartment amount as X(.) = expression, where \".\" is the compartment number. Primary and secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An \"&\" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
     IC3 = range(0,1000)
   ),
-  cov = c("wt","age","IC2"),
-  ini = c(
-    "X(2) = IC2*V",
-    "X(3) = IC3"
+  cov = list("wt","age","IC2"),
+  ini = list(
+    X2 = "IC2*V",
+    X3 = "IC3"
   )
 ))
 ```
@@ -289,13 +290,14 @@ variables and covariates may be used in the expression, as can
 conditional statements in Fortran code. An \"&\" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
     FA1 = range(0,1)
   ),
-  fa = "FA(1) = FA1"
+  fa = list(
+    fa1 = "FA1"
   )
 )
 ```
@@ -306,13 +308,13 @@ Specify the lag term, if present, which is the delay after an absorbed
 dose before observed concentrations. Use the form TLAG(.) = expression, where \".\" is the input number. Primary and secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An \"&\" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
     lag1 = range(0,4)
   ),
-  lag = "TLAG(1) = lag1"
+  lag = list(tlag1 = "lag1")
   )
 )
 ```
@@ -327,7 +329,7 @@ Specify equations as elements in a list, with XP(1) replaced by XP1, for example
 
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ka = range(0,5),
     Ke = range(0,5),
@@ -424,7 +426,7 @@ out = list(
 More complete examples.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
@@ -440,14 +442,14 @@ mod <- PM_model(list(
   )
 ))
 
-mod2 <- PM_model(list(
+mod2 <- PM_model$new(list(
   pri = pri = list(
     kin = range(0,5),
     kout = range(0,5),
     tpd = range(0,5),
     V = msd(100,30),
   ),
-  sec = "RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))",
+  sec = list("RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))"),
   out = list(
     y1 = list(
       "RES/V",
