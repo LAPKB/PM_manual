@@ -7,11 +7,10 @@
   <title>Chapter 3 Pmetrics Overview | Pmetrics User Manual</title>
   <meta name="description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Pmetrics Overview | Pmetrics User Manual" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
@@ -27,7 +26,7 @@ package for R.</p>" />
 <meta name="author" content="LAPKB" />
 
 
-<meta name="date" content="2022-02-25" />
+<meta name="date" content="2022-04-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -36,7 +35,6 @@ package for R.</p>" />
   
 <link rel="prev" href="introduction.html"/>
 <link rel="next" href="general-workflow.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,8 +52,9 @@ package for R.</p>" />
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -140,7 +139,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> url: your book url like <span>https://bookdown.org/yihui/bookdown</span></a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#a-brief-history"><i class="fa fa-check"></i><b>1.1</b> A brief history</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#people"><i class="fa fa-check"></i><b>1.2</b> People</a></li>
@@ -237,10 +236,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="pmetrics-overview" class="section level1" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Pmetrics Overview</h1>
-<div id="software-engines" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Software engines</h2>
+<div id="pmetrics-overview" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Pmetrics Overview<a href="pmetrics-overview.html#pmetrics-overview" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="software-engines" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Software engines<a href="pmetrics-overview.html#software-engines" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>There are three main software engines that Pmetrics controls.</p>
 <ul>
 <li><p><strong>IT2B</strong> is the ITerative 2-stage Bayesian parametric population PK modeling
@@ -266,10 +265,10 @@ the entire set of support points is divided equally among the points for
 the purposes of simulation.</p></li>
 </ul>
 </div>
-<div id="pmetrics-control-functions" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> Pmetrics control functions</h2>
+<div id="pmetrics-control-functions" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Pmetrics control functions<a href="pmetrics-overview.html#pmetrics-control-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="r6">R6</span></p>
-<p>Pmetrics uses <code>PM_model</code> to create model objects and <code>PM_fit</code> to create
+<p>Pmetrics uses<code>PM_data</code> to create data object, <code>PM_model</code> to create model objects, and <code>PM_fit</code> to create
 objects that combine the model with the data, ready to be run (fitted),
 generating probability distributions for primary model parameters.</p>
 <p>These functions replace the following Legacy functions: <code>ITrun</code>, <code>ERRrun</code>,
@@ -279,7 +278,7 @@ Similar to the Legacy version, it loads the results of a run into R to be
 accessible to the user for analysis, plotting, etc. Different from the Legacy
 version, it loads the results into another R6 object, <code>PM_result</code> instead of
 the current environment.</p>
-<p>Invoking the simulator in R6 is unchanged, i.e. use <code>SIMrun</code>.</p>
+<p>Invoking the simulator in R6 becomes a method attached to <code>PM_result</code> objects.</p>
 <p><span class="legacy">Legacy</span></p>
 <p>Pmetrics has groups of R functions named logically to run each of these
 programs and to extract the output. Again, these are extensively
@@ -290,14 +289,14 @@ documented within R by using the <code>help(command)</code> or <code>?command sy
 <li><p><code>PMload</code>, <code>PMsave</code>, <code>PMreport</code></p></li>
 <li><p><code>SIMrun</code>, <code>SIMparse</code></p></li>
 </ul>
-<div id="run-functions" class="section level3" number="3.2.1">
-<h3><span class="header-section-number">3.2.1</span> Run functions</h3>
+<div id="run-functions" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Run functions<a href="pmetrics-overview.html#run-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="r6">R6</span></p>
 <p>Once a <code>PM_fit</code> object is created, which combines a model with a data file,
 it can be run by using the syntax <code>$run()</code> to access the appropriate function
 defined for the <code>PM_fit</code> object.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="pmetrics-overview.html#cb3-1" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> <span class="fu">PM_fit</span>(model,data)</span>
-<span id="cb3-2"><a href="pmetrics-overview.html#cb3-2" aria-hidden="true" tabindex="-1"></a>run1<span class="sc">$</span><span class="fu">run</span>(options)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="pmetrics-overview.html#cb1-1" aria-hidden="true" tabindex="-1"></a>run1 <span class="ot">&lt;-</span> PM_fit<span class="sc">$</span><span class="fu">new</span>(model,data)</span>
+<span id="cb1-2"><a href="pmetrics-overview.html#cb1-2" aria-hidden="true" tabindex="-1"></a>run1<span class="sc">$</span><span class="fu">run</span>(options)</span></code></pre></div>
 <p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
 <p>For IT2B and NPAG, the “run” functions generate batch files, which when
 executed, launch the software programs to do the analysis. <code>$run(engine="err")</code>
@@ -313,11 +312,11 @@ Prior to v1.9, on Windows systems, the batch file was launched manually,
 but as of v1.9, this manual step is no longer necessary. The execution of
 the program to do the actual model parameter estimation is independent
 of R, so that the user is free to use R for other purposes.</p>
-<p>For the Simulator, the <code>SIMrun</code> function will execute the program
-directly within R.</p>
+<p>For the Simulator, the <code>$sim</code> method for a <code>PM_result</code> object will execute the program directly within R.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="pmetrics-overview.html#cb2-1" aria-hidden="true" tabindex="-1"></a>sim1 <span class="ot">&lt;-</span> PM_result<span class="sc">$</span><span class="fu">sim</span>(...)</span></code></pre></div>
 </div>
-<div id="parse-functions" class="section level3" number="3.2.2">
-<h3><span class="header-section-number">3.2.2</span> Parse functions</h3>
+<div id="parse-functions" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Parse functions<a href="pmetrics-overview.html#parse-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
 <p>For all programs, the “parse” functions will extract the primary output
 from the program into meaningful R data objects. For IT2B and NPAG, this
@@ -326,27 +325,27 @@ are saved in the output subdirectory as IT2Bout.Rdata or NPAGout.Rdata,
 respectively. These functions generally run automatically and are not
 necessary for the user to access.</p>
 </div>
-<div id="saving-and-loading-functions" class="section level3" number="3.2.3">
-<h3><span class="header-section-number">3.2.3</span> Saving and loading functions</h3>
+<div id="saving-and-loading-functions" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Saving and loading functions<a href="pmetrics-overview.html#saving-and-loading-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="r6">R6</span></p>
-<p>After a successful IT2B or NPAG run, <code>PMload</code> or <code>PM_load</code> creates a
+<p>After a successful IT2B or NPAG run, <code>PM_load</code> creates a
 <code>PM_result</code> object rather than loading run results into the current
 environment and suffixed with the run number.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="pmetrics-overview.html#cb4-1" aria-hidden="true" tabindex="-1"></a>fit1 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">1</span>)</span>
-<span id="cb4-2"><a href="pmetrics-overview.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit1<span class="sc">$</span>op)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="pmetrics-overview.html#cb3-1" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">PM_load</span>(<span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="pmetrics-overview.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res1<span class="sc">$</span>op)</span></code></pre></div>
 <p><span class="legacy">Legacy</span></p>
-<p>For IT2B and NPAG, the <code>PM_load</code> function can be used to load either
+<p>For IT2B and NPAG, the <code>PMload</code> function can be used to load either
 of the above .Rdata files after a successful run. Objects will be loaded
-into the current environment in R and suffixed with “.run,” where “run” is
+into the current environment in R and suffixed with “.run”, where “run” is
 the run number.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="pmetrics-overview.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PM_load</span>(<span class="dv">1</span>)</span>
-<span id="cb5-2"><a href="pmetrics-overview.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(op<span class="fl">.1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="pmetrics-overview.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PMload</span>(<span class="dv">1</span>)</span>
+<span id="cb4-2"><a href="pmetrics-overview.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(op<span class="fl">.1</span>)</span></code></pre></div>
 <p><span class="update">Update</span>
 <code>PMsave</code> is the
 companion to <code>PMload</code> and can re-save modified objects to the .Rdata file.</p>
 </div>
-<div id="report-generation" class="section level3" number="3.2.4">
-<h3><span class="header-section-number">3.2.4</span> Report generation</h3>
+<div id="report-generation" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Report generation<a href="pmetrics-overview.html#report-generation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
 <p>The <code>PMreport</code> function is automatically run at the end of a successful
 NPAG and IT2B run, and it will generate an HTML page with summaries of
@@ -357,8 +356,8 @@ LATEX engine to generate a pdf report.--> See the <a href="#outputs">Pmetrics
 Outputs</a> section.</p>
 </div>
 </div>
-<div id="data-manipulation-functions" class="section level2" number="3.3">
-<h2><span class="header-section-number">3.3</span> Data manipulation functions</h2>
+<div id="data-manipulation-functions" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Data manipulation functions<a href="pmetrics-overview.html#data-manipulation-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
 <p>Within Pmetrics there are also functions to manipulate data .csv files
 and process and plot extracted data.</p>
@@ -438,20 +437,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

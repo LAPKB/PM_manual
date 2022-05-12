@@ -44,5 +44,13 @@ NPAGout.Rdata files which can be loaded into R subsequently using
 `PMload`. Objects that are modified can be saved back to the .Rdata
 files with `PMsave`.
 
+
+`PMload` is aliased as `PM_load` for consistency with the above functions.
+Similar to the Legacy version, it loads the results of a run into R to be 
+accessible to the user for analysis, plotting, etc. Different from the Legacy
+version, it loads the results into another R6 object, `PM_result` instead of
+the current environment.  
+
+
 Both input files (data, model) are text files which can be edited
 directly.

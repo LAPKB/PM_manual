@@ -32,20 +32,17 @@ the purposes of simulation.
 
 <span class="r6">R6</span>
 
-Pmetrics uses `PM_model` to create model objects and `PM_fit` to create
+Pmetrics uses`PM_data` to create data objects,  `PM_model` to create model 
+objects, and `PM_fit` to create
 objects that combine the model with the data, ready to be run (fitted),
-generating probability distributions for primary model parameters.
+generating probability distributions for primary model parameters. 
+These are extensively
+documented within R by using the `help(command)` or `?command syntax`.
 
 These functions replace the following Legacy functions: `ITrun`, `ERRrun`, 
 `NPrun`.
 
-`PMload` is aliased as `PM_load` for consistency with the above functions.
-Similar to the Legacy version, it loads the results of a run into R to be 
-accessible to the user for analysis, plotting, etc. Different from the Legacy
-version, it loads the results into another R6 object, `PM_result` instead of
-the current environment.  
-
-Invoking the simulator in R6 is unchanged, i.e. use `SIMrun`.
+Invoking the simulator in R6 becomes a method attached to `PM_result` objects.
 
 
 <span class="legacy">Legacy</span>
@@ -71,7 +68,7 @@ it can be run by using the syntax `$run()` to access the appropriate function
 defined for the `PM_fit` object. 
 
 ```{r echo=T, eval=FALSE}
-run1 <- PM_fit(model,data)
+run1 <- PM_fit$new(model, data)
 run1$run(options)
 ```
 
@@ -93,49 +90,132 @@ but as of v1.9, this manual step is no longer necessary. The execution of
 the program to do the actual model parameter estimation is independent
 of R, so that the user is free to use R for other purposes.
 
-For the Simulator, the `SIMrun` function will execute the program
-directly within R.
+<span class="r6">R6</span>
+
+For the Simulator, the `$sim` method for a `PM_result` object will execute the 
+program directly within R and return a `PM_sim` object. 
+An equivalent method is to construct a new `PM_sim` directly.
+
+```{r echo=T, eval=FALSE}
+sim1 <- PM_result$sim(...)
+sim1 <- PM_sim$new(...) #these are equivalent
+```
+
+<span class="legacy">Legacy</span>
+
+To run the simulator in legacy mode, use `SIMrun`. Results are saved to the 
+hard drive in the working directory, and can be read with `SIMparse` as
+described below.
+
+```{r echo=T, eval=FALSE}
+SIMrun(...)
+```
 
 ### Parse functions
 
 <span class="r6">R6</span> <span class="legacy">Legacy</span>
 
 For all programs, the "parse" functions will extract the primary output
-from the program into meaningful R data objects. For IT2B and NPAG, this
+from the program into meaningful R data objects. For IT2B and NPAG in either R6
+or legacy modes, this
 is done automatically at the end of a successful run, and the objects
 are saved in the output subdirectory as IT2Bout.Rdata or NPAGout.Rdata,
-respectively. These functions generally run automatically and are not
-necessary for the user to access.
-
-### Saving and loading functions
+respectively. The parse functions  run automatically and are not
+generally necessary for the user to access.
 
 <span class="r6">R6</span> 
 
-After a successful IT2B or NPAG run, `PMload` or `PM_load` creates a 
-`PM_result` object rather than loading run results into the current 
-environment and suffixed with the run number.
+For the simulator the results are returned automatically to the object assigned
+to contain the output of the simulator, e.g. `sim1` below. 
 
 ```{r echo=T, eval=FALSE}
-fit1 <- PM_load(1)
-plot(fit1$op)
+sim1 <- PM_result$sim(...)
 ```
+
+There is no longer any
+need to use the `SIMparse` legacy function described below, because the 
+`SIMrun` and `SIMparse` legacy functions are combined within the `$sim()` method
+for `PM_result` objects or the `$new()` method for `PM_sim` objects.
+
+<span class="legacy">Legacy</span>
+
+After running the simulator with `SIMrun`, the results are saved to files 
+in the working 
+directory. They can be retrieved using `SIMparse`.
+
+```{r echo=T, eval=FALSE}
+simdata <- SIMparse("simout1.txt")
+```
+
+### Saving functions
+
+<span class="r6">R6</span> 
+
+The Pmetrics R6 objects `PM_fit`, `PM_result`, `PM_sim`, `PM_valid`, and 
+`PM_pta` all have a `$save()` method. This method saves the object to the hard drive
+in the current working directory by default. The format is .rds which is a 
+binary format used by R to save individual objects. The purpose of the `$save()`
+method is to enable retrieval of the object at a later time.
+
+<span class="legacy">Legacy</span>
+
+Objects created that are attached to a particular run can be identified by using
+the same suffix number as the run. `PMsave` can add these  attached objects to 
+the .Rdata file for that run, which is loaded with `PMload`.
+
+```{r echo=T, eval=FALSE}
+sim.2 <- SIMparse("simout1.txt")
+PMsave(2)
+```
+In the above example, `sim.2` will be added to the .Rdata file for future
+retrieval with `PMload(2)`.
+
+### Loading functions
+
+<span class="r6">R6</span> 
+
+After a successful IT2B or NPAG run, `PM_load` creates a 
+`PM_result` object rather than loading run results into the current 
+environment and suffixed with the run number as for legacy mode. 
+
+<span class="update">Update</span>
+It is short
+for `PM_result$load(1)`, which also works in the same way.
+
+```{r echo=T, eval=FALSE}
+res1 <- PM_load(1)
+res1$op$plot()
+```
+
+Similarly, `PM_fit`, `PM_sim`, `PM_valid`, and 
+`PM_pta` all have a `$load()` method that takes as its only argument the
+full or relative path (if not
+in the working directory) and name of an .rds file created by the corresponding
+`$save()` method.
+
+```{r echo=T, eval=FALSE}
+sim1 <- PM_sim$load("sim.rds")
+```
+
 
 <span class="legacy">Legacy</span> 
 
-For IT2B and NPAG, the `PM_load` function can be used to load either
-of the above .Rdata files after a successful run. Objects will be loaded
+For IT2B and NPAG, the `PMload` function can be used to load the .Rdata file
+after a successful run. Objects will be loaded
 into the current environment in R and suffixed with ".run", where "run" is
 the run number.
 
 ```{r echo=T, eval=F}
-PM_load(1)
+PMload(1)
 plot(op.1)
 ```
 
-<span class="update">Update</span>
-`PMsave` is the
-companion to `PMload` and can re-save modified objects to the .Rdata file.
+For simulations, `SIMparse`, described above, combines the parsing and loading
+functions.
 
+```{r echo=T, eval=FALSE}
+sim.2 <- SIMparse("simout1.txt")
+```
 
 ### Report generation
 
