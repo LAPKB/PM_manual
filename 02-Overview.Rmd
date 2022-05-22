@@ -68,8 +68,8 @@ it can be run by using the syntax `$run()` to access the appropriate function
 defined for the `PM_fit` object. 
 
 ```{r echo=T, eval=FALSE}
-run1 <- PM_fit$new(model, data)
-run1$run(options)
+fit1 <- PM_fit$new(model, data)
+fit1$run(options)
 ```
 
 
@@ -96,10 +96,7 @@ For the Simulator, the `$sim` method for a `PM_result` object will execute the
 program directly within R and return a `PM_sim` object. 
 An equivalent method is to construct a new `PM_sim` directly.
 
-```{r echo=T, eval=FALSE}
-sim1 <- PM_result$sim(...)
-sim1 <- PM_sim$new(...) #these are equivalent
-```
+s
 
 <span class="legacy">Legacy</span>
 
@@ -178,16 +175,12 @@ After a successful IT2B or NPAG run, `PM_load` creates a
 `PM_result` object rather than loading run results into the current 
 environment and suffixed with the run number as for legacy mode. 
 
-<span class="update">Update</span>
-It is short
-for `PM_result$load(1)`, which also works in the same way.
-
 ```{r echo=T, eval=FALSE}
 res1 <- PM_load(1)
 res1$op$plot()
 ```
 
-Similarly, `PM_fit`, `PM_sim`, `PM_valid`, and 
+`PM_result`, `PM_fit`, `PM_sim`, `PM_valid`, and 
 `PM_pta` all have a `$load()` method that takes as its only argument the
 full or relative path (if not
 in the working directory) and name of an .rds file created by the corresponding
@@ -229,26 +222,43 @@ page. <!--It will also generate a .tex file suitable for processing by a
 LATEX engine to generate a pdf report.--> See the [Pmetrics
 Outputs](#outputs) section.
 
-## Data manipulation functions
+## Other functions
 
 <span class="r6">R6</span> <span class="legacy">Legacy</span>
 
 Within Pmetrics there are also functions to manipulate data .csv files
 and process and plot extracted data.
 
-* Manipulate data .csv files: `PMreadMatrix`, `PMcheck`, `PMwriteMatrix`,
-`PMmatrixRelTime`, `PMwrk2csv`, `NM2PM`, `PMmb2csv`
+### Data manipulation
+```{r echo=F, results='asis'}
+library(knitr)
+data_comp <- read.csv("Data/RLcomp_data.csv",na.strings=".")
+kable(data_comp)
+```
 
-* Process data: `makeAUC`, `makeCov`, `makeCycle`, `makeFinal`, `makeOP`, `makePTA`,
-`makeErrorPoly`
+### Model selection and diagnostics
+```{r echo=F, results='asis'}
+library(knitr)
+mod_comp <- read.csv("Data/RLcomp_valid.csv",na.strings=".")
+kable(mod_comp)
+```
 
-* Plot data: `plot.PMcov`, `plot.PMcycle`, `plot.PMfinal`, `plot.PMmatrix`,
-`plot.PMop`,`plot.PMsim`, `plot.PMvalid`, `plot.PMpta`
+### Other functions
+```{r echo=F, results='asis'}
+library(knitr)
+oth_comp <- read.csv("Data/RLcomp_other.csv",na.strings=".")
+kable(oth_comp)
+```
 
-* Model selection and diagnostics: `PMcompare`, `plot.PMop` (with residual
-option), `makeValid`, `plot.PMvalid`, `PMstep`
 
-* Pmetrics function defaults: `setPMoptions`, `getPMoptions`
+<!-- * Process data: `makeAUC`, `makeCov`, `makeCycle`, `makeFinal`, `makeOP`, `makePTA`, -->
+<!-- `makeErrorPoly` -->
+
+<!-- * Plot data: `plot.PMcov`, `plot.PMcycle`, `plot.PMfinal`, `plot.PMmatrix`, -->
+<!-- `plot.PMop`,`plot.PMsim`, `plot.PMvalid`, `plot.PMpta` -->
+
+
+<!-- * Pmetrics function defaults: `setPMoptions`, `getPMoptions` -->
 
 Again, all functions have extensive help files and examples which can be
 examined in R by using the `help(command)` or `?command` syntax.

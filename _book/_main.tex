@@ -6,8 +6,8 @@
 ]{book}
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{ifxetex,ifluatex}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
@@ -104,12 +104,15 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+\usepackage[normalem]{ulem}
+% Avoid problems with \sout in headers with hyperref
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
 \usepackage{booktabs}
-\ifluatex
+\ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage[]{natbib}
@@ -117,7 +120,7 @@
 
 \title{Pmetrics User Manual}
 \author{LAPKB}
-\date{2022-02-25}
+\date{2022-05-22}
 
 \begin{document}
 \maketitle
@@ -223,7 +226,7 @@ the Laboratory of Applied Pharmacokinetics and Bioinformatics at the
 Saban Research Institute, Children's Hospital Los Angeles, and the
 Department of Pediatrics, Keck School of Medicine, University of
 Southern California. Please see our website at
-\href{http://www.lapk.org}{\underline{http://www.lapk.org}} for more
+\href{http://www.lapk.org}{\uline{http://www.lapk.org}} for more
 information.
 
 \hypertarget{r6-architecture}{%
@@ -298,7 +301,7 @@ supported. All are free of charge.
 
 R is a free software environment for statistical computing and graphics,
 which can be obtained from
-\href{http://www.R-project.org}{\underline{http://www.R-project.org}}.
+\href{http://www.R-project.org}{\uline{http://www.R-project.org}}.
 Pmetrics is a library for R.
 
 \hypertarget{rstudio}{%
@@ -311,7 +314,7 @@ other R interface.
 \subsubsection{Pmetrics}\label{pmetrics}}
 
 If you are reading this manual, then you have likely visited our website
-at \href{http://www.lapk.org}{\underline{http://www.lapk.org}}, where you
+at \href{http://www.lapk.org}{\uline{http://www.lapk.org}}, where you
 can select the software tab to access instructions.
 As of version 1.9, Pmetrics is distributed on github and is a self-contained
 package that will install gfortran with your permission, if it is not
@@ -420,20 +423,17 @@ There are three main software engines that Pmetrics controls.
 
 {R6}
 
-Pmetrics uses \texttt{PM\_model} to create model objects and \texttt{PM\_fit} to create
+Pmetrics uses\texttt{PM\_data} to create data objects, \texttt{PM\_model} to create model
+objects, and \texttt{PM\_fit} to create
 objects that combine the model with the data, ready to be run (fitted),
 generating probability distributions for primary model parameters.
+These are extensively
+documented within R by using the \texttt{help(command)} or \texttt{?command\ syntax}.
 
 These functions replace the following Legacy functions: \texttt{ITrun}, \texttt{ERRrun},
 \texttt{NPrun}.
 
-\texttt{PMload} is aliased as \texttt{PM\_load} for consistency with the above functions.
-Similar to the Legacy version, it loads the results of a run into R to be
-accessible to the user for analysis, plotting, etc. Different from the Legacy
-version, it loads the results into another R6 object, \texttt{PM\_result} instead of
-the current environment.
-
-Invoking the simulator in R6 is unchanged, i.e.~use \texttt{SIMrun}.
+Invoking the simulator in R6 becomes a method attached to \texttt{PM\_result} objects.
 
 {Legacy}
 
@@ -463,8 +463,8 @@ defined for the \texttt{PM\_fit} object.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{run1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(model,data)}
-\NormalTok{run1}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(options)}
+\NormalTok{fit1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_fit}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(model, data)}
+\NormalTok{fit1}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(options)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -485,8 +485,25 @@ but as of v1.9, this manual step is no longer necessary. The execution of
 the program to do the actual model parameter estimation is independent
 of R, so that the user is free to use R for other purposes.
 
-For the Simulator, the \texttt{SIMrun} function will execute the program
-directly within R.
+{R6}
+
+For the Simulator, the \texttt{\$sim} method for a \texttt{PM\_result} object will execute the
+program directly within R and return a \texttt{PM\_sim} object.
+An equivalent method is to construct a new \texttt{PM\_sim} directly.
+
+s
+
+{Legacy}
+
+To run the simulator in legacy mode, use \texttt{SIMrun}. Results are saved to the
+hard drive in the working directory, and can be read with \texttt{SIMparse} as
+described below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{SIMrun}\NormalTok{(...)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{parse-functions}{%
 \subsection{Parse functions}\label{parse-functions}}
@@ -494,45 +511,118 @@ directly within R.
 {R6} {Legacy}
 
 For all programs, the ``parse'' functions will extract the primary output
-from the program into meaningful R data objects. For IT2B and NPAG, this
+from the program into meaningful R data objects. For IT2B and NPAG in either R6
+or legacy modes, this
 is done automatically at the end of a successful run, and the objects
 are saved in the output subdirectory as IT2Bout.Rdata or NPAGout.Rdata,
-respectively. These functions generally run automatically and are not
-necessary for the user to access.
-
-\hypertarget{saving-and-loading-functions}{%
-\subsection{Saving and loading functions}\label{saving-and-loading-functions}}
+respectively. The parse functions run automatically and are not
+generally necessary for the user to access.
 
 {R6}
 
-After a successful IT2B or NPAG run, \texttt{PMload} or \texttt{PM\_load} creates a
-\texttt{PM\_result} object rather than loading run results into the current
-environment and suffixed with the run number.
+For the simulator the results are returned automatically to the object assigned
+to contain the output of the simulator, e.g.~\texttt{sim1} below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fit1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_load}\NormalTok{(}\DecValTok{1}\NormalTok{)}
-\FunctionTok{plot}\NormalTok{(fit1}\SpecialCharTok{$}\NormalTok{op)}
+\NormalTok{sim1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_result}\SpecialCharTok{$}\FunctionTok{sim}\NormalTok{(...)}
+\end{Highlighting}
+\end{Shaded}
+
+There is no longer any
+need to use the \texttt{SIMparse} legacy function described below, because the
+\texttt{SIMrun} and \texttt{SIMparse} legacy functions are combined within the \texttt{\$sim()} method
+for \texttt{PM\_result} objects or the \texttt{\$new()} method for \texttt{PM\_sim} objects.
+
+{Legacy}
+
+After running the simulator with \texttt{SIMrun}, the results are saved to files
+in the working
+directory. They can be retrieved using \texttt{SIMparse}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{simdata }\OtherTok{\textless{}{-}} \FunctionTok{SIMparse}\NormalTok{(}\StringTok{"simout1.txt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{saving-functions}{%
+\subsection{Saving functions}\label{saving-functions}}
+
+{R6}
+
+The Pmetrics R6 objects \texttt{PM\_fit}, \texttt{PM\_result}, \texttt{PM\_sim}, \texttt{PM\_valid}, and
+\texttt{PM\_pta} all have a \texttt{\$save()} method. This method saves the object to the hard drive
+in the current working directory by default. The format is .rds which is a
+binary format used by R to save individual objects. The purpose of the \texttt{\$save()}
+method is to enable retrieval of the object at a later time.
+
+{Legacy}
+
+Objects created that are attached to a particular run can be identified by using
+the same suffix number as the run. \texttt{PMsave} can add these attached objects to
+the .Rdata file for that run, which is loaded with \texttt{PMload}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sim}\FloatTok{.2} \OtherTok{\textless{}{-}} \FunctionTok{SIMparse}\NormalTok{(}\StringTok{"simout1.txt"}\NormalTok{)}
+\FunctionTok{PMsave}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+In the above example, \texttt{sim.2} will be added to the .Rdata file for future
+retrieval with \texttt{PMload(2)}.
+
+\hypertarget{loading-functions}{%
+\subsection{Loading functions}\label{loading-functions}}
+
+{R6}
+
+After a successful IT2B or NPAG run, \texttt{PM\_load} creates a
+\texttt{PM\_result} object rather than loading run results into the current
+environment and suffixed with the run number as for legacy mode.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_load}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{res1}\SpecialCharTok{$}\NormalTok{op}\SpecialCharTok{$}\FunctionTok{plot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{PM\_result}, \texttt{PM\_fit}, \texttt{PM\_sim}, \texttt{PM\_valid}, and
+\texttt{PM\_pta} all have a \texttt{\$load()} method that takes as its only argument the
+full or relative path (if not
+in the working directory) and name of an .rds file created by the corresponding
+\texttt{\$save()} method.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sim1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_sim}\SpecialCharTok{$}\FunctionTok{load}\NormalTok{(}\StringTok{"sim.rds"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 {Legacy}
 
-For IT2B and NPAG, the \texttt{PM\_load} function can be used to load either
-of the above .Rdata files after a successful run. Objects will be loaded
+For IT2B and NPAG, the \texttt{PMload} function can be used to load the .Rdata file
+after a successful run. Objects will be loaded
 into the current environment in R and suffixed with ``.run'', where ``run'' is
 the run number.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{PM\_load}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\FunctionTok{PMload}\NormalTok{(}\DecValTok{1}\NormalTok{)}
 \FunctionTok{plot}\NormalTok{(op}\FloatTok{.1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-{Update}
-\texttt{PMsave} is the
-companion to \texttt{PMload} and can re-save modified objects to the .Rdata file.
+For simulations, \texttt{SIMparse}, described above, combines the parsing and loading
+functions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sim}\FloatTok{.2} \OtherTok{\textless{}{-}} \FunctionTok{SIMparse}\NormalTok{(}\StringTok{"simout1.txt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{report-generation}{%
 \subsection{Report generation}\label{report-generation}}
@@ -546,30 +636,75 @@ browser will be automatically launched for viewing of the HTML report
 page. See the \protect\hyperlink{outputs}{Pmetrics
 Outputs} section.
 
-\hypertarget{data-manipulation-functions}{%
-\section{Data manipulation functions}\label{data-manipulation-functions}}
+\hypertarget{other-functions}{%
+\section{Other functions}\label{other-functions}}
 
 {R6} {Legacy}
 
 Within Pmetrics there are also functions to manipulate data .csv files
 and process and plot extracted data.
 
-\begin{itemize}
-\item
-  Manipulate data .csv files: \texttt{PMreadMatrix}, \texttt{PMcheck}, \texttt{PMwriteMatrix},
-  \texttt{PMmatrixRelTime}, \texttt{PMwrk2csv}, \texttt{NM2PM}, \texttt{PMmb2csv}
-\item
-  Process data: \texttt{makeAUC}, \texttt{makeCov}, \texttt{makeCycle}, \texttt{makeFinal}, \texttt{makeOP}, \texttt{makePTA},
-  \texttt{makeErrorPoly}
-\item
-  Plot data: \texttt{plot.PMcov}, \texttt{plot.PMcycle}, \texttt{plot.PMfinal}, \texttt{plot.PMmatrix},
-  \texttt{plot.PMop},\texttt{plot.PMsim}, \texttt{plot.PMvalid}, \texttt{plot.PMpta}
-\item
-  Model selection and diagnostics: \texttt{PMcompare}, \texttt{plot.PMop} (with residual
-  option), \texttt{makeValid}, \texttt{plot.PMvalid}, \texttt{PMstep}
-\item
-  Pmetrics function defaults: \texttt{setPMoptions}, \texttt{getPMoptions}
-\end{itemize}
+\hypertarget{data-manipulation}{%
+\subsection{Data manipulation}\label{data-manipulation}}
+
+\begin{tabular}{l|l|l}
+\hline
+Function & R6 & Legacy\\
+\hline
+Read data file & PM\_data\textbackslash{}\$new() & PMreadMatrix()\\
+\hline
+Check data file & Embedded in PM\_data\textbackslash{}\$new() & PMcheck()\\
+\hline
+Write data file & PM\_data\textbackslash{}\$write() & PMwriteMatrix()\\
+\hline
+Convert calendar dates and clock times & Embedded in PM\_data\textbackslash{}\$new() & PMmatrixReltime()\\
+\hline
+Convert from old USC*PACK .wrk format & PMwrk2csv() & PMwrk2csv()\\
+\hline
+Convert from NONMEM & NM2PM() & NM2PM()\\
+\hline
+Convert from old USC*PACK .mb format & PMmb2csv() & PMmb2csv()\\
+\hline
+\end{tabular}
+
+\hypertarget{model-selection-and-diagnostics}{%
+\subsection{Model selection and diagnostics}\label{model-selection-and-diagnostics}}
+
+\begin{tabular}{l|l|l}
+\hline
+Function & R6 & Legacy\\
+\hline
+Compare models & PM\_compare(PM\_result1, PMresult2,…) & PMcompare(1, 2, …)\\
+\hline
+Plot residuals & PM\_result\$op\$plot(resid = T,…) & plot(op, resid = T)\\
+\hline
+Construct VPC, pcVPC, NPDE & PM\_result\textbackslash{}\$valid() or PM\_valid\textbackslash{}\$new() & makeValid()\\
+\hline
+Plot VPC, pcVPC, NPDE & PM\_valid\$plot() & plot(PMvalid)\\
+\hline
+Stepwise covariate regression & PM\_result\$step() & PMstep()\\
+\hline
+\end{tabular}
+
+\hypertarget{other-functions-1}{%
+\subsection{Other functions}\label{other-functions-1}}
+
+\begin{verbatim}
+## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## incomplete final line found by readTableHeader on 'Data/RLcomp_other.csv'
+\end{verbatim}
+
+\begin{tabular}{l|l|l}
+\hline
+Function & R6 & Legacy\\
+\hline
+Calculate AUC & \textbackslash{}\$auc() method for PM\_result\textbackslash{}\$op/\textbackslash{}\$post/\textbackslash{}\$pop, or PM\_sim & makeAUC()\\
+\hline
+Simulate & PM\_result\textbackslash{}\$sim() or PM\_sim\textbackslash{}\$new() & SIMrun()\\
+\hline
+Probability of target attainment & PM\_sim\textbackslash{}\$pta() or PM\_pta\textbackslash{}\$new() & makePTA()\\
+\hline
+\end{tabular}
 
 Again, all functions have extensive help files and examples which can be
 examined in R by using the \texttt{help(command)} or \texttt{?command} syntax.
@@ -582,45 +717,73 @@ examined in R by using the \texttt{help(command)} or \texttt{?command} syntax.
 The general Pmetrics workflow in R6 for IT2B and NPAG is shown in the
 following diagram.
 
-The user supplies the items in \textbf{yellow}. R is used to specify the working directory containing the data .csv file. The model file is created in R using
-the \texttt{PM\_model} function. When combined using \texttt{PM\_fit} and the \texttt{\$run()} function
-on the resulting object, a batch file is generated by R, causing the preparation
-program to be compiled and executed. An instruction file is generated
-automatically by the contents of the data and model, and by
-arguments to the \texttt{\$run()} function. The batch file
-will then compile and execute the engine file according to the
-instructions, which will generate several output files upon completion.
-Finally, the batch file will call the R script to generate the summary
-report and several data objects, including the IT2Bout.Rdata or
-NPAGout.Rdata files which can be loaded into R subsequently using
-\texttt{PM\_load}. Objects that are modified can be saved back to the .Rdata
-files with \texttt{PMsave}.
-
 \includegraphics{Images/Slide1.png}
+
+The user creates the data and model objects at the top. These can come from the hard drive or from within R (dashed arrows). The model file is created in R using
+the \texttt{PM\_model\$new()} function and the data file by \texttt{PM\_data\$new()}. When combined using \texttt{PM\_fit\$new()} and the \texttt{\$run()} function
+on the resulting object, the analysis is executed. At the end of the run, the hard drive will contain a new numerically named folder, e.g., 1, 2, 3, \ldots, that contains the files which can be loaded into R subsequently using
+\texttt{PM\_load(x)}, replacing \texttt{x} with the folder number. \texttt{PM\_load()} is an alias for \texttt{PM\_result\$new()} because it creates a new \texttt{PM\_result} object which contains all the results of a run, and has many assciated methods attached to it for plotting, simulating, etc.
+
+To change model parameters, the model object is updated via \texttt{PM\_model\$update()}, \texttt{PM\_fit\$new()} is called and then the run is executed with \texttt{\$run()}. If continuing a previous run that did not end, simply use the \texttt{\$run()} and specify the run number you wish to continue as the \texttt{prior} argument to \texttt{\$run()}. These scenarios are illustrated below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Run 1 {-} ensure the data, model files are in the working directory}
+\NormalTok{data1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_data}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\StringTok{"data.csv"}\NormalTok{)}
+\NormalTok{mod1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\StringTok{"model.txt"}\NormalTok{)}
+\NormalTok{fit1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_fit}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(data1, mod1)}
+\NormalTok{fit1}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{()}
+\NormalTok{res1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_load}\NormalTok{(}\DecValTok{1}\NormalTok{) }\CommentTok{\#PM\_load is an alias for PM\_result$new()}
+
+\CommentTok{\#Run 2 {-} update Ke range}
+\NormalTok{mod2 }\OtherTok{\textless{}{-}}\NormalTok{ mod1}\SpecialCharTok{$}\FunctionTok{update}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}\AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\DecValTok{3}\NormalTok{))))}
+\NormalTok{fit2 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_fit}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(data1, mod2)}
+\NormalTok{fit2}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{()}
+
+\CommentTok{\#Run 3 {-} continue run 2}
+\NormalTok{fit2}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(}\AttributeTok{prior =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The great advantage of R6 over Legacy is that in R6, you no longer need to spend time copying files from prior run folders, modifying them, and ensuring that they are in the working directory. After the initial creation of the data and model objects, everything can be done in R from memory, although results are still saved to hard drive for later retrieval.
 
 {Legacy}
 
 The general Pmetrics workflow in Legacy for IT2B and NPAG is shown in the
-following diagram. The major differences compared to R6 are that the model is a text file, and the commands to start the run are different.
+following diagram. The major differences compared to R6 are:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Data and model} The data is always a .csv file, and the model is always a text file which must be edited to make changes. Both must be copied from a prior folder to the current working directory for every run.
+\item
+  \emph{Run.} Separate commands for NPAG and IT2B must be used, i.e.~\texttt{NPrun()} and \texttt{ITrun()}.
+\item
+  \emph{Loading.} Results are loaded with \texttt{PMload()} not \texttt{PM\_load()} because the former returns a collection of results all suffixed with the run number, e.g.~\texttt{op.1} or \texttt{final.1} for run 1. This can lead to confusion if working on two projects at once, or uncertainty about what is actually loaded.
+\end{itemize}
 
 \includegraphics{Images/Slide2.png}
 
-The user supplies the items in \textbf{yellow} as arguments to
-the run functions. R is used to specify the working directory containing the data.csv and
-model.txt files. Through the batch file generated by R, the preparation
-program is compiled and executed. The instruction file is generated
-automatically by the contents of the data and model files, and by
-arguments to the \texttt{NPrun}, \texttt{ITrun} or \texttt{ERRrun} commands. The batch file
-will then compile and execute the engine file according to the
-instructions, which will generate several output files upon completion.
-Finally, the batch file will call the R script to generate the summary
-report and several data objects, including the IT2Bout.Rdata or
-NPAGout.Rdata files which can be loaded into R subsequently using
-\texttt{PMload}. Objects that are modified can be saved back to the .Rdata
-files with \texttt{PMsave}.
+The user supplies the names of the data and model files as arguments to
+the run functions. R is used to specify the working directory containing these files. The analysis is executed in a terminal window by calling \texttt{NPrun}, \texttt{ITrun} or \texttt{ERRrun} functions. The results can be loaded into R after the run completes using
+\texttt{PMload}. The analgous Legacy code to the R6 code above is shown here.
 
-Both input files (data, model) are text files which can be edited
-directly.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Run 1 {-} ensure the data, model files are in the working directory}
+\FunctionTok{NPrun}\NormalTok{(}\StringTok{"data.csv"}\NormalTok{, }\StringTok{"model.txt"}\NormalTok{)}
+\FunctionTok{PMload}\NormalTok{(}\DecValTok{1}\NormalTok{) }
+
+\CommentTok{\#Run 2 {-} update Ke range {-} edit file outside R, copy to working directory}
+\CommentTok{\#use same data as for run 1}
+\FunctionTok{NPrun}\NormalTok{(}\AttributeTok{data =} \DecValTok{1}\NormalTok{, }\StringTok{"model2.txt"}\NormalTok{)}
+
+\CommentTok{\#Run 3 {-} continue run 2}
+\FunctionTok{NPrun}\NormalTok{(}\AttributeTok{data =} \DecValTok{1}\NormalTok{, }\AttributeTok{model =} \DecValTok{1}\NormalTok{, }\AttributeTok{prior =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+While there are fewer lines of R code than for R6, the edits made to create model2.txt are not recorded anywhere in R, and must be made outside R, with cumbersome file copying to ensure everything is in the working directory.
 
 \hypertarget{pmetrics-input-files}{%
 \chapter{Pmetrics Input Files}\label{pmetrics-input-files}}
@@ -632,13 +795,57 @@ Pmetrics accepts input as a spreadsheet ``matrix'' format. It is designed
 for input of multiple records in a concise way. \textbf{Please keep the number
 of characters in the file name ≤ 8.}
 
+In {R6} use \texttt{PM\_data\$new("filename")} to create a \texttt{PM\_data} object by reading the file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#ensure that data.csv is in the working directory}
+\NormalTok{data1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_data}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\StringTok{"data.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can also build an appropriate data frame in R and provide that as an argument to \texttt{PM\_data\$new()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#assume df is data frame with at least these columns:}
+\CommentTok{\#id, time, dose, out}
+\NormalTok{data1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_data}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have created the \texttt{PM\_data} object, you never need to create it again during your R session. You also don't have to bother copying the data file to the Runs folder each time you run the model.
+
+In {Legacy} you must always have the the data file in the current working directory. You can manually copy it there from a previous run or some other folder or use the shortcut of providing a prior run number as an argument to \texttt{NPrun} or \texttt{ITrun}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Run 1 {-} ensure that data.csv is in the working directory}
+\FunctionTok{NPrun}\NormalTok{(}\StringTok{"data.csv"}\NormalTok{, }\StringTok{"model.txt"}\NormalTok{)}
+
+\CommentTok{\#run 2 {-} use the data from run 1 in this run}
+\CommentTok{\#note that the file model.txt still has to be copied}
+\CommentTok{\# into the working directory in this example}
+\FunctionTok{NPrun}\NormalTok{(}\AttributeTok{data =} \DecValTok{1}\NormalTok{, }\StringTok{"model.txt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{data-file-format}{%
 \subsection{Data file format}\label{data-file-format}}
 
-Files are in comma-separated-values (.csv) format. Examples of programs
+If you create your data as a file, which is the most
+common scenario, the file should be in comma-separated-values (.csv) format. It is possible
+to use other separators, like the semicolon, by setting the appropriate argument with \texttt{setPMoptions(sep\ =\ ";")}.
+
+Examples of programs
 that can save .csv files are any text editor (e.g.~TextEdit on Mac,
-Notepad on Windows) or spreadsheet program (e.g.~Excel). Click on
-hyperlinked items to see an explanation.
+Notepad on Windows) or spreadsheet program (e.g.~Excel).
+
+The file or data frame format is much more flexible in R6. The only required columns are id, time, dose, and out. You may also specify time as clock time if you include a date column. The default format of the date column is YYYY-MM-DD and HH:MM for the time column by default, but other formats can be specified. See \texttt{?PM\_data} for more details. There is no header required, the column order can be anything you wish, but the names should be the same as in the legacy format below. Ultimately, \texttt{PM\_data\$new()} converts all valid data into the format used in legacy Pmetrics.
+
+{Legacy}
+
+All .csv files must be formatted as below. As for R6, other separators are possible by using \texttt{setPMoptions()}.
 
 \textbf{IMPORTANT}: The order, capitalization and names of the header and the
 first 12 columns are fixed. All entries must be numeric, with the
@@ -769,18 +976,32 @@ GH & 0 & 24.00 & . & . & . & . & . & 0.52 & 1 & . & . & . & . & .\\
 \hypertarget{manipulation-of-csv-files}{%
 \subsection{Manipulation of CSV files}\label{manipulation-of-csv-files}}
 
-There are several functions in Pmetrics which are useful for either
-converting other formats into Pmetrics data files, or checking Pmetrics
-data files for errors and fixing some of them automatically.
-
 \begin{itemize}
 \item
-  \texttt{PMreadMatrix(filename,...)} This function simply reads \emph{filename} and
-  creates a PMmatrix object in memory which can be plotted (see
-  \texttt{?plot.PMmatrix}) or otherwise analyzed.
+  As we have seen, in {R6} \texttt{PM\_data\$new("filename")} will
+  read an appropriate data file in the current working directory to create a
+  new \texttt{PM\_data} object. In {Legacy}\\
+  \texttt{PMreadMatrix("filename",\ ...)} reads \emph{filename} and
+  creates a PMmatrix object in R which can be plotted (see
+  \texttt{?plot.PMmatrix}) or otherwise analyzed. However, unlike R6, it cannot be used
+  to run a model. For that, you need to copy the file into the working directory
+  each time, either yourself or by using the \texttt{NPrun(data\ =\ 1,\ ...)} shortcut, for
+  example.
 \item
-  \texttt{PMcheck(filename\ /\ PMmatrix,\ model,...)} This function will check a .csv
-  file named \emph{filename} or a PMmatrix data frame containing a previously
+  {R6} \texttt{PM\_data\$write("filename")} will write the \texttt{PM\_data} object to a file called
+  ``filename''. This can be useful if you have loaded or created a data file and then
+  changed it in R. {Legacy}
+  \texttt{PMwriteMatrix(data.frame,\ "filename",\ ...)} writes an
+  appropriate data frame as a new .csv file. It will first check the
+  data.frame for errors via the \texttt{PMcheck()} function below, and writing will
+  fail if errors are detected. This can be overridden with \texttt{override=T}.
+\item
+  {R6} \texttt{PM\_data\$new()} automatically calls
+  \texttt{PMcheck(filename\ /\ PMmatrix,\ model,...)}, which is also available as an
+  indepedent function in either {R6} or
+  {Legacy}. This function will check a .csv
+  file named \emph{filename}, a \texttt{PM\_data} object in {R6} or a
+  \texttt{PMmatrix} data frame in {Legacy} containing a previously
   loaded .csv file (the output of \texttt{PMreadMatrix}) for errors which would
   cause the analysis to fail. If a model file is provided, and the data
   file has no errors, it will also check the model file for errors. If it
@@ -788,14 +1009,22 @@ data files for errors and fixing some of them automatically.
   highlighted and commented so that you can find and correct them easily.
   See \texttt{?PMcheck} for details in R.
 \item
-  \texttt{PMwriteMatrix(data.frame,\ filename,...)} This function writes an
-  appropriate data.frame as a new .csv file. It will first check the
-  data.frame for errors via the \texttt{PMcheck()} function above, and writing will
-  fail if errors are detected. This can be overridden with \texttt{override=T}.
-\item
-  \texttt{PMmatrixRelTime()} This function converts dates and clock times of
+  {R6} accepts data files with calendar dates and clock
+  times by calling the {Legacy} function \texttt{PMmatrixRelTime()}
+  any time \texttt{PM\_data\$new()} is invoked. This function converts dates and clock times of
   specified formats into relative times for use in the NPAG, IT2B and
-  Simulator engines. See \texttt{?PMmatrixRelTime} for details.
+  Simulator engines. This means Pmetrics in {R6} does not
+  require any action by the user to handle calendar dates and clock times. In
+  contrast, for {Legacy} \texttt{PMmatrixRelTime()} must
+  be called by the user and the output used to create a data frame with relative
+  times that can be saves as a new .csv file with \texttt{PMwriteMatrix()}, which in turn
+  serves as input to a run. See \texttt{?PMmatrixRelTime} for details.
+\end{itemize}
+
+The following functions are the same in either {R6} or
+{Legacy}.
+
+\begin{itemize}
 \item
   \texttt{PMwrk2csv()} This function will convert old-style, single-drug USC*PACK
   .wrk formatted files into Pmetrics data .csv files. Details are
@@ -818,30 +1047,30 @@ data files for errors and fixing some of them automatically.
 {R6}
 
 In R6 Pmetrics, use the \texttt{PM\_model} function to create models directly
-in R. See \texttt{?PM\_model} for help on this object class. Blocks in the legacy model.txt files which were delimited with the ``\#'' character become lists or character vectors in R6.
+in R. See \texttt{?PM\_model} for help on this object class. Blocks in the legacy model.txt files which were delimited with the ``\#'' character become listsin R6.
 
 The R6 model components are:
 
 \begin{itemize}
 \tightlist
 \item
-  \protect\hyperlink{priR6}{PRImary} (list)
+  \protect\hyperlink{priR6}{PRImary}
 \item
-  \protect\hyperlink{covR6}{COVariate} (character vector)
+  \protect\hyperlink{covR6}{COVariate}
 \item
-  \protect\hyperlink{secR6}{SECondary} (character vector)
+  \protect\hyperlink{secR6}{SECondary}
 \item
-  \protect\hyperlink{bolR6}{BOLus} (character vector)
+  \protect\hyperlink{bolR6}{BOLus}
 \item
-  \protect\hyperlink{iniR6}{INItial conditions} (character vector)
+  \protect\hyperlink{iniR6}{INItial conditions}
 \item
-  \protect\hyperlink{FaR6}{F (bioavailability)} (character vector)
+  \protect\hyperlink{FaR6}{F (bioavailability)}
 \item
-  \protect\hyperlink{lagR6}{LAG time} (character vector)
+  \protect\hyperlink{lagR6}{LAG time}
 \item
-  \protect\hyperlink{diffR6}{DIFferential equations} (list)
+  \protect\hyperlink{diffR6}{DIFferential equations}
 \item
-  \protect\hyperlink{outR6}{OUTputs} (list)
+  \protect\hyperlink{outR6}{OUTputs}
 \end{itemize}
 
 \hypertarget{priR6}{%
@@ -859,7 +1088,7 @@ Each variable can be specified by \texttt{range} or \texttt{msd}. The first defi
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V =} \FunctionTok{msd}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{20}\NormalTok{),}
@@ -886,9 +1115,9 @@ To specify a new covariate value at a time other than a dose, enter a dose event
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(...),}
-  \AttributeTok{cov =} \FunctionTok{c}\NormalTok{(}\StringTok{"wt"}\NormalTok{,}\StringTok{"age"}\NormalTok{)}
+  \AttributeTok{cov =} \FunctionTok{list}\NormalTok{(}\StringTok{"wt"}\NormalTok{,}\StringTok{"age"}\NormalTok{)}
 \NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -903,20 +1132,21 @@ Equation syntax must be Fortran. Specify each variable equation as a character v
 statements, but because expressions in this block are translated into
 variable declarations in Fortran, expressions other than of the form "X = function(Y)" must be on a new line, prefixed by "\&" and contain only variables which have been previously defined in the Primary, Covariate, or Secondary blocks.
 
-In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is \textgreater18, in which case weight is capped at 75 kg.
+In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is \textgreater18, in which case weight is capped at 75 kg. It's the same for CL0. Note that the conditional statement is not named.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
-    \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
+    \AttributeTok{CL0 =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V0 =} \FunctionTok{msd}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{3}\NormalTok{),}
     \AttributeTok{eff =} \FunctionTok{range}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{,}\AttributeTok{gtz=}\NormalTok{F)}
 \NormalTok{  ),}
-  \AttributeTok{cov =} \FunctionTok{c}\NormalTok{(}\StringTok{"wt"}\NormalTok{,}\StringTok{"age"}\NormalTok{),}
-  \AttributeTok{sec =} \FunctionTok{c}\NormalTok{(}
-    \StringTok{"V = V0*wt"}\NormalTok{,}
-    \StringTok{"\&IF(age \textgreater{}18) V = V0 * 75"}
+  \AttributeTok{cov =} \FunctionTok{list}\NormalTok{(}\StringTok{"wt"}\NormalTok{,}\StringTok{"age"}\NormalTok{),}
+  \AttributeTok{sec =} \FunctionTok{list}\NormalTok{(}
+    \AttributeTok{V =} \StringTok{"V0*wt"}\NormalTok{,}
+    \StringTok{"\&IF(age \textgreater{}18) V = V0 * 75"}\NormalTok{,}
+    \AttributeTok{CL =} \StringTok{"CL0 * wt"}
 \NormalTok{  )}
 \NormalTok{))}
 \end{Highlighting}
@@ -933,8 +1163,8 @@ compartment number.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
-  \AttributeTok{bol =} \StringTok{"NBCOMP(1) = 2"}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+  \AttributeTok{bol =} \FunctionTok{list}\NormalTok{(}\StringTok{"NBCOMP(1) = 2"}\NormalTok{)}
 \NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -946,16 +1176,16 @@ By default, all model compartments have zero amounts at time 0. This can be chan
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V =} \FunctionTok{msd}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{30}\NormalTok{),}
     \AttributeTok{IC3 =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1000}\NormalTok{)}
 \NormalTok{  ),}
-  \AttributeTok{cov =} \FunctionTok{c}\NormalTok{(}\StringTok{"wt"}\NormalTok{,}\StringTok{"age"}\NormalTok{,}\StringTok{"IC2"}\NormalTok{),}
-  \AttributeTok{ini =} \FunctionTok{c}\NormalTok{(}
-    \StringTok{"X(2) = IC2*V"}\NormalTok{,}
-    \StringTok{"X(3) = IC3"}
+  \AttributeTok{cov =} \FunctionTok{list}\NormalTok{(}\StringTok{"wt"}\NormalTok{,}\StringTok{"age"}\NormalTok{,}\StringTok{"IC2"}\NormalTok{),}
+  \AttributeTok{ini =} \FunctionTok{list}\NormalTok{(}
+    \AttributeTok{X2 =} \StringTok{"IC2*V"}\NormalTok{,}
+    \AttributeTok{X3 =} \StringTok{"IC3"}
 \NormalTok{  )}
 \NormalTok{))}
 \end{Highlighting}
@@ -983,13 +1213,14 @@ conditional statements in Fortran code. An "\&" continuation prefix is not neces
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V =} \FunctionTok{msd}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{30}\NormalTok{),}
     \AttributeTok{FA1 =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{)}
 \NormalTok{  ),}
-  \AttributeTok{fa =} \StringTok{"FA(1) = FA1"}
+  \AttributeTok{fa =} \FunctionTok{list}\NormalTok{(}
+    \AttributeTok{fa1 =} \StringTok{"FA1"}
 \NormalTok{  )}
 \NormalTok{)}
 \end{Highlighting}
@@ -1003,13 +1234,13 @@ dose before observed concentrations. Use the form TLAG(.) = expression, where ".
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V =} \FunctionTok{msd}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{30}\NormalTok{),}
     \AttributeTok{lag1 =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{4}\NormalTok{)}
 \NormalTok{  ),}
-  \AttributeTok{lag =} \StringTok{"TLAG(1) = lag1"}
+  \AttributeTok{lag =} \FunctionTok{list}\NormalTok{(}\AttributeTok{tlag1 =} \StringTok{"lag1"}\NormalTok{)}
 \NormalTok{  )}
 \NormalTok{)}
 \end{Highlighting}
@@ -1026,7 +1257,7 @@ Specify equations as elements in a list, with XP(1) replaced by XP1, for example
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{Ka =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
@@ -1146,7 +1377,7 @@ More complete examples.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{Ke =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V =} \FunctionTok{msd}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{30}\NormalTok{),}
@@ -1162,14 +1393,14 @@ More complete examples.
 \NormalTok{  )}
 \NormalTok{))}
 
-\NormalTok{mod2 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_model}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
+\NormalTok{mod2 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_model}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\FunctionTok{list}\NormalTok{(}
   \AttributeTok{pri =} \AttributeTok{pri =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{kin =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{kout =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{tpd =} \FunctionTok{range}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{),}
     \AttributeTok{V =} \FunctionTok{msd}\NormalTok{(}\DecValTok{100}\NormalTok{,}\DecValTok{30}\NormalTok{),}
 \NormalTok{  ),}
-  \AttributeTok{sec =} \StringTok{"RES = B(1) * KIN/(KIN{-}KOUT) * (EXP({-}KOUT*TPD){-}EXP({-}KIN*TPD))"}\NormalTok{,}
+  \AttributeTok{sec =} \FunctionTok{list}\NormalTok{(}\StringTok{"RES = B(1) * KIN/(KIN{-}KOUT) * (EXP({-}KOUT*TPD){-}EXP({-}KIN*TPD))"}\NormalTok{),}
   \AttributeTok{out =} \FunctionTok{list}\NormalTok{(}
     \AttributeTok{y1 =} \FunctionTok{list}\NormalTok{(}
       \StringTok{"RES/V"}\NormalTok{,}
@@ -1294,7 +1525,7 @@ differently for NPAG, IT2B, and the simulator.
   For \textbf{IT2B}, the range defines the Bayesian prior distribution of
   the parameter values for cycle 1. For each parameter, the mean of
   the Bayesian prior distribution is taken as the middle of the range,
-  and the standard deviation is \emph{xsig}*range (see \href{/l}{\underline{IT2B
+  and the standard deviation is \emph{xsig}*range (see \href{/l}{\uline{IT2B
   runs}}). Adding a plus sign (+) to a line will
   prevent that parameter from being assigned negative values. NPAG and
   the simulator will ignore the pluses as the ranges are absolute for
@@ -1306,7 +1537,7 @@ differently for NPAG, IT2B, and the simulator.
   The \textbf{simulator} will ignore the ranges with the default value of
   NULL for the \emph{limits} argument. If the simulator \emph{limits} argument
   is set to NA, which will mean that these ranges will be used as the
-  limits to truncate the simulation (see \href{/l}{\underline{Simulator
+  limits to truncate the simulation (see \href{/l}{\uline{Simulator
   Runs}}).
 \end{itemize}
 
@@ -1494,7 +1725,7 @@ G=2!\\
 \subsection{Extra}\label{extra}}
 
 This block is for advanced Fortran programmers only.
-\textless span class="update\textgreater UpdateIt is not yet implemented in R6.
+\textless span class=``update\textgreater UpdateIt is not yet implemented in R6.
 Occasionally, for very complex models, additional Fortran subroutines are required. They can be placed here. The code must specify complete Fortran subroutines
 which can be called from other blocks with appropriate call functions.
 As stated earlier, sometimes it is important to preserve spacing and
@@ -1642,8 +1873,8 @@ Arithmetic Operator & Meaning\\
 \end{longtable}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.56}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.35}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5556}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3472}}@{}}
 \toprule
 \endhead
 \textbf{Selective Execution} & \textbf{Example} \\
@@ -1746,14 +1977,14 @@ To bring these together, use the \texttt{PM\_fit} object creator. It only needs 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#Example 1 {-} data file and PM\_model object}
-\NormalTok{fit1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(}\AttributeTok{data =} \StringTok{"data.csv"}\NormalTok{, }\AttributeTok{model =}\NormalTok{ mod1)}
+\NormalTok{fit1 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_fit}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\AttributeTok{data =} \StringTok{"data.csv"}\NormalTok{, }\AttributeTok{model =}\NormalTok{ mod1)}
 
 \CommentTok{\#Example 2 {-} data object and model file}
 \NormalTok{PMdata }\OtherTok{\textless{}{-}} \FunctionTok{PMreadMatrix}\NormalTok{(}\StringTok{"data.csv"}\NormalTok{)}
-\NormalTok{fit2 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(}\AttributeTok{data =}\NormalTok{ PMdata, }\AttributeTok{model =} \StringTok{"model.txt"}\NormalTok{)}
+\NormalTok{fit2 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_fit}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(}\AttributeTok{data =}\NormalTok{ PMdata, }\AttributeTok{model =} \StringTok{"model.txt"}\NormalTok{)}
 
 \CommentTok{\#Example 3 {-} data and model objects}
-\NormalTok{fit3 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_fit}\NormalTok{(PMdata, mod1)}
+\NormalTok{fit3 }\OtherTok{\textless{}{-}}\NormalTok{ PM\_fit}\SpecialCharTok{$}\FunctionTok{new}\NormalTok{(PMdata, mod1)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1768,11 +1999,11 @@ Once the \texttt{PM\_fit} object is created it has only one function defined for
 \NormalTok{fit3}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(}\AttributeTok{cycles=}\DecValTok{500}\NormalTok{)}
 
 \CommentTok{\#change the engine from default NPAG}
-\NormalTok{fit3}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(}\AttributeTok{engine =} \StringTok{"RPEM"}\NormalTok{)}
+\NormalTok{fit3}\SpecialCharTok{$}\FunctionTok{run}\NormalTok{(}\AttributeTok{engine =} \StringTok{"IT2B"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
+See the sections on running NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
 
 \hypertarget{legacy}{%
 \subsection{Legacy}\label{legacy}}
@@ -1813,10 +2044,14 @@ the Rscript subdirectory, if this is a first-time run, the R commands to
 run IT2B or NPAG are as follows. Recall that the ``\#'' character is a
 comment character.
 
-library(Pmetrics)\\
-\#Run 1 - add your run description here\\
-setwd(``working directory'')\\
-NPrun() \#for NPAG or ITrun() for IT2B\\
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(Pmetrics)}
+\CommentTok{\#Run 1 {-} add your run description here}
+\FunctionTok{setwd}\NormalTok{(}\StringTok{"working directory"}\NormalTok{)}
+\FunctionTok{NPrun}\NormalTok{() }\CommentTok{\#for NPAG or ITrun() for IT2B}
+\end{Highlighting}
+\end{Shaded}
 
 The first line will load the Pmetrics library of functions. The second
 line sets the working directory to the specified path. The third line
@@ -1875,31 +2110,206 @@ PMload(1)
 Remember in R that the command \texttt{example(function)} will provide examples
 for the specified function. Most Pmetrics functions have examples.
 
-\hypertarget{using-shiny-to-control-pmetrics}{%
-\section{Using Shiny to control Pmetrics}\label{using-shiny-to-control-pmetrics}}
+\hypertarget{pmetrics-data-objects}{%
+\chapter{Pmetrics Data Objects}\label{pmetrics-data-objects}}
 
-Shiny is an R package made by the same group who produces Rstudio. While
-you are learning to use Pmetrics, you can use a graphical user interface
-that teaches you how to build code. Currently we have implemented Shiny
-interfaces for NPAG, IT2B and many plots in Pmetrics.
+After a successful IT2B or NPAG run, an R datafile is saved in the
+output subdirectory of the newly created numerically ordered folder in
+the working directory. After IT2B, this file is called ``IT2Bout.Rdata'',
+and after NPAG it is called ``NPAGout.Rdata''. As mentioned in the
+previous section, these data files can be loaded by ensuring that the
+Runs folder is set as the working directory, and then using the Pmetrics
+commands PMload(run\_num).
 
-To use these Shiny interfaces, type \texttt{PMcode("x")}, where x is the function
-you wish. Currently you have two choices: ``run'' and ``plot''.
+There are several Pmetrics data objects contained within the Rdata files
+which are loaded with PMload(), making these objects available for
+plotting and other analysis.
 
-\texttt{PMcode("run")} will launch the following dialog window in your default
-browser. As you make your selections, you will see R code generated
-which you can copy back to your script and execute. Simply close the
-browser window when you are finished.
+\textbf{Objects loaded by PMload(run\_num)}
 
-You can select from an NPAG or IT2B run, and then use the Data, Model,
-and Run tabs to navigate to different options. With a valid Pmetrics
-model and data file loaded, you will see a summary of the model in the
-Current Model window.
+\begin{tabular}{l|l|l}
+\hline
+Objects & Variables & Comments\\
+\hline
+op (class: PMop, list) & \textbackslash{}\$id & Subject identification\\
+\hline
+ & \textbackslash{}\$time & Observation time in relative decimal hours\\
+\hline
+ & \textbackslash{}\$obs & Observation\\
+\hline
+ & \textbackslash{}\$pred & Predicted value\\
+\hline
+ & \textbackslash{}\$pred.type & Type of prediction, i.e. based on the population parameter values or Bayesian posterior parameter values\\
+\hline
+ & \textbackslash{}\$icen & Median (default) or mean of the parameter distributions used to calculate the predicted values.\\
+\hline
+ & \textbackslash{}\$outeq & \\
+\hline
+ & \textbackslash{}\$block & Dosing block, usually 1 unless data file contains EVID=4 dose reset events, in which case each such reset within a given ID will increment the dosing block by 1 for that ID\\
+\hline
+ & \textbackslash{}\$obsSD & Calculated standard deviation (error) of the observation based on the assay error polynomial\\
+\hline
+ & \textbackslash{}\$d & Difference between pred and obs\\
+\hline
+ & \textbackslash{}\$ds & Squared difference between pred and obs\\
+\hline
+ & \textbackslash{}\$wd & \textbackslash{}\$d, weighted by the \textbackslash{}\$obsSD\\
+\hline
+ & \textbackslash{}\$wds & \textbackslash{}\$ds, weighted by the \textbackslash{}\$obsSD\\
+\hline
+final (class: PMfinal, list) & \textbackslash{}\$popPoints & (NPAG only) Data.frame of the final cycle joint population density of grid points with column names equal to the name of each random parameter plus \textbackslash{}\$prob for the associated probability of that point\\
+\hline
+ & \textbackslash{}\$popMean & The final cycle mean for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popSD & The final cycle standard deviation for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popCV & The final cycle coefficient of variation for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popVar & The final cycle variance for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popCov & The final cycle covariance matrix for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popCor & The final cycle correlation matrix for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popMedian & The final cycle median for each random parameter distribution\\
+\hline
+ & \textbackslash{}\$popRanFix & The final cycle values for all fixed but random parameters\\
+\hline
+ & \textbackslash{}\$postPoints & (NPAG only) Data frame of the Bayesian posterior parameter points for each of the first 100 subjects, with the following columns:\\
+\hline
+ &  & id: subject ID\\
+\hline
+ &  & point: point number for that subject\\
+\hline
+ &  & parameters: parameters in the model\\
+\hline
+ &  & prob: probability of each point in the posterior for each patient\\
+\hline
+ & \textbackslash{}\$postMean & A matrix of means of posterior distributions for each subject and parameter\\
+\hline
+ & \textbackslash{}\$postSD & A matrix of SDs of posterior distributions for each subject and parameter\\
+\hline
+ & \textbackslash{}\$postVar & A matrix of variances of posterior distributions for each subject and parameter\\
+\hline
+ & \textbackslash{}\$postCov & An array of covariance matrices for posterior parameter values for each subject\\
+\hline
+ & \textbackslash{}\$postCor & An array of correlation matrices for posterior parameter values for each subject\\
+\hline
+ & \textbackslash{}\$gridpts & (NPAG only) The initial number of support points\\
+\hline
+ & \textbackslash{}\$ab & Matrix of boundaries for random parameter values.  For NPAG, this is specified by the user prior to the run; for IT2B, it is calculated as a user specified multiple of the SD for the parameter value distribution\\
+\hline
+ &  & \\
+\hline
+cycle (class: PMcycle, list) & \textbackslash{}\$names & Vector of names of the random parameters\\
+\hline
+ & \textbackslash{}\$ll & Matrix of cycle number and -2*Log-likelihood at each cycle\\
+\hline
+ & \textbackslash{}\$gamlam & A matrix of cycle number and gamma or lambda at each cycle (see item \#16 under NPAG Runs below for a discussion of gamma and lambda)\\
+\hline
+ & \textbackslash{}\$mean & A matrix of cycle number and the mean of each random parameter at each cycle, normalized to initial mean\\
+\hline
+ & \textbackslash{}\$sd & A matrix of cycle number and the standard deviation of each random parameter at each cycle, normalized to initial standard deviation\\
+\hline
+ & \textbackslash{}\$median & A matrix of cycle number and the median of each random parameter at each cycle, normalized to initial standard deviation\\
+\hline
+ & \textbackslash{}\$aic & A matrix of cycle number and Akaike Information Criterion at each cycle\\
+\hline
+ & \textbackslash{}\$bic & A matrix of cycle number and Bayesian (Schwartz) Information Criterion at each cycle\\
+\hline
+cov (class: PMcov, data.frame) & \textbackslash{}\$id & Subject identification\\
+\hline
+ & \textbackslash{}\$time & Time for each covariate entry\\
+\hline
+ & covariates... & Covariate values for each subject at each time, extracted from the raw data file\\
+\hline
+ & parameters... & Mean, median, or mode of Bayesian posterior distribution for each random parameter in the model.  Mode summaries are available for NPAG output only, and the default is median.  Values are recycled for each row within a given subject, with the number of rows driven by the number of covariate entries\\
+\hline
+ & \textbackslash{}\$icen & Median (default) or mean of the covariates and parameter value distributions.\\
+\hline
+pop (class: PMpop, data.frame) & \textbackslash{}\$id & Subject identification\\
+\hline
+ &  & \\
+\hline
+post (class: PMpost, data.frame) &  & \\
+\hline
+ &  & \\
+\hline
+NPAG only &  & \\
+\hline
+ & \textbackslash{}\$time & Time of each prediction at a frequency specified in the NPrun() command, with a default of 12 minutes.\\
+\hline
+ & \textbackslash{}\$icen & Median (default) or mean of the parameter distributions used to calculate the predicted values.\\
+\hline
+ & \textbackslash{}\$pred & Population prior (PMpop) or Bayesian posterior (PMpost) predictions for each output equation\\
+\hline
+ & \textbackslash{}\$outeq & Output equation for each prediction\\
+\hline
+ & \textbackslash{}\$block & Same as for PMop objects above\\
+\hline
+NPdata (class: NPAG, list) ITdata (class: IT2B, list &  & Raw data used to make the above objects.  Please use ?NPparse or ?ITparse in R for discussion of the data contained in these objects\\
+\hline
+mdata (class: PMmatrix, data.frame) & See Pmetrics Input Files. & Your original raw data file.\\
+\hline
+valid (class: PMvalid, list) & Use the command str(valid.x) in R, where x is the run number & This is a list containing the information to perform graphical and numerical analysis of prediction checks and normalized prediction distribution errors.  It is a method of internal model validation.\\
+\hline
+ &  & \\
+\hline
+This object will only be present if you have run makeValid() after a run is completed. &  & \\
+\hline
+valid\textbackslash{}\$simdata (class: PMsim, list) & \textbackslash{}\$obs & A data frame with \textbackslash{}\$id, \textbackslash{}\$time, \textbackslash{}\$out, \textbackslash{}\$outeq columns containing simulated observations at each time and output equation number in the template data file.  If simulations from multiple template subjects have been combined (see Simulator Runs), then \textbackslash{}\$id will be of the form x.y, where x is the simulation number, and y is the template number.\\
+\hline
+ &  & \\
+\hline
+ &  & \\
+\hline
+ & \textbackslash{}\$amt & A data frame with \textbackslash{}\$id, \textbackslash{}\$time, \textbackslash{}\$out, \textbackslash{}\$comp columns containing simulated amounts in each compartment.\\
+\hline
+ & \textbackslash{}\$parValues & A data frame with \textbackslash{}\$id, ... columns containing the parameter value sets for each simulated subject with “...” signifying the columns named  according to the names of the random parameters in the model\\
+\hline
+ & \textbackslash{}\$totalSets & The total number of simulated sets of parameters, which may be greater than the requested number if limits were specified in the simulation (see Simulator Runs).\\
+\hline
+ & \textbackslash{}\$totalMeans & The means of the parameter values in the total simulated sets which can be used as a check of the adequacy of the simulation to reproduce the requested mean values when limits were applied.  The final truncated set will likely not have the requested mean values.\\
+\hline
+ & \textbackslash{}\$totalCov & The covariances of the parameter values in the total simulated sets which can be used as a check of the adequacy of the simulation to reproduce the requested covariance values when limits were applied.  The final truncated set will likely not have the requested covariance values.\\
+\hline
+valid\textbackslash{}\$timeBinMedian (class: data frame) & \textbackslash{}\$bin & Time bin number\\
+\hline
+ & \textbackslash{}\$time & Median time for each bin\\
+\hline
+valid\textbackslash{}\$tadBinMedian (class: data frame) & \textbackslash{}\$bin & Time after dose bin number\\
+\hline
+ & \textbackslash{}\$time & Median time after dose for each bin\\
+\hline
+valid\textbackslash{}\$opDF (class: data frame) & \textbackslash{}\$id, \textbackslash{}\$time, \textbackslash{}\$obs, \textbackslash{}\$pred, \textbackslash{}\$icen, \textbackslash{}\$outeq, \textbackslash{}\$block, \textbackslash{}\$obsSD, \textbackslash{}\$ds, \textbackslash{}\$wd, \textbackslash{}\$wds & See op above.\\
+\hline
+ & \textbackslash{}\$tad & Time after dose\\
+\hline
+ & \textbackslash{}\$PRED\_bin & Median prediction for each bin\\
+\hline
+ & \textbackslash{}\$pcObs & Prediction corrected observation (based on bin)\\
+\hline
+ & \textbackslash{}\$timeBinNum & Number of each time bin\\
+\hline
+ & \textbackslash{}\$timeBinMedian & Median time for each bin\\
+\hline
+ & \textbackslash{}\$tadBinNum & Number of each time after dose bin\\
+\hline
+ & \textbackslash{}\$tadBinMedian & Median time after dose for each bin\\
+\hline
+valid\textbackslash{}\$npde (class: NpdeObject) &  & A list of object suitable for plotting an npde.\\
+\hline
+\end{tabular}
 
-If you use \texttt{PMcode("plot")} you will see the dialog window below. It will
-allow you to select various Pmetrics objects that have been already
-loaded with \texttt{PMload}, and offer you many plot options, as well as the
-code to generate you selected plot.
+Since R is an object oriented language, to access the observations in a
+\textbf{PMop} object, for example, use the following syntax: op\$post1\$obs.
+
+Note that you will place an integer corresponding to the run number
+within the parentheses of the loading functions, e.g.~PMload(1), which
+will suffix all the above objects with that integer, e.g.~op.1, final.1,
+NPdata.1. This allows several models to be loaded into R simultaneously,
+each with a unique suffix, and which can be compared with the
+PMcompare() command (see \href{/l}{\uline{Model Diagnostics}} below).
 
   \bibliography{book.bib,packages.bib}
 

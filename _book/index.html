@@ -7,11 +7,10 @@
   <title>Pmetrics User Manual</title>
   <meta name="description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Pmetrics User Manual" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
@@ -27,7 +26,7 @@ package for R.</p>" />
 <meta name="author" content="LAPKB" />
 
 
-<meta name="date" content="2022-02-25" />
+<meta name="date" content="2022-05-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -36,7 +35,6 @@ package for R.</p>" />
   
 
 <link rel="next" href="introduction.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,8 +52,9 @@ package for R.</p>" />
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -163,10 +162,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#run-functions"><i class="fa fa-check"></i><b>3.2.1</b> Run functions</a></li>
 <li class="chapter" data-level="3.2.2" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#parse-functions"><i class="fa fa-check"></i><b>3.2.2</b> Parse functions</a></li>
-<li class="chapter" data-level="3.2.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#saving-and-loading-functions"><i class="fa fa-check"></i><b>3.2.3</b> Saving and loading functions</a></li>
-<li class="chapter" data-level="3.2.4" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#report-generation"><i class="fa fa-check"></i><b>3.2.4</b> Report generation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#saving-functions"><i class="fa fa-check"></i><b>3.2.3</b> Saving functions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#loading-functions"><i class="fa fa-check"></i><b>3.2.4</b> Loading functions</a></li>
+<li class="chapter" data-level="3.2.5" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#report-generation"><i class="fa fa-check"></i><b>3.2.5</b> Report generation</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#data-manipulation-functions"><i class="fa fa-check"></i><b>3.3</b> Data manipulation functions</a></li>
+<li class="chapter" data-level="3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#other-functions"><i class="fa fa-check"></i><b>3.3</b> Other functions</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#data-manipulation"><i class="fa fa-check"></i><b>3.3.1</b> Data manipulation</a></li>
+<li class="chapter" data-level="3.3.2" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#model-selection-and-diagnostics"><i class="fa fa-check"></i><b>3.3.2</b> Model selection and diagnostics</a></li>
+<li class="chapter" data-level="3.3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#other-functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Other functions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="general-workflow.html"><a href="general-workflow.html"><i class="fa fa-check"></i><b>4</b> General Workflow</a></li>
 <li class="chapter" data-level="5" data-path="pmetrics-input-files.html"><a href="pmetrics-input-files.html"><i class="fa fa-check"></i><b>5</b> Pmetrics Input Files</a>
@@ -215,8 +220,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-scripts-to-control-pmetrics"><i class="fa fa-check"></i><b>6.3</b> Using scripts to control Pmetrics</a></li>
 <li class="chapter" data-level="6.4" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#loading-results-after-a-completed-run"><i class="fa fa-check"></i><b>6.4</b> Loading results after a completed run</a></li>
-<li class="chapter" data-level="6.5" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-shiny-to-control-pmetrics"><i class="fa fa-check"></i><b>6.5</b> Using Shiny to control Pmetrics</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="pmetrics-data-objects.html"><a href="pmetrics-data-objects.html"><i class="fa fa-check"></i><b>7</b> Pmetrics Data Objects</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -240,21 +245,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Pmetrics User Manual</h1>
 <p class="author"><em>LAPKB</em></p>
-<p class="date"><em>2022-02-25</em></p>
+<p class="date"><em>2022-05-22</em></p>
 </div>
-<div id="preface" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Preface</h1>
+<div id="preface" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>This is the manual for Pmetrics, a population modeling and simulation package for R.</p>
 <p>Pmetrics is the result of years of labor from many people. It was created by the Laboratory of Applied Pharmacokinetics and Bioinformatics (LAPKB).</p>
-<div id="a-brief-history" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> A brief history</h2>
+<div id="a-brief-history" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> A brief history<a href="index.html#a-brief-history" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>LAPKB, established in 1973 as LAPK by Roger Jelliffe, MD, has been continually associated with the University of Southern California and the USC Keck School of Medicine. Since 2012, it has been housed under the Saban Research Institute at Children’s Hospital Los Angeles (CHLA).</p>
 <p>Since its inception, LAPKB has been a pharmacometric resource for optimal study and control of pharmacokinetic/pharmacodynamic systems and for individualized drug therapy and personalized medicine. It has been continually supported by grants, including from The National Institute for General Medical Studies (NIGMS), National Institute of Biomedical Imagining and Bioengineering (NIBIB), the Eunice Kennedy Shriver National Institute of Child Health and Human Development (NICHD), the US Food and Drug Administration (FDA), and by the Stella Slutzky Kunin Memorial Research Fund.</p>
 <p>The laboratory has employed physicians, pharmacists, engineers, statisticians, and mathematicians. LAPKB has special strengths in nonparametric statistical methods, optimal stochastic control, optimal design of pharmacokinetic experiments and clinical trials, and practical application of tools for optimal clinical therapy.</p>
 <p>The laboratory also seeks collaborative relationships to further the understanding and development of this field of Clinical Pharmacology. These collaborations may take the form of clinical trials and evaluations of therapeutic methods or of development and software implementation of new concepts. Educational opportunities in the form of workshops and visiting scholars are available to physicians, pharmacists, engineers, mathematicians, and other investigators.</p>
 </div>
-<div id="people" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> People</h2>
+<div id="people" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> People<a href="index.html#people" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This is not an exhaustive list by any means, but highlights some individuals who have made exceptional contributions to the lab.</p>
 <ul>
 <li>Roger Jellife, MD - founder and pioneer. Passed away June 22, 2002.</li>
@@ -269,8 +274,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Michael Neely, MD - current leader of the lab, physician and dabbler in statistics. He wrote all of the original Pmetrics package and continues to write to this day, in addition to all the other jobs associate with Principle Investigator and Chief of the Division of Infectious Diseases at CHLA.</li>
 </ul>
 </div>
-<div id="citing-pmetrics" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Citing Pmetrics</h2>
+<div id="citing-pmetrics" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Citing Pmetrics<a href="index.html#citing-pmetrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Please help us maintain our funding to provide Pmetrics as a free
 research tool to the pharmacometric community. If you use Pmetrics in a
 publication, you can cite it as below.</p>
@@ -295,8 +300,8 @@ publication, you can cite it as below.</p>
 ##     pages = {467-476},
 ##   }</code></pre>
 </div>
-<div id="donate" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Donate</h2>
+<div id="donate" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Donate<a href="index.html#donate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>If you appreciate the enormous work to develop and maintain Pmetrics,
 please consider a <a href="https://www.paypal.com/donate?token=3aF-w2c7Dw35BWYefFIX1QUD9j7Uu2J3KGkmh7vWF_A8ifjKc8E1Bp05NmDCH__6GwB49bXYOp_tKNpw">donation</a>.</p>
 

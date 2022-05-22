@@ -7,11 +7,10 @@
   <title>Chapter 5 Pmetrics Input Files | Pmetrics User Manual</title>
   <meta name="description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Pmetrics Input Files | Pmetrics User Manual" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
@@ -27,7 +26,7 @@ package for R.</p>" />
 <meta name="author" content="LAPKB" />
 
 
-<meta name="date" content="2022-02-25" />
+<meta name="date" content="2022-05-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -36,7 +35,6 @@ package for R.</p>" />
   
 <link rel="prev" href="general-workflow.html"/>
 <link rel="next" href="how-to-use-r-and-pmetrics.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,8 +52,9 @@ package for R.</p>" />
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -163,10 +162,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#run-functions"><i class="fa fa-check"></i><b>3.2.1</b> Run functions</a></li>
 <li class="chapter" data-level="3.2.2" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#parse-functions"><i class="fa fa-check"></i><b>3.2.2</b> Parse functions</a></li>
-<li class="chapter" data-level="3.2.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#saving-and-loading-functions"><i class="fa fa-check"></i><b>3.2.3</b> Saving and loading functions</a></li>
-<li class="chapter" data-level="3.2.4" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#report-generation"><i class="fa fa-check"></i><b>3.2.4</b> Report generation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#saving-functions"><i class="fa fa-check"></i><b>3.2.3</b> Saving functions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#loading-functions"><i class="fa fa-check"></i><b>3.2.4</b> Loading functions</a></li>
+<li class="chapter" data-level="3.2.5" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#report-generation"><i class="fa fa-check"></i><b>3.2.5</b> Report generation</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#data-manipulation-functions"><i class="fa fa-check"></i><b>3.3</b> Data manipulation functions</a></li>
+<li class="chapter" data-level="3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#other-functions"><i class="fa fa-check"></i><b>3.3</b> Other functions</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#data-manipulation"><i class="fa fa-check"></i><b>3.3.1</b> Data manipulation</a></li>
+<li class="chapter" data-level="3.3.2" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#model-selection-and-diagnostics"><i class="fa fa-check"></i><b>3.3.2</b> Model selection and diagnostics</a></li>
+<li class="chapter" data-level="3.3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#other-functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Other functions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="general-workflow.html"><a href="general-workflow.html"><i class="fa fa-check"></i><b>4</b> General Workflow</a></li>
 <li class="chapter" data-level="5" data-path="pmetrics-input-files.html"><a href="pmetrics-input-files.html"><i class="fa fa-check"></i><b>5</b> Pmetrics Input Files</a>
@@ -215,8 +220,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-scripts-to-control-pmetrics"><i class="fa fa-check"></i><b>6.3</b> Using scripts to control Pmetrics</a></li>
 <li class="chapter" data-level="6.4" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#loading-results-after-a-completed-run"><i class="fa fa-check"></i><b>6.4</b> Loading results after a completed run</a></li>
-<li class="chapter" data-level="6.5" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-shiny-to-control-pmetrics"><i class="fa fa-check"></i><b>6.5</b> Using Shiny to control Pmetrics</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="pmetrics-data-objects.html"><a href="pmetrics-data-objects.html"><i class="fa fa-check"></i><b>7</b> Pmetrics Data Objects</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -237,24 +242,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="pmetrics-input-files" class="section level1" number="5">
-<h1><span class="header-section-number">Chapter 5</span> Pmetrics Input Files</h1>
-<div id="data.csv-files" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Data.csv Files</h2>
+<div id="pmetrics-input-files" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Pmetrics Input Files<a href="pmetrics-input-files.html#pmetrics-input-files" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="data.csv-files" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Data.csv Files<a href="pmetrics-input-files.html#data.csv-files" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Pmetrics accepts input as a spreadsheet “matrix” format. It is designed
 for input of multiple records in a concise way. <strong>Please keep the number
 of characters in the file name ≤ 8.</strong></p>
-<div id="data-file-format" class="section level3" number="5.1.1">
-<h3><span class="header-section-number">5.1.1</span> Data file format</h3>
-<p>Files are in comma-separated-values (.csv) format. Examples of programs
+<p>In <span class="r6">R6</span> use <code>PM_data$new("filename")</code> to create a <code>PM_data</code> object by reading the file.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="pmetrics-input-files.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ensure that data.csv is in the working directory</span></span>
+<span id="cb15-2"><a href="pmetrics-input-files.html#cb15-2" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(<span class="st">&quot;data.csv&quot;</span>)</span></code></pre></div>
+<p>You can also build an appropriate data frame in R and provide that as an argument to <code>PM_data$new()</code>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="pmetrics-input-files.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#assume df is data frame with at least these columns:</span></span>
+<span id="cb16-2"><a href="pmetrics-input-files.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#id, time, dose, out</span></span>
+<span id="cb16-3"><a href="pmetrics-input-files.html#cb16-3" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> PM_data<span class="sc">$</span><span class="fu">new</span>(df)</span></code></pre></div>
+<p>Once you have created the <code>PM_data</code> object, you never need to create it again during your R session. You also don’t have to bother copying the data file to the Runs folder each time you run the model.</p>
+<p>In <span class="legacy">Legacy</span> you must always have the the data file in the current working directory. You can manually copy it there from a previous run or some other folder or use the shortcut of providing a prior run number as an argument to <code>NPrun</code> or <code>ITrun</code>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="pmetrics-input-files.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Run 1 - ensure that data.csv is in the working directory</span></span>
+<span id="cb17-2"><a href="pmetrics-input-files.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">NPrun</span>(<span class="st">&quot;data.csv&quot;</span>, <span class="st">&quot;model.txt&quot;</span>)</span>
+<span id="cb17-3"><a href="pmetrics-input-files.html#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="pmetrics-input-files.html#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#run 2 - use the data from run 1 in this run</span></span>
+<span id="cb17-5"><a href="pmetrics-input-files.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#note that the file model.txt still has to be copied</span></span>
+<span id="cb17-6"><a href="pmetrics-input-files.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># into the working directory in this example</span></span>
+<span id="cb17-7"><a href="pmetrics-input-files.html#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">NPrun</span>(<span class="at">data =</span> <span class="dv">1</span>, <span class="st">&quot;model.txt&quot;</span>)</span></code></pre></div>
+<div id="data-file-format" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Data file format<a href="pmetrics-input-files.html#data-file-format" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If you create your data as a file, which is the most
+common scenario, the file should be in comma-separated-values (.csv) format. It is possible
+to use other separators, like the semicolon, by setting the appropriate argument with <code>setPMoptions(sep = ";")</code>.</p>
+<p>Examples of programs
 that can save .csv files are any text editor (e.g. TextEdit on Mac,
-Notepad on Windows) or spreadsheet program (e.g. Excel). Click on
-hyperlinked items to see an explanation.</p>
+Notepad on Windows) or spreadsheet program (e.g. Excel).</p>
+<p>The file or data frame format is much more flexible in R6. The only required columns are id, time, dose, and out. You may also specify time as clock time if you include a date column. The default format of the date column is YYYY-MM-DD and HH:MM for the time column by default, but other formats can be specified. See <code>?PM_data</code> for more details. There is no header required, the column order can be anything you wish, but the names should be the same as in the legacy format below. Ultimately, <code>PM_data$new()</code> converts all valid data into the format used in legacy Pmetrics.</p>
+<p><span class="legacy">Legacy</span></p>
+<p>All .csv files must be formatted as below. As for R6, other separators are possible by using <code>setPMoptions()</code>.</p>
 <p><strong>IMPORTANT</strong>: The order, capitalization and names of the header and the
 first 12 columns are fixed. All entries must be numeric, with the
 exception of ID and “.” for non-required placeholder entries.</p>
 <p><strong><em>POPDATA DEC_11</em></strong></p>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="6%" />
+<col width="6%" />
+<col width="7%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="3%" />
+<col width="7%" />
+<col width="6%" />
+<col width="7%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="6%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">#ID</th>
@@ -552,7 +595,7 @@ missing, II is ignored.</p></li>
 to. Inputs are defined in the model file.</p></li>
 <li><p><strong><em>OUT</em></strong> This is the observation, or output value. If EVID=0, there
 must be an entry; if missing, this must be coded as -99. It will be
-ignored for any other EVID and therefore can be “.” There can be at
+ignored for any other EVID and therefore can be “.”. There can be at
 most 150 observations for a given subject.</p></li>
 <li><p><strong><em>OUTEQ</em></strong> This is the output equation number that corresponds to the
 OUT value. Output equations are defined in the model file.</p></li>
@@ -568,30 +611,51 @@ must have a value for all covariates, since the first row is always a dose.
 Covariate values are applied at the time of doses.</p></li>
 </ul>
 </div>
-<div id="manipulation-of-csv-files" class="section level3" number="5.1.2">
-<h3><span class="header-section-number">5.1.2</span> Manipulation of CSV files</h3>
-<p>There are several functions in Pmetrics which are useful for either
-converting other formats into Pmetrics data files, or checking Pmetrics
-data files for errors and fixing some of them automatically.</p>
+<div id="manipulation-of-csv-files" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> Manipulation of CSV files<a href="pmetrics-input-files.html#manipulation-of-csv-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
-<li><p><code>PMreadMatrix(filename,...)</code> This function simply reads <em>filename</em> and
-creates a PMmatrix object in memory which can be plotted (see
-<code>?plot.PMmatrix</code>) or otherwise analyzed.</p></li>
-<li><p><code>PMcheck(filename / PMmatrix, model,...)</code> This function will check a .csv
-file named <em>filename</em> or a PMmatrix data frame containing a previously
+<li><p>As we have seen, in <span class="r6">R6</span> <code>PM_data$new("filename")</code> will
+read an appropriate data file in the current working directory to create a
+new <code>PM_data</code> object. In <span class="legacy">Legacy</span><br />
+<code>PMreadMatrix("filename", ...)</code> reads <em>filename</em> and
+creates a PMmatrix object in R which can be plotted (see
+<code>?plot.PMmatrix</code>) or otherwise analyzed. However, unlike R6, it cannot be used
+to run a model. For that, you need to copy the file into the working directory
+each time, either yourself or by using the <code>NPrun(data = 1, ...)</code> shortcut, for
+example.</p></li>
+<li><p><span class="r6">R6</span> <code>PM_data$write("filename")</code> will write the <code>PM_data</code> object to a file called
+“filename”. This can be useful if you have loaded or created a data file and then
+changed it in R. <span class="legacy">Legacy</span>
+<code>PMwriteMatrix(data.frame, "filename", ...)</code> writes an
+appropriate data frame as a new .csv file. It will first check the
+data.frame for errors via the <code>PMcheck()</code> function below, and writing will
+fail if errors are detected. This can be overridden with <code>override=T</code>.</p></li>
+<li><p><span class="r6">R6</span> <code>PM_data$new()</code> automatically calls
+<code>PMcheck(filename / PMmatrix, model,...)</code>, which is also available as an
+indepedent function in either <span class="r6">R6</span> or
+<span class="legacy">Legacy</span>. This function will check a .csv
+file named <em>filename</em>, a <code>PM_data</code> object in <span class="r6">R6</span> or a
+<code>PMmatrix</code> data frame in <span class="legacy">Legacy</span> containing a previously
 loaded .csv file (the output of <code>PMreadMatrix</code>) for errors which would
 cause the analysis to fail. If a model file is provided, and the data
 file has no errors, it will also check the model file for errors. If it
 finds errors, it will generate a new errors.xlsx file with all errors
 highlighted and commented so that you can find and correct them easily.
 See <code>?PMcheck</code> for details in R.</p></li>
-<li><p><code>PMwriteMatrix(data.frame, filename,...)</code> This function writes an
-appropriate data.frame as a new .csv file. It will first check the
-data.frame for errors via the <code>PMcheck()</code> function above, and writing will
-fail if errors are detected. This can be overridden with <code>override=T</code>.</p></li>
-<li><p><code>PMmatrixRelTime()</code> This function converts dates and clock times of
+<li><p><span class="r6">R6</span> accepts data files with calendar dates and clock
+times by calling the <span class="legacy">Legacy</span> function <code>PMmatrixRelTime()</code>
+any time <code>PM_data$new()</code> is invoked. This function converts dates and clock times of
 specified formats into relative times for use in the NPAG, IT2B and
-Simulator engines. See <code>?PMmatrixRelTime</code> for details.</p></li>
+Simulator engines. This means Pmetrics in <span class="r6">R6</span> does not
+require any action by the user to handle calendar dates and clock times. In
+contrast, for <span class="legacy">Legacy</span> <code>PMmatrixRelTime()</code> must
+be called by the user and the output used to create a data frame with relative
+times that can be saves as a new .csv file with <code>PMwriteMatrix()</code>, which in turn
+serves as input to a run. See <code>?PMmatrixRelTime</code> for details.</p></li>
+</ul>
+<p>The following functions are the same in either <span class="r6">R6</span> or
+<span class="legacy">Legacy</span>.</p>
+<ul>
 <li><p><code>PMwrk2csv()</code> This function will convert old-style, single-drug USC*PACK
 .wrk formatted files into Pmetrics data .csv files. Details are
 available with <code>?PMwrk2csv</code> in R.</p></li>
@@ -606,25 +670,25 @@ with <code>?NM2PM</code> in R.</p></li>
 </ul>
 </div>
 </div>
-<div id="specifying-models-in-r6" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Specifying Models in R6</h2>
+<div id="specifying-models-in-r6" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Specifying Models in R6<a href="pmetrics-input-files.html#specifying-models-in-r6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="r6">R6</span></p>
 <p>In R6 Pmetrics, use the <code>PM_model</code> function to create models directly
-in R. See <code>?PM_model</code> for help on this object class. Blocks in the legacy model.txt files which were delimited with the “#” character become lists or character vectors in R6.</p>
+in R. See <code>?PM_model</code> for help on this object class. Blocks in the legacy model.txt files which were delimited with the “#” character become listsin R6.</p>
 <p>The R6 model components are:</p>
 <ul>
-<li><a href="pmetrics-input-files.html#priR6">PRImary</a> (list)</li>
-<li><a href="pmetrics-input-files.html#covR6">COVariate</a> (character vector)</li>
-<li><a href="pmetrics-input-files.html#secR6">SECondary</a> (character vector)</li>
-<li><a href="pmetrics-input-files.html#bolR6">BOLus</a> (character vector)</li>
-<li><a href="pmetrics-input-files.html#iniR6">INItial conditions</a> (character vector)</li>
-<li><a href="pmetrics-input-files.html#FaR6">F (bioavailability)</a> (character vector)</li>
-<li><a href="pmetrics-input-files.html#lagR6">LAG time</a> (character vector)</li>
-<li><a href="#diffR6">DIFferential equations</a> (list)</li>
-<li><a href="pmetrics-input-files.html#outR6">OUTputs</a> (list)</li>
+<li><a href="pmetrics-input-files.html#priR6">PRImary</a></li>
+<li><a href="pmetrics-input-files.html#covR6">COVariate</a></li>
+<li><a href="pmetrics-input-files.html#secR6">SECondary</a></li>
+<li><a href="pmetrics-input-files.html#bolR6">BOLus</a></li>
+<li><a href="pmetrics-input-files.html#iniR6">INItial conditions</a></li>
+<li><a href="pmetrics-input-files.html#FaR6">F (bioavailability)</a></li>
+<li><a href="pmetrics-input-files.html#lagR6">LAG time</a></li>
+<li><a href="#diffR6">DIFferential equations</a></li>
+<li><a href="pmetrics-input-files.html#outR6">OUTputs</a></li>
 </ul>
-<div id="priR6" class="section level3" number="5.2.1">
-<h3><span class="header-section-number">5.2.1</span> PRImary variables</h3>
+<div id="priR6" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> PRImary variables<a href="pmetrics-input-files.html#priR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Primary variables are the model parameters that are to be estimated by
 Pmetrics or are designated as fixed parameters with user specified
 values. It should be a list of variable names, one name to a line.
@@ -633,16 +697,16 @@ Variable names should be 11 characters or fewer. Some variable names are
 primary variable names. <strong>The number of primary variables must be
 between 2 and 32, with at most 30 random or 20 fixed.</strong></p>
 <p>Each variable can be specified by <code>range</code> or <code>msd</code>. The first defines the absolute search space for that parameter for NPAG/NPOD. For IT2B/RPEM, it defines the mean of the piror as the midpoint of the range, and the range covers 6 standard deviations, e.g. ±3 SD above and below the mean, or 99.7% of the piror distribution. <code>msd</code> is the companion function that specifies a mean and SD in IT2B and RPEM. For NPAG/NPOD, it will be converted in to a range in the reverse fashion as described for <code>range</code>. For both specifying functions, <code>gtz</code> is an argument to force the parameter value to be positive, i.e. <code>gtz=T</code>, which is the default. To allow negative parameters, set <code>gtz=F</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="pmetrics-input-files.html#cb6-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb6-2"><a href="pmetrics-input-files.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb6-3"><a href="pmetrics-input-files.html#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb6-4"><a href="pmetrics-input-files.html#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">20</span>),</span>
-<span id="cb6-5"><a href="pmetrics-input-files.html#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">eff =</span> <span class="fu">range</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">gtz=</span>F)</span>
-<span id="cb6-6"><a href="pmetrics-input-files.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-7"><a href="pmetrics-input-files.html#cb6-7" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="pmetrics-input-files.html#cb18-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb18-2"><a href="pmetrics-input-files.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb18-3"><a href="pmetrics-input-files.html#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb18-4"><a href="pmetrics-input-files.html#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">20</span>),</span>
+<span id="cb18-5"><a href="pmetrics-input-files.html#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">eff =</span> <span class="fu">range</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">gtz=</span>F)</span>
+<span id="cb18-6"><a href="pmetrics-input-files.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-7"><a href="pmetrics-input-files.html#cb18-7" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 </div>
-<div id="covR6" class="section level3" number="5.2.2">
-<h3><span class="header-section-number">5.2.2</span> COVariates</h3>
+<div id="covR6" class="section level3 hasAnchor" number="5.2.2">
+<h3><span class="header-section-number">5.2.2</span> COVariates<a href="pmetrics-input-files.html#covR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Covariates are subject specific data, such as body weight, contained in
 the data .csv file. The covariate names, which are the column names in
 the data file, must be declared, even if not used in the model object. Once declared, they can be used in secondary variable
@@ -651,59 +715,60 @@ and differential equations. The order and names should be the same as in the dat
 subject must have a value for every covariate in the data file.</p>
 <p><span class="update">Update</span> By default, missing covariate values for subsequent dose events are linearly interpolated between existing values, or carried forward if the first value is the only non-missing entry.</p>
 <p>To specify a new covariate value at a time other than a dose, enter a dose event in the data file with 0 dose amount and the new covariate value.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="pmetrics-input-files.html#cb7-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb7-2"><a href="pmetrics-input-files.html#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(...),</span>
-<span id="cb7-3"><a href="pmetrics-input-files.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">c</span>(<span class="st">&quot;wt&quot;</span>,<span class="st">&quot;age&quot;</span>)</span>
-<span id="cb7-4"><a href="pmetrics-input-files.html#cb7-4" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="pmetrics-input-files.html#cb19-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb19-2"><a href="pmetrics-input-files.html#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="fu">list</span>(...),</span>
+<span id="cb19-3"><a href="pmetrics-input-files.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(<span class="st">&quot;wt&quot;</span>,<span class="st">&quot;age&quot;</span>)</span>
+<span id="cb19-4"><a href="pmetrics-input-files.html#cb19-4" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 </div>
-<div id="secR6" class="section level3" number="5.2.3">
-<h3><span class="header-section-number">5.2.3</span> SECondary variables</h3>
+<div id="secR6" class="section level3 hasAnchor" number="5.2.3">
+<h3><span class="header-section-number">5.2.3</span> SECondary variables<a href="pmetrics-input-files.html#secR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Secondary variables are those that are defined by equations that are
 combinations of primary, covariates, and other secondary variables. If
 using other secondary variables, define them first within this block.
 Equation syntax must be Fortran. Specify each variable equation as a character vector. It is permissible to have conditional
 statements, but because expressions in this block are translated into
 variable declarations in Fortran, expressions other than of the form "X = function(Y)" must be on a new line, prefixed by "&amp;" and contain only variables which have been previously defined in the Primary, Covariate, or Secondary blocks.</p>
-<p>In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is &gt;18, in which case weight is capped at 75 kg.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="pmetrics-input-files.html#cb8-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb8-2"><a href="pmetrics-input-files.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb8-3"><a href="pmetrics-input-files.html#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb8-4"><a href="pmetrics-input-files.html#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">msd</span>(<span class="dv">10</span>,<span class="dv">3</span>),</span>
-<span id="cb8-5"><a href="pmetrics-input-files.html#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">eff =</span> <span class="fu">range</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">gtz=</span>F)</span>
-<span id="cb8-6"><a href="pmetrics-input-files.html#cb8-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb8-7"><a href="pmetrics-input-files.html#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">c</span>(<span class="st">&quot;wt&quot;</span>,<span class="st">&quot;age&quot;</span>),</span>
-<span id="cb8-8"><a href="pmetrics-input-files.html#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sec =</span> <span class="fu">c</span>(</span>
-<span id="cb8-9"><a href="pmetrics-input-files.html#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;V = V0*wt&quot;</span>,</span>
-<span id="cb8-10"><a href="pmetrics-input-files.html#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;&amp;IF(age &gt;18) V = V0 * 75&quot;</span></span>
-<span id="cb8-11"><a href="pmetrics-input-files.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-12"><a href="pmetrics-input-files.html#cb8-12" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<p>In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is &gt;18, in which case weight is capped at 75 kg. It’s the same for CL0. Note that the conditional statement is not named.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="pmetrics-input-files.html#cb20-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb20-2"><a href="pmetrics-input-files.html#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb20-3"><a href="pmetrics-input-files.html#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">CL0 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb20-4"><a href="pmetrics-input-files.html#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V0 =</span> <span class="fu">msd</span>(<span class="dv">10</span>,<span class="dv">3</span>),</span>
+<span id="cb20-5"><a href="pmetrics-input-files.html#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">eff =</span> <span class="fu">range</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">gtz=</span>F)</span>
+<span id="cb20-6"><a href="pmetrics-input-files.html#cb20-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb20-7"><a href="pmetrics-input-files.html#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(<span class="st">&quot;wt&quot;</span>,<span class="st">&quot;age&quot;</span>),</span>
+<span id="cb20-8"><a href="pmetrics-input-files.html#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sec =</span> <span class="fu">list</span>(</span>
+<span id="cb20-9"><a href="pmetrics-input-files.html#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="st">&quot;V0*wt&quot;</span>,</span>
+<span id="cb20-10"><a href="pmetrics-input-files.html#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;&amp;IF(age &gt;18) V = V0 * 75&quot;</span>,</span>
+<span id="cb20-11"><a href="pmetrics-input-files.html#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">CL =</span> <span class="st">&quot;CL0 * wt&quot;</span></span>
+<span id="cb20-12"><a href="pmetrics-input-files.html#cb20-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-13"><a href="pmetrics-input-files.html#cb20-13" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 </div>
-<div id="bolR6" class="section level3" number="5.2.4">
-<h3><span class="header-section-number">5.2.4</span> BOLus inputs</h3>
+<div id="bolR6" class="section level3 hasAnchor" number="5.2.4">
+<h3><span class="header-section-number">5.2.4</span> BOLus inputs<a href="pmetrics-input-files.html#bolR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>By default, inputs with DUR (duration) of 0 in the data .csv file are
 "delivered" instantaneously to the model compartment equal to the
 input number, i.e. input 1 goes to compartment 1, input 2 goes to
 compartment 2, etc. This can be overridden with NBOLUS(input number) =
 compartment number.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="pmetrics-input-files.html#cb9-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb9-2"><a href="pmetrics-input-files.html#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">bol =</span> <span class="st">&quot;NBCOMP(1) = 2&quot;</span></span>
-<span id="cb9-3"><a href="pmetrics-input-files.html#cb9-3" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="pmetrics-input-files.html#cb21-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb21-2"><a href="pmetrics-input-files.html#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">bol =</span> <span class="fu">list</span>(<span class="st">&quot;NBCOMP(1) = 2&quot;</span>)</span>
+<span id="cb21-3"><a href="pmetrics-input-files.html#cb21-3" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 </div>
-<div id="iniR6" class="section level3" number="5.2.5">
-<h3><span class="header-section-number">5.2.5</span> INItial conditions</h3>
+<div id="iniR6" class="section level3 hasAnchor" number="5.2.5">
+<h3><span class="header-section-number">5.2.5</span> INItial conditions<a href="pmetrics-input-files.html#iniR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>By default, all model compartments have zero amounts at time 0. This can be changed by specifying the compartment amount as X(.) = expression, where "." is the compartment number. Primary and secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An "&amp;" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="pmetrics-input-files.html#cb10-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb10-2"><a href="pmetrics-input-files.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb10-3"><a href="pmetrics-input-files.html#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb10-4"><a href="pmetrics-input-files.html#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
-<span id="cb10-5"><a href="pmetrics-input-files.html#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">IC3 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">1000</span>)</span>
-<span id="cb10-6"><a href="pmetrics-input-files.html#cb10-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb10-7"><a href="pmetrics-input-files.html#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">c</span>(<span class="st">&quot;wt&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;IC2&quot;</span>),</span>
-<span id="cb10-8"><a href="pmetrics-input-files.html#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ini =</span> <span class="fu">c</span>(</span>
-<span id="cb10-9"><a href="pmetrics-input-files.html#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(2) = IC2*V&quot;</span>,</span>
-<span id="cb10-10"><a href="pmetrics-input-files.html#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(3) = IC3&quot;</span></span>
-<span id="cb10-11"><a href="pmetrics-input-files.html#cb10-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-12"><a href="pmetrics-input-files.html#cb10-12" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="pmetrics-input-files.html#cb22-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb22-2"><a href="pmetrics-input-files.html#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb22-3"><a href="pmetrics-input-files.html#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb22-4"><a href="pmetrics-input-files.html#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
+<span id="cb22-5"><a href="pmetrics-input-files.html#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">IC3 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">1000</span>)</span>
+<span id="cb22-6"><a href="pmetrics-input-files.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb22-7"><a href="pmetrics-input-files.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov =</span> <span class="fu">list</span>(<span class="st">&quot;wt&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;IC2&quot;</span>),</span>
+<span id="cb22-8"><a href="pmetrics-input-files.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ini =</span> <span class="fu">list</span>(</span>
+<span id="cb22-9"><a href="pmetrics-input-files.html#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">X2 =</span> <span class="st">&quot;IC2*V&quot;</span>,</span>
+<span id="cb22-10"><a href="pmetrics-input-files.html#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">X3 =</span> <span class="st">&quot;IC3&quot;</span></span>
+<span id="cb22-11"><a href="pmetrics-input-files.html#cb22-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-12"><a href="pmetrics-input-files.html#cb22-12" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 <p>In the example above, IC is a covariate with the measured trough
 concentration prior to an observed dose and IC3 is a fitted primary parameter specifying an initial amount in unobserved compartment 3.</p>
 <p>In the first case, the initial condition for compartment 2 becomes the
@@ -714,61 +779,62 @@ subject has been taking a drug as an outpatient, and comes in to the lab for PK 
 another variable, IC3 defined in the <code>pri</code> list, to fit in the
 model, given the observed data.</p>
 </div>
-<div id="FaR6" class="section level3" number="5.2.6">
-<h3><span class="header-section-number">5.2.6</span> FA (bioavailability)</h3>
+<div id="FaR6" class="section level3 hasAnchor" number="5.2.6">
+<h3><span class="header-section-number">5.2.6</span> FA (bioavailability)<a href="pmetrics-input-files.html#FaR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Specify the bioavailability term, if present. Use the form FA(.) =
 expression, where "." is the input number. Primary and secondary
 variables and covariates may be used in the expression, as can
 conditional statements in Fortran code. An "&amp;" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="pmetrics-input-files.html#cb11-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb11-2"><a href="pmetrics-input-files.html#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb11-3"><a href="pmetrics-input-files.html#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb11-4"><a href="pmetrics-input-files.html#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
-<span id="cb11-5"><a href="pmetrics-input-files.html#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">FA1 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb11-6"><a href="pmetrics-input-files.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb11-7"><a href="pmetrics-input-files.html#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="st">&quot;FA(1) = FA1&quot;</span></span>
-<span id="cb11-8"><a href="pmetrics-input-files.html#cb11-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-9"><a href="pmetrics-input-files.html#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="pmetrics-input-files.html#cb23-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb23-2"><a href="pmetrics-input-files.html#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb23-3"><a href="pmetrics-input-files.html#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb23-4"><a href="pmetrics-input-files.html#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
+<span id="cb23-5"><a href="pmetrics-input-files.html#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">FA1 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="pmetrics-input-files.html#cb23-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb23-7"><a href="pmetrics-input-files.html#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fa =</span> <span class="fu">list</span>(</span>
+<span id="cb23-8"><a href="pmetrics-input-files.html#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fa1 =</span> <span class="st">&quot;FA1&quot;</span></span>
+<span id="cb23-9"><a href="pmetrics-input-files.html#cb23-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-10"><a href="pmetrics-input-files.html#cb23-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
-<div id="lagR6" class="section level3" number="5.2.7">
-<h3><span class="header-section-number">5.2.7</span> LAG time</h3>
+<div id="lagR6" class="section level3 hasAnchor" number="5.2.7">
+<h3><span class="header-section-number">5.2.7</span> LAG time<a href="pmetrics-input-files.html#lagR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Specify the lag term, if present, which is the delay after an absorbed
 dose before observed concentrations. Use the form TLAG(.) = expression, where "." is the input number. Primary and secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An "&amp;" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="pmetrics-input-files.html#cb12-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb12-2"><a href="pmetrics-input-files.html#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb12-3"><a href="pmetrics-input-files.html#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb12-4"><a href="pmetrics-input-files.html#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
-<span id="cb12-5"><a href="pmetrics-input-files.html#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">4</span>)</span>
-<span id="cb12-6"><a href="pmetrics-input-files.html#cb12-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb12-7"><a href="pmetrics-input-files.html#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="st">&quot;TLAG(1) = lag1&quot;</span></span>
-<span id="cb12-8"><a href="pmetrics-input-files.html#cb12-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-9"><a href="pmetrics-input-files.html#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div id="differential-equations" class="section level4" number="5.2.7.1">
-<h4><span class="header-section-number">5.2.7.1</span> Differential equations</h4>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="pmetrics-input-files.html#cb24-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb24-2"><a href="pmetrics-input-files.html#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb24-3"><a href="pmetrics-input-files.html#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb24-4"><a href="pmetrics-input-files.html#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
+<span id="cb24-5"><a href="pmetrics-input-files.html#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag1 =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">4</span>)</span>
+<span id="cb24-6"><a href="pmetrics-input-files.html#cb24-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb24-7"><a href="pmetrics-input-files.html#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag =</span> <span class="fu">list</span>(<span class="at">tlag1 =</span> <span class="st">&quot;lag1&quot;</span>)</span>
+<span id="cb24-8"><a href="pmetrics-input-files.html#cb24-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-9"><a href="pmetrics-input-files.html#cb24-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div id="differential-equations" class="section level4 hasAnchor" number="5.2.7.1">
+<h4><span class="header-section-number">5.2.7.1</span> Differential equations<a href="pmetrics-input-files.html#differential-equations" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Specify a model in terms of ordinary differential equations, in Fortran format. XP(.) is the notation for dX(.)/dt, where "." is the
 compartment number. X(.) is the amount in the compartment. <strong>There can
 be a maximum of 20 such equations.</strong></p>
 <p>Specify equations as elements in a list, with XP(1) replaced by XP1, for example, to name the list, and the list value a character vector in Fortran.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="pmetrics-input-files.html#cb13-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb13-2"><a href="pmetrics-input-files.html#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb13-3"><a href="pmetrics-input-files.html#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb13-4"><a href="pmetrics-input-files.html#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb13-5"><a href="pmetrics-input-files.html#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
-<span id="cb13-6"><a href="pmetrics-input-files.html#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Kcp =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb13-7"><a href="pmetrics-input-files.html#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Kpc =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>)</span>
-<span id="cb13-8"><a href="pmetrics-input-files.html#cb13-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb13-9"><a href="pmetrics-input-files.html#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">diff =</span> <span class="fu">list</span>(</span>
-<span id="cb13-10"><a href="pmetrics-input-files.html#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xp1 =</span> <span class="st">&quot;-Ka * X(1)&quot;</span>,</span>
-<span id="cb13-11"><a href="pmetrics-input-files.html#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xp2 =</span> <span class="st">&quot;RATEIV(1) + Ka * X(1) - (Ke + Kcp) * X(2) + Kpc * X(3)&quot;</span>,</span>
-<span id="cb13-12"><a href="pmetrics-input-files.html#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">xp3 =</span> <span class="st">&quot;Kcp * X(2) - Kpc * X(3)&quot;</span></span>
-<span id="cb13-13"><a href="pmetrics-input-files.html#cb13-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb13-14"><a href="pmetrics-input-files.html#cb13-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="pmetrics-input-files.html#cb25-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb25-2"><a href="pmetrics-input-files.html#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb25-3"><a href="pmetrics-input-files.html#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ka =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb25-4"><a href="pmetrics-input-files.html#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb25-5"><a href="pmetrics-input-files.html#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
+<span id="cb25-6"><a href="pmetrics-input-files.html#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Kcp =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb25-7"><a href="pmetrics-input-files.html#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Kpc =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>)</span>
+<span id="cb25-8"><a href="pmetrics-input-files.html#cb25-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb25-9"><a href="pmetrics-input-files.html#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">diff =</span> <span class="fu">list</span>(</span>
+<span id="cb25-10"><a href="pmetrics-input-files.html#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xp1 =</span> <span class="st">&quot;-Ka * X(1)&quot;</span>,</span>
+<span id="cb25-11"><a href="pmetrics-input-files.html#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xp2 =</span> <span class="st">&quot;RATEIV(1) + Ka * X(1) - (Ke + Kcp) * X(2) + Kpc * X(3)&quot;</span>,</span>
+<span id="cb25-12"><a href="pmetrics-input-files.html#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">xp3 =</span> <span class="st">&quot;Kcp * X(2) - Kpc * X(3)&quot;</span></span>
+<span id="cb25-13"><a href="pmetrics-input-files.html#cb25-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-14"><a href="pmetrics-input-files.html#cb25-14" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 <p>RATEIV(1) is the notation to indicate an infusion of input 1 (typically drug 1). The duration of the infusion and total dose is defined in the data.csv file. <strong>Up to 7 inputs are currently
 allowed.</strong> These can be used in the model file as RATEIV(1), RATEIV(2), etc. The compartments for receiving the inputs of oral (bolus) doses are defined in the <code>bol</code> list, but can be accessed by using the B(1), B(2), etc notation in equations.</p>
 </div>
 </div>
-<div id="outR6" class="section level3" number="5.2.8">
-<h3><span class="header-section-number">5.2.8</span> OUTputs</h3>
+<div id="outR6" class="section level3 hasAnchor" number="5.2.8">
+<h3><span class="header-section-number">5.2.8</span> OUTputs<a href="pmetrics-input-files.html#outR6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Output equations are in Fortran format. Outputs are of the form Y(.) =
 expression, where "." is the output equation number. Primary and
 secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An "&amp;" continuation prefix is not necessary in this block for any statement, although if present, will be ignored. <strong>There can be a maximum of 6 outputs.</strong></p>
@@ -780,18 +846,18 @@ covariates.</p>
 <ul>
 <li>To name output equations, Y(1) is replaced by Y1</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="pmetrics-input-files.html#cb14-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb14-2"><a href="pmetrics-input-files.html#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(...)</span>
-<span id="cb14-3"><a href="pmetrics-input-files.html#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="pmetrics-input-files.html#cb26-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb26-2"><a href="pmetrics-input-files.html#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(...)</span>
+<span id="cb26-3"><a href="pmetrics-input-files.html#cb26-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <ul>
 <li>The output equation is a character vector followed by an error list.</li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="pmetrics-input-files.html#cb15-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb15-2"><a href="pmetrics-input-files.html#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(</span>
-<span id="cb15-3"><a href="pmetrics-input-files.html#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(1)/V&quot;</span>,</span>
-<span id="cb15-4"><a href="pmetrics-input-files.html#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">err =</span> <span class="fu">list</span>(...)</span>
-<span id="cb15-5"><a href="pmetrics-input-files.html#cb15-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-6"><a href="pmetrics-input-files.html#cb15-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="pmetrics-input-files.html#cb27-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb27-2"><a href="pmetrics-input-files.html#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(</span>
+<span id="cb27-3"><a href="pmetrics-input-files.html#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(1)/V&quot;</span>,</span>
+<span id="cb27-4"><a href="pmetrics-input-files.html#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">err =</span> <span class="fu">list</span>(...)</span>
+<span id="cb27-5"><a href="pmetrics-input-files.html#cb27-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-6"><a href="pmetrics-input-files.html#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <ul>
 <li>The error model for an output equation has two elements. The first is the <code>model</code> error, which can be one of three functions: <code>proportional</code>, <code>additive</code>, or <code>combination</code>. The arguments to these functions are a number and optionally <code>fixed</code>, which defaults to <code>FALSE</code>. If <code>fixed</code> is <code>FALSE</code>, the number serves as the starting estimate for the model error. If <code>fixed</code> is <code>TRUE</code>, the number serves as the model error, with no estimation. Note that you can only fix <span class="math inline">\(\lambda\)</span> currently to zero.</li>
 </ul>
@@ -809,58 +875,58 @@ well-designed and executed studies and models with low mis-specification will ha
 well-designed and executed studies and models with low mis-specification will have data with <span class="math inline">\(\lambda\)</span> values approaching 0. Values of 0 may suggest over inflated assay noise. Poor quality, noisy data will result in <span class="math inline">\(\lambda\)</span> of <span class="math inline">\(5*C0\)</span> or more. A good starting value for <span class="math inline">\(\lambda\)</span> is usually <span class="math inline">\(3*C0\)</span>. Note, that <span class="math inline">\(C0\)</span>
 should generally not be 0, as it represents machine noise (e.g. HPLC or
 mass spectrometer) that is always present.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="pmetrics-input-files.html#cb16-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb16-2"><a href="pmetrics-input-files.html#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(</span>
-<span id="cb16-3"><a href="pmetrics-input-files.html#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(1)/V&quot;</span>,</span>
-<span id="cb16-4"><a href="pmetrics-input-files.html#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb16-5"><a href="pmetrics-input-files.html#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="fu">proportional</span>(<span class="dv">1</span>),</span>
-<span id="cb16-6"><a href="pmetrics-input-files.html#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb16-7"><a href="pmetrics-input-files.html#cb16-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb16-8"><a href="pmetrics-input-files.html#cb16-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb16-9"><a href="pmetrics-input-files.html#cb16-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="pmetrics-input-files.html#cb17-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
-<span id="cb17-2"><a href="pmetrics-input-files.html#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(</span>
-<span id="cb17-3"><a href="pmetrics-input-files.html#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(1)/V&quot;</span>,</span>
-<span id="cb17-4"><a href="pmetrics-input-files.html#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb17-5"><a href="pmetrics-input-files.html#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="fu">additive</span>(<span class="dv">1</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb17-6"><a href="pmetrics-input-files.html#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb17-7"><a href="pmetrics-input-files.html#cb17-7" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb17-8"><a href="pmetrics-input-files.html#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="pmetrics-input-files.html#cb28-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb28-2"><a href="pmetrics-input-files.html#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(</span>
+<span id="cb28-3"><a href="pmetrics-input-files.html#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(1)/V&quot;</span>,</span>
+<span id="cb28-4"><a href="pmetrics-input-files.html#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb28-5"><a href="pmetrics-input-files.html#cb28-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="fu">proportional</span>(<span class="dv">1</span>),</span>
+<span id="cb28-6"><a href="pmetrics-input-files.html#cb28-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb28-7"><a href="pmetrics-input-files.html#cb28-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-8"><a href="pmetrics-input-files.html#cb28-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-9"><a href="pmetrics-input-files.html#cb28-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="pmetrics-input-files.html#cb29-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">=</span> <span class="fu">list</span>(</span>
+<span id="cb29-2"><a href="pmetrics-input-files.html#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y1 =</span> <span class="fu">list</span>(</span>
+<span id="cb29-3"><a href="pmetrics-input-files.html#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;X(1)/V&quot;</span>,</span>
+<span id="cb29-4"><a href="pmetrics-input-files.html#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb29-5"><a href="pmetrics-input-files.html#cb29-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> <span class="fu">additive</span>(<span class="dv">1</span>, <span class="at">fixed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-6"><a href="pmetrics-input-files.html#cb29-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb29-7"><a href="pmetrics-input-files.html#cb29-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb29-8"><a href="pmetrics-input-files.html#cb29-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>More complete examples.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="pmetrics-input-files.html#cb18-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb18-2"><a href="pmetrics-input-files.html#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb18-3"><a href="pmetrics-input-files.html#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb18-4"><a href="pmetrics-input-files.html#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
-<span id="cb18-5"><a href="pmetrics-input-files.html#cb18-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb18-6"><a href="pmetrics-input-files.html#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="fu">list</span>(</span>
-<span id="cb18-7"><a href="pmetrics-input-files.html#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y1 =</span> <span class="fu">list</span>(</span>
-<span id="cb18-8"><a href="pmetrics-input-files.html#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;X(1)/V&quot;</span>,</span>
-<span id="cb18-9"><a href="pmetrics-input-files.html#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb18-10"><a href="pmetrics-input-files.html#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> <span class="fu">proportional</span>(<span class="dv">5</span>),</span>
-<span id="cb18-11"><a href="pmetrics-input-files.html#cb18-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb18-12"><a href="pmetrics-input-files.html#cb18-12" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb18-13"><a href="pmetrics-input-files.html#cb18-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-14"><a href="pmetrics-input-files.html#cb18-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb18-15"><a href="pmetrics-input-files.html#cb18-15" aria-hidden="true" tabindex="-1"></a>))</span>
-<span id="cb18-16"><a href="pmetrics-input-files.html#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="pmetrics-input-files.html#cb18-17" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">PM_model</span>(<span class="fu">list</span>(</span>
-<span id="cb18-18"><a href="pmetrics-input-files.html#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
-<span id="cb18-19"><a href="pmetrics-input-files.html#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">kin =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb18-20"><a href="pmetrics-input-files.html#cb18-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">kout =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb18-21"><a href="pmetrics-input-files.html#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">tpd =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
-<span id="cb18-22"><a href="pmetrics-input-files.html#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
-<span id="cb18-23"><a href="pmetrics-input-files.html#cb18-23" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb18-24"><a href="pmetrics-input-files.html#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">sec =</span> <span class="st">&quot;RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))&quot;</span>,</span>
-<span id="cb18-25"><a href="pmetrics-input-files.html#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="fu">list</span>(</span>
-<span id="cb18-26"><a href="pmetrics-input-files.html#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">y1 =</span> <span class="fu">list</span>(</span>
-<span id="cb18-27"><a href="pmetrics-input-files.html#cb18-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;RES/V&quot;</span>,</span>
-<span id="cb18-28"><a href="pmetrics-input-files.html#cb18-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">err =</span> <span class="fu">list</span>(</span>
-<span id="cb18-29"><a href="pmetrics-input-files.html#cb18-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> <span class="fu">combination</span>(<span class="fl">0.4</span>,<span class="dv">3</span>) <span class="co">#additive, proportional</span></span>
-<span id="cb18-30"><a href="pmetrics-input-files.html#cb18-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.15</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
-<span id="cb18-31"><a href="pmetrics-input-files.html#cb18-31" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb18-32"><a href="pmetrics-input-files.html#cb18-32" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb18-33"><a href="pmetrics-input-files.html#cb18-33" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb18-34"><a href="pmetrics-input-files.html#cb18-34" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="pmetrics-input-files.html#cb30-1" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb30-2"><a href="pmetrics-input-files.html#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb30-3"><a href="pmetrics-input-files.html#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ke =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb30-4"><a href="pmetrics-input-files.html#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
+<span id="cb30-5"><a href="pmetrics-input-files.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb30-6"><a href="pmetrics-input-files.html#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="fu">list</span>(</span>
+<span id="cb30-7"><a href="pmetrics-input-files.html#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y1 =</span> <span class="fu">list</span>(</span>
+<span id="cb30-8"><a href="pmetrics-input-files.html#cb30-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;X(1)/V&quot;</span>,</span>
+<span id="cb30-9"><a href="pmetrics-input-files.html#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb30-10"><a href="pmetrics-input-files.html#cb30-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> <span class="fu">proportional</span>(<span class="dv">5</span>),</span>
+<span id="cb30-11"><a href="pmetrics-input-files.html#cb30-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb30-12"><a href="pmetrics-input-files.html#cb30-12" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb30-13"><a href="pmetrics-input-files.html#cb30-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-14"><a href="pmetrics-input-files.html#cb30-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-15"><a href="pmetrics-input-files.html#cb30-15" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb30-16"><a href="pmetrics-input-files.html#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="pmetrics-input-files.html#cb30-17" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> PM_model<span class="sc">$</span><span class="fu">new</span>(<span class="fu">list</span>(</span>
+<span id="cb30-18"><a href="pmetrics-input-files.html#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">pri =</span> <span class="at">pri =</span> <span class="fu">list</span>(</span>
+<span id="cb30-19"><a href="pmetrics-input-files.html#cb30-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">kin =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb30-20"><a href="pmetrics-input-files.html#cb30-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">kout =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb30-21"><a href="pmetrics-input-files.html#cb30-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">tpd =</span> <span class="fu">range</span>(<span class="dv">0</span>,<span class="dv">5</span>),</span>
+<span id="cb30-22"><a href="pmetrics-input-files.html#cb30-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">V =</span> <span class="fu">msd</span>(<span class="dv">100</span>,<span class="dv">30</span>),</span>
+<span id="cb30-23"><a href="pmetrics-input-files.html#cb30-23" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb30-24"><a href="pmetrics-input-files.html#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">sec =</span> <span class="fu">list</span>(<span class="st">&quot;RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))&quot;</span>),</span>
+<span id="cb30-25"><a href="pmetrics-input-files.html#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">out =</span> <span class="fu">list</span>(</span>
+<span id="cb30-26"><a href="pmetrics-input-files.html#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">y1 =</span> <span class="fu">list</span>(</span>
+<span id="cb30-27"><a href="pmetrics-input-files.html#cb30-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;RES/V&quot;</span>,</span>
+<span id="cb30-28"><a href="pmetrics-input-files.html#cb30-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">err =</span> <span class="fu">list</span>(</span>
+<span id="cb30-29"><a href="pmetrics-input-files.html#cb30-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">model =</span> <span class="fu">combination</span>(<span class="fl">0.4</span>,<span class="dv">3</span>) <span class="co">#additive, proportional</span></span>
+<span id="cb30-30"><a href="pmetrics-input-files.html#cb30-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">assay =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.15</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb30-31"><a href="pmetrics-input-files.html#cb30-31" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb30-32"><a href="pmetrics-input-files.html#cb30-32" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-33"><a href="pmetrics-input-files.html#cb30-33" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-34"><a href="pmetrics-input-files.html#cb30-34" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
 <p>This last example is known as the Bateman equation for a model with
 linear absorption (KIN) into and elimination (KOUT) from a central
 compartment, and a time post-dose (TPD) or lag time. Here B(1) is the
@@ -868,8 +934,8 @@ oral bolus dosing vector for drug 1, and V is the volume of the central
 compartment.</p>
 </div>
 </div>
-<div id="specifying-models-in-legacy" class="section level2" number="5.3">
-<h2><span class="header-section-number">5.3</span> Specifying Models in Legacy</h2>
+<div id="specifying-models-in-legacy" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Specifying Models in Legacy<a href="pmetrics-input-files.html#specifying-models-in-legacy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="legacy">Legacy</span></p>
 <p>In legacy Pmetrics, models are text files that are ultimately translated into Fortran text files with a header version of TSMULT...</p>
 <p>However, after Pmetrics version 0.30, we adopted a
@@ -886,8 +952,8 @@ Fortran model file of the same name, temporarily renaming your file. At
 the end of the run, your original model file will be in the /inputs
 subfolder of the run folder, and the generated Fortran model file will
 be called “model.for” and moved to the /etc subfolder of the run folder.
-If your model is called “mymodel.txt,” then the Fortran file will be
-“mymodel.for.”</p>
+If your model is called “mymodel.txt”, then the Fortran file will be
+“mymodel.for”.</p>
 <p>You can still use appropriate Fortran model files directly, but we
 suggest you keep the .for extension for all Fortran files to avoid
 confusion with the new format. If you use a .for file as your model, you
@@ -919,8 +985,8 @@ names and expressions case is ignored. Details of each block are next,
 followed by a <a href="pmetrics-input-files.html#completeEx">complete example</a>.</p>
 <p>Important: Sometimes it is important to preserve spacing and formatting in Fortran code that you might insert into blocks, particularly the #EXTRA block. If you wish to do this, insert [format] and [/format] before and after any code that you wish to reproduce verbatim with spacing in the fortran model file.</p>
 <p>Comments: You can insert comments into your model text file by starting a line with a capital “C” followed by a space. These lines will be removed/ignored in the final fortran code.</p>
-<div id="pri" class="section level3" number="5.3.1">
-<h3><span class="header-section-number">5.3.1</span> Primary variables</h3>
+<div id="pri" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> Primary variables<a href="pmetrics-input-files.html#pri" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Primary variables are the model parameters that are to be estimated by
 Pmetrics or are designated as fixed parameters with user specified
 values. It should be a list of variable names, one name to a line.
@@ -971,8 +1037,8 @@ IC3, 0, 10000<br />
 FA1, 0.5!</p>
 </div>
 </div>
-<div id="cov" class="section level3" number="5.3.2">
-<h3><span class="header-section-number">5.3.2</span> Covariates</h3>
+<div id="cov" class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> Covariates<a href="pmetrics-input-files.html#cov" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>By default, missing covariate values for subsequent dose events are
 linearly interpolated between existing values, or carried forward if the
 first value is the only non-missing entry. To suppress interpolation and
@@ -992,8 +1058,8 @@ IC!</p>
 <p>where IC will be piece-wise constant and the other two will be linearly
 interpolated for missing values.</p>
 </div>
-<div id="sec" class="section level3" number="5.3.3">
-<h3><span class="header-section-number">5.3.3</span> Secondary variables</h3>
+<div id="sec" class="section level3 hasAnchor" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> Secondary variables<a href="pmetrics-input-files.html#sec" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Equation syntax must be Fortran. It is permissible to have conditional
 statements, but because expressions in this block are translated into
 variable declarations in Fortran, expressions other than of the form "X
@@ -1010,16 +1076,16 @@ CL = Ke * V * wt**0.75<br />
 &amp; IF(cyp .GT. 1) CL = CL * cyp</p>
 </div>
 </div>
-<div id="bol" class="section level3" number="5.3.4">
-<h3><span class="header-section-number">5.3.4</span> Bolus inputs</h3>
+<div id="bol" class="section level3 hasAnchor" number="5.3.4">
+<h3><span class="header-section-number">5.3.4</span> Bolus inputs<a href="pmetrics-input-files.html#bol" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Example:</p>
 <div class="script">
 <p>#Bol<br />
 NBCOMP(1) = 2</p>
 </div>
 </div>
-<div id="ini" class="section level3" number="5.3.5">
-<h3><span class="header-section-number">5.3.5</span> Initial conditions</h3>
+<div id="ini" class="section level3 hasAnchor" number="5.3.5">
+<h3><span class="header-section-number">5.3.5</span> Initial conditions<a href="pmetrics-input-files.html#ini" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Example:</p>
 <div class="script">
 <p>#Ini<br />
@@ -1042,8 +1108,8 @@ iteration until convergence.</p>
 another variable, IC3 defined in the #Primary block, to fit in the
 model, given the observed data.</p>
 </div>
-<div id="Fa" class="section level3" number="5.3.6">
-<h3><span class="header-section-number">5.3.6</span> Fa (bioavailability)</h3>
+<div id="Fa" class="section level3 hasAnchor" number="5.3.6">
+<h3><span class="header-section-number">5.3.6</span> Fa (bioavailability)<a href="pmetrics-input-files.html#Fa" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Specify the bioavailability term, if present. Use the form FA(.) =
 expression, where "." is the input number. Primary and secondary
 variables and covariates may be used in the expression, as can
@@ -1056,16 +1122,16 @@ be ignored.</p>
 FA(1) = FA1</p>
 </div>
 </div>
-<div id="lag" class="section level3" number="5.3.7">
-<h3><span class="header-section-number">5.3.7</span> Lag time</h3>
+<div id="lag" class="section level3 hasAnchor" number="5.3.7">
+<h3><span class="header-section-number">5.3.7</span> Lag time<a href="pmetrics-input-files.html#lag" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Example:</p>
 <div class="script">
 <p>#Lag<br />
 TLAG(1) = Tlag1</p>
 </div>
 </div>
-<div id="dif" class="section level3" number="5.3.8">
-<h3><span class="header-section-number">5.3.8</span> Differential equations</h3>
+<div id="dif" class="section level3 hasAnchor" number="5.3.8">
+<h3><span class="header-section-number">5.3.8</span> Differential equations<a href="pmetrics-input-files.html#dif" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Example:</p>
 <div class="script">
 <p>#Dif<br />
@@ -1074,8 +1140,8 @@ XP(2) = RATEIV(1) + KA*X(1) - (KE+KCP)*X(2) + KPC*X(3)<br />
 XP(3) = KCP*X(2) - KPC*X(3)</p>
 </div>
 </div>
-<div id="out" class="section level3" number="5.3.9">
-<h3><span class="header-section-number">5.3.9</span> Outputs</h3>
+<div id="out" class="section level3 hasAnchor" number="5.3.9">
+<h3><span class="header-section-number">5.3.9</span> Outputs<a href="pmetrics-input-files.html#out" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Output equations, in Fortran format. Outputs are of the form Y(.) =
 expression, where "." is the output equation number. Primary and
 secondary variables and covariates may be used in the expression, as can
@@ -1094,8 +1160,8 @@ Y(1) = X(2)/V</p>
 <p>Y(1) = RES/VD</p>
 </div>
 </div>
-<div id="err" class="section level3" number="5.3.10">
-<h3><span class="header-section-number">5.3.10</span> Error</h3>
+<div id="err" class="section level3 hasAnchor" number="5.3.10">
+<h3><span class="header-section-number">5.3.10</span> Error<a href="pmetrics-input-files.html#err" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Unlike the R6, the error block is separate from the output block. In Legacy Pmetrics, this block contains all the information Pmetrics requires for the
 structure of the error model.</p>
 <p>To specify the model in this block, the first line needs to be either
@@ -1128,21 +1194,25 @@ G=2!<br />
 </p>
 </div>
 </div>
-<div id="extra" class="section level3" number="5.3.11">
-<h3><span class="header-section-number">5.3.11</span> Extra</h3>
+<div id="extra" class="section level3 hasAnchor" number="5.3.11">
+<h3><span class="header-section-number">5.3.11</span> Extra<a href="pmetrics-input-files.html#extra" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This block is for advanced Fortran programmers only.
-&lt;span class="update&gt;Update</span>It is not yet implemented in R6.
+&lt;span class=“update&gt;Update</span>It is not yet implemented in R6.
 Occasionally, for very complex models, additional Fortran subroutines are required. They can be placed here. The code must specify complete Fortran subroutines
 which can be called from other blocks with appropriate call functions.
 As stated earlier, sometimes it is important to preserve spacing and
 formatting in Fortran code that you might insert into blocks,
 particularly the #EXTRA block. If you wish to do this, insert [format] and [/format] in the fortran model file around the affected code.</p>
 </div>
-<div id="reserved" class="section level3" number="5.3.12">
-<h3><span class="header-section-number">5.3.12</span> Reserved Names</h3>
+<div id="reserved" class="section level3 hasAnchor" number="5.3.12">
+<h3><span class="header-section-number">5.3.12</span> Reserved Names<a href="pmetrics-input-files.html#reserved" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The following cannot be used as primary, covariate, or secondary
 variable names. They can be used in equations, however.</p>
 <table>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Reserved Variable</th>
@@ -1261,8 +1331,8 @@ variable names. They can be used in equations, however.</p>
 </tbody>
 </table>
 </div>
-<div id="completeEx" class="section level3" number="5.3.13">
-<h3><span class="header-section-number">5.3.13</span> Complete Example</h3>
+<div id="completeEx" class="section level3 hasAnchor" number="5.3.13">
+<h3><span class="header-section-number">5.3.13</span> Complete Example<a href="pmetrics-input-files.html#completeEx" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here is a complete example of a model file, as of Pmetrics version 0.40
 and higher:</p>
 <div class="script">
@@ -1298,8 +1368,8 @@ and KPC are optional and specify absorption, and transfer to and from
 the central to a peripheral compartment, respectively.</p>
 <p>The comment line “C this weight is in kg” will be ignored.</p>
 </div>
-<div id="brief-fortran-tutorial" class="section level3" number="5.3.14">
-<h3><span class="header-section-number">5.3.14</span> Brief Fortran Tutorial</h3>
+<div id="brief-fortran-tutorial" class="section level3 hasAnchor" number="5.3.14">
+<h3><span class="header-section-number">5.3.14</span> Brief Fortran Tutorial<a href="pmetrics-input-files.html#brief-fortran-tutorial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Much more detailed help is available from
 <a href="http://www.cs.mtu.edu/\~shene/COURSES/cs201/NOTES/fortran.html" class="uri">http://www.cs.mtu.edu/\~shene/COURSES/cs201/NOTES/fortran.html</a>.</p>
 <table>

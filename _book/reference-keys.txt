@@ -19,9 +19,13 @@ software-engines
 pmetrics-control-functions
 run-functions
 parse-functions
-saving-and-loading-functions
+saving-functions
+loading-functions
 report-generation
-data-manipulation-functions
+other-functions
+data-manipulation
+model-selection-and-diagnostics
+other-functions-1
 general-workflow
 pmetrics-input-files
 data.csv-files
@@ -59,5 +63,4 @@ r6
 legacy
 using-scripts-to-control-pmetrics
 loading-results-after-a-completed-run
-using-shiny-to-control-pmetrics
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
+pmetrics-data-objects

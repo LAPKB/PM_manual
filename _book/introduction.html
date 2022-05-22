@@ -7,11 +7,10 @@
   <title>Chapter 2 Introduction | Pmetrics User Manual</title>
   <meta name="description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Introduction | Pmetrics User Manual" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="<p>This is the manual for the Pmetrics population modeling and simulation
 package for R.</p>" />
@@ -27,7 +26,7 @@ package for R.</p>" />
 <meta name="author" content="LAPKB" />
 
 
-<meta name="date" content="2022-02-25" />
+<meta name="date" content="2022-05-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -36,7 +35,6 @@ package for R.</p>" />
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="pmetrics-overview.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -54,8 +52,9 @@ package for R.</p>" />
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -163,10 +162,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#run-functions"><i class="fa fa-check"></i><b>3.2.1</b> Run functions</a></li>
 <li class="chapter" data-level="3.2.2" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#parse-functions"><i class="fa fa-check"></i><b>3.2.2</b> Parse functions</a></li>
-<li class="chapter" data-level="3.2.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#saving-and-loading-functions"><i class="fa fa-check"></i><b>3.2.3</b> Saving and loading functions</a></li>
-<li class="chapter" data-level="3.2.4" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#report-generation"><i class="fa fa-check"></i><b>3.2.4</b> Report generation</a></li>
+<li class="chapter" data-level="3.2.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#saving-functions"><i class="fa fa-check"></i><b>3.2.3</b> Saving functions</a></li>
+<li class="chapter" data-level="3.2.4" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#loading-functions"><i class="fa fa-check"></i><b>3.2.4</b> Loading functions</a></li>
+<li class="chapter" data-level="3.2.5" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#report-generation"><i class="fa fa-check"></i><b>3.2.5</b> Report generation</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#data-manipulation-functions"><i class="fa fa-check"></i><b>3.3</b> Data manipulation functions</a></li>
+<li class="chapter" data-level="3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#other-functions"><i class="fa fa-check"></i><b>3.3</b> Other functions</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#data-manipulation"><i class="fa fa-check"></i><b>3.3.1</b> Data manipulation</a></li>
+<li class="chapter" data-level="3.3.2" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#model-selection-and-diagnostics"><i class="fa fa-check"></i><b>3.3.2</b> Model selection and diagnostics</a></li>
+<li class="chapter" data-level="3.3.3" data-path="pmetrics-overview.html"><a href="pmetrics-overview.html#other-functions-1"><i class="fa fa-check"></i><b>3.3.3</b> Other functions</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="general-workflow.html"><a href="general-workflow.html"><i class="fa fa-check"></i><b>4</b> General Workflow</a></li>
 <li class="chapter" data-level="5" data-path="pmetrics-input-files.html"><a href="pmetrics-input-files.html"><i class="fa fa-check"></i><b>5</b> Pmetrics Input Files</a>
@@ -215,8 +220,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="6.3" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-scripts-to-control-pmetrics"><i class="fa fa-check"></i><b>6.3</b> Using scripts to control Pmetrics</a></li>
 <li class="chapter" data-level="6.4" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#loading-results-after-a-completed-run"><i class="fa fa-check"></i><b>6.4</b> Loading results after a completed run</a></li>
-<li class="chapter" data-level="6.5" data-path="how-to-use-r-and-pmetrics.html"><a href="how-to-use-r-and-pmetrics.html#using-shiny-to-control-pmetrics"><i class="fa fa-check"></i><b>6.5</b> Using Shiny to control Pmetrics</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="pmetrics-data-objects.html"><a href="pmetrics-data-objects.html"><i class="fa fa-check"></i><b>7</b> Pmetrics Data Objects</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -237,8 +242,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="introduction" class="section level1" number="2">
-<h1><span class="header-section-number">Chapter 2</span> Introduction</h1>
+<div id="introduction" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Introduction<a href="introduction.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Thank you for your interest in Pmetrics! This guide provides
 instructions and examples to assist users of the Pmetrics R package, by
 the Laboratory of Applied Pharmacokinetics and Bioinformatics at the
@@ -247,8 +252,8 @@ Department of Pediatrics, Keck School of Medicine, University of
 Southern California. Please see our website at
 <a href="http://www.lapk.org"><u>http://www.lapk.org</u></a> for more
 information.</p>
-<div id="r6-architecture" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> R6 architecture</h2>
+<div id="r6-architecture" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> R6 architecture<a href="introduction.html#r6-architecture" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><strong>As of v. 2.0</strong>, Pmetrics is shifting to an architecture less dependent on
 reading and writing files. Data files are unchanged and described later in
 this manual.</p>
@@ -269,8 +274,8 @@ in this document, but serve as templates for what may be typed into your
 R console or script. They may not necessarily be executable if typed verbatim.</p></li>
 </ul>
 </div>
-<div id="disclaimer" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Disclaimer</h2>
+<div id="disclaimer" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Disclaimer<a href="introduction.html#disclaimer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>You, the user, assume all responsibility for acting on the results
 obtained from Pmetrics. The Laboratory of Applied Pharmacokinetics and
 Bioinformatics (LAPKB), members and consultants to LAPKB, and Children’s
@@ -278,8 +283,8 @@ Hospital Los Angeles and the University of Southern California and their
 employees assume no liability whatsoever. Your use of the package
 constitutes your agreement to this provision.</p>
 </div>
-<div id="system-requirements-and-installation" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> System Requirements and Installation</h2>
+<div id="system-requirements-and-installation" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> System Requirements and Installation<a href="introduction.html#system-requirements-and-installation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Pmetrics and all required components will run under Mac (Unix), Windows,
 and Linux. There are three <em>required</em> software components
 which must be installed on your system <strong>in this order</strong>:</p>
@@ -295,20 +300,20 @@ which must be installed on your system <strong>in this order</strong>:</p>
 <p>All components have versions for Mac, Windows, and Linux environments,
 and 64- bit processors. Systems with 32-bit processors are no longer
 supported. All are free of charge.</p>
-<div id="r" class="section level4" number="2.3.0.1">
-<h4><span class="header-section-number">2.3.0.1</span> R</h4>
+<div id="r" class="section level4 hasAnchor" number="2.3.0.1">
+<h4><span class="header-section-number">2.3.0.1</span> R<a href="introduction.html#r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>R is a free software environment for statistical computing and graphics,
 which can be obtained from
 <a href="http://www.R-project.org"><u>http://www.R-project.org</u></a>.
 Pmetrics is a library for R.</p>
 </div>
-<div id="rstudio" class="section level4" number="2.3.0.2">
-<h4><span class="header-section-number">2.3.0.2</span> Rstudio</h4>
+<div id="rstudio" class="section level4 hasAnchor" number="2.3.0.2">
+<h4><span class="header-section-number">2.3.0.2</span> Rstudio<a href="introduction.html#rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We strongly recommend using <a href="http://rstudio.org/">Rstudio</a> rather than any
 other R interface.</p>
 </div>
-<div id="pmetrics" class="section level4" number="2.3.0.3">
-<h4><span class="header-section-number">2.3.0.3</span> Pmetrics</h4>
+<div id="pmetrics" class="section level4 hasAnchor" number="2.3.0.3">
+<h4><span class="header-section-number">2.3.0.3</span> Pmetrics<a href="introduction.html#pmetrics" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If you are reading this manual, then you have likely visited our website
 at <a href="http://www.lapk.org"><u>http://www.lapk.org</u></a>, where you
 can select the software tab to access instructions.
@@ -317,8 +322,8 @@ package that will install gfortran with your permission, if it is not
 already installed on your computer. Installing from github will also install
 all packages upon which Pmetrics depends.</p>
 </div>
-<div id="gfortran" class="section level4" number="2.3.0.4">
-<h4><span class="header-section-number">2.3.0.4</span> Gfortran</h4>
+<div id="gfortran" class="section level4 hasAnchor" number="2.3.0.4">
+<h4><span class="header-section-number">2.3.0.4</span> Gfortran<a href="introduction.html#gfortran" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>In order to run Pmetrics, a Fortran compiler compiler is required.
 Pmetrics is designed to work with gfortran, a free compiler. After you
 have installed Pmetrics, it will check your system for an active
@@ -333,8 +338,8 @@ instructions on how to obtain and install gfortran appropriate for your
 system on our <a href="http://www.lapk.org/Pmetrics_install_manual.php">LAPKB website</a>.</p>
 </div>
 </div>
-<div id="what-this-manual-is-not" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> What This Manual Is Not</h2>
+<div id="what-this-manual-is-not" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> What This Manual Is Not<a href="introduction.html#what-this-manual-is-not" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We assume that the user has familiarity with population modeling and R,
 and thus this manual is not a tutorial for basic concepts and techniques
 in either domain. We have tried to make the R code simple, regular and
@@ -347,8 +352,8 @@ so please feel free to contact us at any time, preferably through the
 algorithms used in IT2B or NPAG. For that, the user is directed to our
 <a href="http://www.lapk.org">website</a>.</p>
 </div>
-<div id="getting-help-and-updates" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Getting Help and Updates</h2>
+<div id="getting-help-and-updates" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Getting Help and Updates<a href="introduction.html#getting-help-and-updates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <!--There is an active [LAPK forum](http://www.lapk.org) with all kinds
 of useful tips and help with Pmetrics. Register and feel free to post! 
 -->
@@ -383,8 +388,8 @@ Currently, the following GUIs are available: `PMcode("run")` and
 `PMcode("plot")`. 
 -->
 </div>
-<div id="customizing-pmetrics-options" class="section level2" number="2.6">
-<h2><span class="header-section-number">2.6</span> Customizing Pmetrics Options</h2>
+<div id="customizing-pmetrics-options" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> Customizing Pmetrics Options<a href="introduction.html#customizing-pmetrics-options" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>You can change global options in Pmetrics with
 <code>setPMoptions(sep, dec,server\_address)</code>.</p>
 <p>Currently you can change three options: <code>sep</code> and <code>dec</code> will allow Pmetrics
