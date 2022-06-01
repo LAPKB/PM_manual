@@ -120,7 +120,7 @@
 
 \title{Pmetrics User Manual}
 \author{LAPKB}
-\date{2022-05-22}
+\date{2022-05-31}
 
 \begin{document}
 \maketitle
@@ -2119,13 +2119,26 @@ the working directory. After IT2B, this file is called ``IT2Bout.Rdata'',
 and after NPAG it is called ``NPAGout.Rdata''. As mentioned in the
 previous section, these data files can be loaded by ensuring that the
 Runs folder is set as the working directory, and then using the Pmetrics
-commands PMload(run\_num).
+commands \texttt{PM\_load()} in \textless span class=``r6\textgreater R6 or \texttt{PMload()} for
+{Legacy}.
 
 There are several Pmetrics data objects contained within the Rdata files
-which are loaded with PMload(), making these objects available for
+which are loaded, making these objects available for
 plotting and other analysis.
 
-\textbf{Objects loaded by PMload(run\_num)}
+\textless span class=``r6\textgreater R6
+
+\texttt{PM\_load()} returns a \texttt{PM\_result} object. The fields in
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res1 }\OtherTok{\textless{}{-}} \FunctionTok{PM\_load}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{res1}\SpecialCharTok{$}
+
+\ErrorTok{**}\NormalTok{Objects loaded by }\FunctionTok{PMload}\NormalTok{(run\textbackslash{}\_num)}\SpecialCharTok{**}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{tabular}{l|l|l}
 \hline
