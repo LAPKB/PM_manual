@@ -1,19 +1,58 @@
 # Pmetrics Input Files
 
+
 ## Data.csv Files
 
 Pmetrics accepts input as a spreadsheet "matrix" format. It is designed
 for input of multiple records in a concise way. **Please keep the number
 of characters in the file name ≤ 8.**
 
-### Data file format {csv_format}
-<span class="r6">R6</span>
+In <span class="r6">R6</span> use `PM_data$new("filename")` to create a `PM_data` object by reading the file.
+
+```{r echo=T, eval=FALSE}
+#ensure that data.csv is in the working directory
+data1 <- PM_data$new("data.csv")
+```
+
+You can also build an appropriate data frame in R and provide that as an argument to `PM_data$new()`.
+
+```{r echo=T, eval=FALSE}
+#assume df is data frame with at least these columns:
+#id, time, dose, out
+data1 <- PM_data$new(df)
+```
+
+Once you have created the `PM_data` object, you never need to create it again during your R session. You also don't have to bother copying the data file to the Runs folder each time you run the model.
+
+In <span class="legacy">Legacy</span> you must always have the the data file in the current working directory. You can manually copy it there from a previous run or some other folder or use the shortcut of providing a prior run number as an argument to `NPrun` or `ITrun`.
+
+```{r echo=T, eval=FALSE}
+#Run 1 - ensure that data.csv is in the working directory
+NPrun("data.csv", "model.txt")
+
+#run 2 - use the data from run 1 in this run
+#note that the file model.txt still has to be copied
+# into the working directory in this example
+NPrun(data = 1, "model.txt")
+```
+
+### Data file format
+
+If you create your data as a file, which is the most
+common scenario, the file should be in comma-separated-values (.csv) format. It is possible
+to use other separators, like the semicolon, by setting the appropriate argument with `setPMoptions(sep = ";")`. 
+
+Examples of programs
+that can save .csv files are any text editor (e.g. TextEdit on Mac,
+Notepad on Windows) or spreadsheet program (e.g. Excel). 
+
+    
+
+The file or data frame format is much more flexible in R6. The only required columns are id, time, dose, and out. You may also specify time as clock time if you include a date column. The default format of the date column is YYYY-MM-DD and HH:MM for the time column by default, but other formats can be specified. See `?PM_data` for more details. There is no header required, the column order can be anything you wish, but the names should be the same as in the legacy format below. Ultimately, `PM_data$new()` converts all valid data into the format used in legacy Pmetrics.
+
 <span class="legacy">Legacy</span>
 
-Files are in comma-separated-values (.csv) format. Examples of programs
-that can save .csv files are any text editor (e.g. TextEdit on Mac,
-Notepad on Windows) or spreadsheet program (e.g. Excel). Click on
-hyperlinked items to see an explanation.
+All .csv files must be formatted as below. As for R6, other separators are possible by using `setPMoptions()`. 
 
 **IMPORTANT**: The order, capitalization and names of the header and the
 first 12 columns are fixed. All entries must be numeric, with the
@@ -112,16 +151,33 @@ Covariate values are applied at the time of doses.
 
 ### Manipulation of CSV files
 
-There are several functions in Pmetrics which are useful for either
-converting other formats into Pmetrics data files, or checking Pmetrics
-data files for errors and fixing some of them automatically.
 
-* `PMreadMatrix(filename,...)` This function simply reads *filename* and
-creates a PMmatrix object in memory which can be plotted (see
-`?plot.PMmatrix`) or otherwise analyzed.
 
-* `PMcheck(filename / PMmatrix, model,...)` This function will check a .csv
-file named *filename* or a PMmatrix data frame containing a previously
+
+* As we have seen, in <span class="r6">R6</span> `PM_data$new("filename")` will 
+read an appropriate data file in the current working directory to create a 
+new `PM_data` object. In <span class="legacy">Legacy</span>  
+`PMreadMatrix("filename", ...)` reads *filename* and
+creates a PMmatrix object in R which can be plotted (see
+`?plot.PMmatrix`) or otherwise analyzed. However, unlike R6, it cannot be used
+to run a model. For that, you need to copy the file into the working directory
+each time, either yourself or by using the `NPrun(data = 1, ...)` shortcut, for 
+example.
+
+* <span class="r6">R6</span> `PM_data$write("filename")` will write the `PM_data` object to a file called
+"filename". This can be useful if you have loaded or created a data file and then
+changed it in R. <span class="legacy">Legacy</span> 
+`PMwriteMatrix(data.frame, "filename", ...)` writes an
+appropriate data frame as a new .csv file. It will first check the
+data.frame for errors via the `PMcheck()` function below, and writing will
+fail if errors are detected. This can be overridden with `override=T`.
+
+* <span class="r6">R6</span> `PM_data$new()` automatically calls 
+`PMcheck(filename / PMmatrix, model,...)`, which is also available as an
+indepedent function in either <span class="r6">R6</span> or 
+<span class="legacy">Legacy</span>. This function will check a .csv
+file named *filename*, a `PM_data` object in <span class="r6">R6</span> or a
+`PMmatrix` data frame in <span class="legacy">Legacy</span>  containing a previously
 loaded .csv file (the output of `PMreadMatrix`) for errors which would
 cause the analysis to fail. If a model file is provided, and the data
 file has no errors, it will also check the model file for errors. If it
@@ -129,14 +185,19 @@ finds errors, it will generate a new errors.xlsx file with all errors
 highlighted and commented so that you can find and correct them easily.
 See `?PMcheck` for details in R.
 
-* `PMwriteMatrix(data.frame, filename,...)` This function writes an
-appropriate data.frame as a new .csv file. It will first check the
-data.frame for errors via the `PMcheck()` function above, and writing will
-fail if errors are detected. This can be overridden with `override=T`.
-
-* `PMmatrixRelTime()` This function converts dates and clock times of
+* <span class="r6">R6</span> accepts data files with calendar dates and clock
+times by calling the <span class="legacy">Legacy</span> function `PMmatrixRelTime()` 
+any time `PM_data$new()` is invoked. This function converts dates and clock times of
 specified formats into relative times for use in the NPAG, IT2B and
-Simulator engines. See `?PMmatrixRelTime` for details.
+Simulator engines. This means Pmetrics in <span class="r6">R6</span> does not 
+require any action by the user to handle calendar dates and clock times. In
+contrast, for <span class="legacy">Legacy</span> `PMmatrixRelTime()` must
+be called by the user and the output used to create a data frame with relative
+times that can be saves as a new .csv file with `PMwriteMatrix()`, which in turn
+serves as input to a run. See `?PMmatrixRelTime` for details.
+
+The following functions are the same in either <span class="r6">R6</span> or 
+<span class="legacy">Legacy</span>.
 
 * `PMwrk2csv()` This function will convert old-style, single-drug USC\*PACK
 .wrk formatted files into Pmetrics data .csv files. Details are
@@ -172,19 +233,19 @@ Where `my_data.csv` is a valid .csv data file compatible with Pmetrics.
 <span class="r6">R6</span>
 
 In R6 Pmetrics, use the `PM_model` function to create models directly
-in R. See `?PM_model` for help on this object class. Blocks in the legacy model.txt files which were delimited with the "#" character become lists or character vectors in R6.
+in R. See `?PM_model` for help on this object class. Blocks in the legacy model.txt files which were delimited with the "#" character become listsin R6.
 
 The R6 model components are:
 
-* [PRImary](#priR6) (list)
-* [COVariate](#covR6) (character vector)
-* [SECondary](#secR6) (character vector)
-* [BOLus](#bolR6) (character vector)
-* [INItial conditions](#iniR6) (character vector)
-* [F (bioavailability)](#FaR6) (character vector)
-* [LAG time](#lagR6) (character vector)
-* [DIFferential equations](#diffR6) (list)
-* [OUTputs](#outR6) (list)
+* [PRImary](#priR6)
+* [COVariate](#covR6)
+* [SECondary](#secR6)
+* [BOLus](#bolR6)
+* [INItial conditions](#iniR6)
+* [F (bioavailability)](#FaR6)
+* [LAG time](#lagR6)
+* [DIFferential equations](#diffR6)
+* [OUTputs](#outR6)
 
 
 ### PRImary variables {#priR6}
@@ -225,7 +286,7 @@ To specify a new covariate value at a time other than a dose, enter a dose event
 ```{r echo=T, eval=F}
 mod <- PM_model$new(list(
   pri = list(...),
-  cov = c("wt","age")
+  cov = list("wt","age")
 ))
 ```
 
@@ -237,19 +298,20 @@ Equation syntax must be Fortran. Specify each variable equation as a character v
 statements, but because expressions in this block are translated into
 variable declarations in Fortran, expressions other than of the form \"X = function(Y)\" must be on a new line, prefixed by \"&\" and contain only variables which have been previously defined in the Primary, Covariate, or Secondary blocks. 
 
-In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is >18, in which case weight is capped at 75 kg.
+In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is >18, in which case weight is capped at 75 kg. It's the same for CL0. Note that the conditional statement is not named.
 
 ```{r echo=T, eval=F}
 mod <- PM_model$new(list(
-  pri = pri = list(
-    Ke = range(0,5),
+  pri = list(
+    CL0 = range(0,5),
     V0 = msd(10,3),
     eff = range(-2,2,gtz=F)
   ),
-  cov = c("wt","age"),
-  sec = c(
-    "V = V0*wt",
-    "&IF(age >18) V = V0 * 75"
+  cov = list("wt","age"),
+  sec = list(
+    V = "V0*wt",
+    "&IF(age >18) V = V0 * 75",
+    CL = "CL0 * wt"
   )
 ))
 ```
@@ -264,7 +326,7 @@ compartment number.
 
 ```{r echo=T, eval=F}
 mod <- PM_model$new(list(
-  bol = "NBCOMP(1) = 2"
+  bol = list("NBCOMP(1) = 2")
 ))
 ```
 ### INItial conditions {#iniR6}
@@ -278,10 +340,10 @@ mod <- PM_model$new(list(
     V = msd(100,30),
     IC3 = range(0,1000)
   ),
-  cov = c("wt","age","IC2"),
-  ini = c(
-    "X(2) = IC2*V",
-    "X(3) = IC3"
+  cov = list("wt","age","IC2"),
+  ini = list(
+    X2 = "IC2*V",
+    X3 = "IC3"
   )
 ))
 ```
@@ -312,7 +374,8 @@ mod <- PM_model$new(list(
     V = msd(100,30),
     FA1 = range(0,1)
   ),
-  fa = "FA(1) = FA1"
+  fa = list(
+    fa1 = "FA1"
   )
 )
 ```
@@ -329,7 +392,7 @@ mod <- PM_model$new(list(
     V = msd(100,30),
     lag1 = range(0,4)
   ),
-  lag = "TLAG(1) = lag1"
+  lag = list(tlag1 = "lag1")
   )
 )
 ```
@@ -464,7 +527,7 @@ mod2 <- PM_model$new(list(
     tpd = range(0,5),
     V = msd(100,30),
   ),
-  sec = "RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))",
+  sec = list("RES = B(1) * KIN/(KIN-KOUT) * (EXP(-KOUT*TPD)-EXP(-KIN*TPD))"),
   out = list(
     y1 = list(
       "RES/V",
@@ -793,36 +856,10 @@ particularly the \#EXTRA block. If you wish to do this, insert [format] and [\/f
 The following cannot be used as primary, covariate, or secondary
 variable names. They can be used in equations, however.
 
-  ----------------------- --------------------------------------------------------
-  **Reserved Variable**   **Function in Pmetrics**
-  ndim                    internal
-  t                       time
-  x                       array of compartment amounts
-  xp                      array of first derivative of compartment amounts
-  rpar                    internal
-  ipar                    internal
-  p                       array of primary parameters
-  r                       input rates
-  b                       input boluses
-  npl                     internal
-  numeqt                  output equation number
-  ndrug                   input number
-  nadd                    covariate number
-  rateiv                  intravenous input for inputs when DUR\>0 in data files
-  cv                      covariate values array
-  n                       number of compartments
-  nd                      internal
-  ni                      internal
-  nup                     internal
-  nuic                    internal
-  np                      number of primary parameters
-  nbcomp                  bolus compartment array
-  psym                    names of primary parameters
-  fa                      biovailability
-  tlag                    lag time
-  tin                     internal
-  tout                    internal
-  ----------------------- --------------------------------------------------------
+```{r echo=F}
+res <- read.csv("Data/reserved.csv")
+knitr::kable(res, col.names = gsub("[.]", " ", names(res)))
+```
 
 
 ### Complete Example {#completeEx}
@@ -870,24 +907,23 @@ The comment line "C this weight is in kg" will be ignored.
 Much more detailed help is available from
 http://www.cs.mtu.edu/\~shene/COURSES/cs201/NOTES/fortran.html.
 
-  ------------------------- ----------------
-  **Arithmetic Operator**   **Meaning**
-  \+                        addition
-  \-                        subtraction
-  \*                        multiplication
-  /                         division
-  \*\*                      exponentiation
-  ------------------------- ----------------
+```{r echo=F}
+for1 <- read.csv("Data/fortran1.csv")
+knitr::kable(for1, col.names = gsub("[.]", " ", names(for1)))
 
-  ------------------------- ----------------- -----------------------
-  **Relational Operator**   **Alternative**   **Meaning**
-  \<                        .LT.              less than
-  \<=                       .LE.              less than or equal
-  \>                        .GT.              greater than
-  \>=                       .GE.              greater than or equal
-  ==                        .EQ.              equal
-  /=                        .NE.              not equal
-  ------------------------- ----------------- -----------------------
+```
+
+
+
+------------------------- ----------------- -----------------------
+**Relational Operator**   **Alternative**   **Meaning**
+\<                        .LT.              less than
+\<=                       .LE.              less than or equal
+\>                        .GT.              greater than
+\>=                       .GE.              greater than or equal
+==                        .EQ.              equal
+/=                        .NE.              not equal
+------------------------- ----------------- -----------------------
 
 +---------------------------------------+------------------------+
 | **Selective Execution**               | **Example**            |

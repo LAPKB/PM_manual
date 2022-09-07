@@ -1,0 +1,45 @@
+# Pmetrics Data Objects
+
+
+After a successful IT2B or NPAG run, an R datafile is saved in the
+output subdirectory of the newly created numerically ordered folder in
+the working directory. After IT2B, this file is called "IT2Bout.Rdata",
+and after NPAG it is called "NPAGout.Rdata". As mentioned in the
+previous section, these data files can be loaded by ensuring that the
+Runs folder is set as the working directory, and then using the Pmetrics
+commands `PM_load()` in <span class="r6>R6</span> or `PMload()` for 
+<span class="legacy">Legacy</span>.
+
+There are several Pmetrics data objects contained within the Rdata files
+which are loaded, making these objects available for
+plotting and other analysis. 
+
+<span class="r6>R6</span>
+
+`PM_load()` returns a `PM_result` object. The fields in 
+
+``` {r echo=T, eval=F}
+res1 <- PM_load(1)
+
+res1$
+
+**Objects loaded by PMload(run\_num)**
+
+```{r echo=F, results='asis'}
+library(knitr)
+tabObj <- read.csv("Data/Objects.csv",na.strings=".")
+kable(tabObj)
+```
+
+
+Since R is an object oriented language, to access the observations in a
+**PMop** object, for example, use the following syntax: op\$post1\$obs.
+
+Note that you will place an integer corresponding to the run number
+within the parentheses of the loading functions, e.g. PMload(1), which
+will suffix all the above objects with that integer, e.g. op.1, final.1,
+NPdata.1. This allows several models to be loaded into R simultaneously,
+each with a unique suffix, and which can be compared with the
+PMcompare() command (see [[Model Diagnostics]{.underline}](\l) below).
+
+ 
