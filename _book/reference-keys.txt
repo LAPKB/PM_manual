@@ -25,8 +25,9 @@ data-manipulation-functions
 general-workflow
 pmetrics-input-files
 data.csv-files
-data-file-format
+data-file-format-csv_format
 manipulation-of-csv-files
+specifying-data-objects-in-r6
 specifying-models-in-r6
 priR6
 covR6
@@ -44,7 +45,6 @@ sec
 bol
 ini
 Fa
-section
 lag
 dif
 out
@@ -53,3 +53,12 @@ extra
 reserved
 completeEx
 brief-fortran-tutorial
+using-legacy-models-in-r6
+how-to-use-r-and-pmetrics
+setting-up-a-pmetrics-project
+getting-the-required-inputs-to-run-pmetrics
+r6
+legacy
+using-scripts-to-control-pmetrics
+loading-results-after-a-completed-run
+using-shiny-to-control-pmetrics

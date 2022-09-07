@@ -31,6 +31,50 @@ own entirely.
 ### R6
 <span class="r6">R6</span>
 
+There is a full tutorial encoded inside Pmetrics to teach new users the basic functionality of the whole package. To start that tutorial in R type:
+```{r echo=T, eval=F}
+library(Pmetrics)
+PM_tutorial()
+```
+And follow the instructions prompted in the terminal.
+
+To setup a R6 Pmetrics run, you must provide a `PM_data` and a `PM_model` objects.
+It does not matter where the files (if there are any) that represent those files are located on your system.
+
+Both objects provide a `$check` method to validate the consistency of each one:
+```{r echo=T, eval=F}
+my_model <- PM_model$new(...)
+my_data <- PM_data$new(...)
+
+# Scan both model and data for errors
+my_model$check()
+my_data$check()
+
+```
+
+The next step is to define a fitting problem, this is an object that represents a fitting proccess that will be solved by Pmetrics. On its minimum a fitting problem consists of a data object and a model object. This object is represented by the `PM_fit` class, let's see a couple of examples:
+```{r echo=T, eval=F}
+my_data <- PM_data$new(...)
+my_simple_model <- PM_model$new(...)
+my_complex_model <- PM_model$new(...)
+
+#Here we're defining a fitting problem using the drug's data and a simple model:
+simple_fit <- PM_fit$new(my_data, my_simple_model)
+
+#Let's do the same but using the other model
+complex_fit <- PM_fit$new(my_data, my_complex_model)
+```
+
+The fit object also contains a cumple of methods attached to it, i.e:
+
+```{r echo=T, eval=F}
+simple_fit$check() #This will check the consistency between the model and the data
+complex_fit$save("complex_fit.rds") #This will save the fit to a file in your working directory
+
+my_complex_fit_again <- PM_fit$load("complex_fit.rds") #This will load the fit again from disk
+```
+
+To see the full list of methods available see `?PM_fit`.
 
 
 ### Legacy
@@ -53,6 +97,7 @@ downloads](http://lapk.org/pmetrics.php) section of our
 website. Edit prior versions of model files to make new model files.
 
 ## Using scripts to control Pmetrics
+<span class="legacy">Legacy</span>
 
 As you will see in the skeleton R script made by `PMtree` and placed in
 the Rscript subdirectory, if this is a first-time run, the R commands to
@@ -84,7 +129,14 @@ Both functions return the full path of the output directory to
 the clipboard. By default, runs are placed in folders numbered
 sequentially, beginning with "1".
 
+<span class="r6">R6</span>
+
+
+
+
+
 ## Loading results after a completed run
+<span class="legacy">Legacy</span>
 
 Now the output of IT2B or NPAG needs to be loaded into R, so the next
 command does this.

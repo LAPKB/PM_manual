@@ -6,7 +6,9 @@ Pmetrics accepts input as a spreadsheet "matrix" format. It is designed
 for input of multiple records in a concise way. **Please keep the number
 of characters in the file name ≤ 8.**
 
-### Data file format
+### Data file format {csv_format}
+<span class="r6">R6</span>
+<span class="legacy">Legacy</span>
 
 Files are in comma-separated-values (.csv) format. Examples of programs
 that can save .csv files are any text editor (e.g. TextEdit on Mac,
@@ -150,6 +152,21 @@ examples, but there are probably NONMEM files which will cause it to
 crash. Running `PMcheck()` afterwards is a good idea. Details can be found
 with `?NM2PM` in R.
 
+### Specifying Data Objects in R6
+
+<span class="r6">R6</span>
+
+R6 introduces a new concept, the data object. The idea of this object is to represent a dataset that is going to be modeled/simulated.
+All its behaviour is represented by the class `PM_data`. This class allows datasets to be checked, plotted, written to disk and more.
+
+To create a PM_data object, users should have their data in the .csv format explained [here](#csv_format), and use the function `PM_data$new()` i.e:
+
+```{r echo=T, eval=F}
+drug_data <- PM_data$new("my_data.csv")
+```
+
+Where `my_data.csv` is a valid .csv data file compatible with Pmetrics.
+
 ## Specifying Models in R6
 
 <span class="r6">R6</span>
@@ -182,7 +199,7 @@ between 2 and 32, with at most 30 random or 20 fixed.**
 Each variable can be specified by `range` or `msd`. The first defines the absolute search space for that parameter for NPAG/NPOD. For IT2B/RPEM, it defines the mean of the piror as the midpoint of the range, and the range covers 6 standard deviations, e.g. ±3 SD above and below the mean, or 99.7% of the piror distribution. `msd` is the companion function that specifies a mean and SD in IT2B and RPEM. For NPAG/NPOD, it will be converted in to a range in the reverse fashion as described for `range`. For both specifying functions, `gtz` is an argument to force the parameter value to be positive, i.e. `gtz=T`, which is the default. To allow negative parameters, set `gtz=F`.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = list(
     Ke = range(0,5),
     V = msd(100,20),
@@ -206,7 +223,7 @@ subject must have a value for every covariate in the data file.
 To specify a new covariate value at a time other than a dose, enter a dose event in the data file with 0 dose amount and the new covariate value.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = list(...),
   cov = c("wt","age")
 ))
@@ -223,7 +240,7 @@ variable declarations in Fortran, expressions other than of the form \"X = funct
 In the example below, V0 is the primary parameter which will be estimated, but internally, the model uses V as V0*wt, unless age is >18, in which case weight is capped at 75 kg.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V0 = msd(10,3),
@@ -246,7 +263,7 @@ compartment 2, etc. This can be overridden with NBOLUS(input number) =
 compartment number.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   bol = "NBCOMP(1) = 2"
 ))
 ```
@@ -255,7 +272,7 @@ mod <- PM_model(list(
 By default, all model compartments have zero amounts at time 0. This can be changed by specifying the compartment amount as X(.) = expression, where \".\" is the compartment number. Primary and secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An \"&\" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
@@ -289,7 +306,7 @@ variables and covariates may be used in the expression, as can
 conditional statements in Fortran code. An \"&\" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
@@ -306,7 +323,7 @@ Specify the lag term, if present, which is the delay after an absorbed
 dose before observed concentrations. Use the form TLAG(.) = expression, where \".\" is the input number. Primary and secondary variables and covariates may be used in the expression, as can conditional statements in Fortran code. An \"&\" continuation prefix is not necessary in this block for any statement, although if present, will be ignored.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
@@ -327,7 +344,7 @@ Specify equations as elements in a list, with XP(1) replaced by XP1, for example
 
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ka = range(0,5),
     Ke = range(0,5),
@@ -424,7 +441,7 @@ out = list(
 More complete examples.
 
 ```{r echo=T, eval=F}
-mod <- PM_model(list(
+mod <- PM_model$new(list(
   pri = pri = list(
     Ke = range(0,5),
     V = msd(100,30),
@@ -440,7 +457,7 @@ mod <- PM_model(list(
   )
 ))
 
-mod2 <- PM_model(list(
+mod2 <- PM_model$new(list(
   pri = pri = list(
     kin = range(0,5),
     kout = range(0,5),
@@ -896,3 +913,16 @@ http://www.cs.mtu.edu/\~shene/COURSES/cs201/NOTES/fortran.html.
 | END IF                                | END IF                 |
 +---------------------------------------+------------------------+
 
+
+## Using legacy models in R6
+
+<span class="r6">R6</span>
+<span class="to-be-reviewed">TBR</span>
+
+Pmetrics allows users to re-use old text-file based models withing the R6 framework by using the following syntax:
+
+```{r echo=T, eval=F}
+mod <- PM_model$new("model.txt")
+```
+
+Where model.txt is a model file present in your current working directory. The object obtained will a PM_model and have access to all methods of that class. see `?PM_model` for more information.

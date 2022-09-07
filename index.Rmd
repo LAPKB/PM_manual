@@ -39,7 +39,7 @@ The laboratory also seeks collaborative relationships to further the understandi
 
 This is not an exhaustive list by any means, but highlights some individuals who have made exceptional contributions to the lab.
 
-* Roger Jellife, MD - founder and pioneer. Passed away  June 22, 2002.
+* Roger Jellife, MD - founder and pioneer. Passed away  June 22, 2020.
 * Alan Schumitzky, PhD - Emeritus Professor of Mathematics at USC. Professor Schumitzky's research interests are focused on estimation and control theory, applied pharmacokinetics, complex analysis, and software development. He developed NPEM, co-developed NPAG, NPOD, and every other algorithm from the lab, and he continues to share his genius.
 * Robert Leary, PhD - co-developer of NPAG and former consultant to the lab. 
 * David Bayard, PhD - consultant to the lab and expert in optimal control. He developed the Multiple Model algorithm powering BestDose, as well as the MMopt optimal sampling algorithm.
@@ -63,7 +63,17 @@ citation("Pmetrics")
 ## Donate
 
 If you appreciate the enormous work to develop and maintain Pmetrics,
-please consider a [donation](https://www.paypal.com/donate?token=3aF-w2c7Dw35BWYefFIX1QUD9j7Uu2J3KGkmh7vWF_A8ifjKc8E1Bp05NmDCH__6GwB49bXYOp_tKNpw).
+please consider a donation.
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+  <input type="hidden" name="cmd" value="_s-xclick">
+  <input type="hidden" name="hosted_button_id" value="5QPCGE2M68SGL">
+  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0"
+  name="submit" title="PayPal - The safer, easier way to pay online!"
+  alt="Donate with PayPal button">
+  <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+
 
 
 ```{r include=FALSE}

@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Pmetrics Overview | Pmetrics User Manual</title>
+  <title>Chapter 6 How to use R and Pmetrics | Pmetrics User Manual</title>
   <meta name="description" content="This is the manual for the Pmetrics population modeling and simulation
 package for R." />
   <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Pmetrics Overview | Pmetrics User Manual" />
+  <meta property="og:title" content="Chapter 6 How to use R and Pmetrics | Pmetrics User Manual" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is the manual for the Pmetrics population modeling and simulation
@@ -17,7 +17,7 @@ package for R." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Pmetrics Overview | Pmetrics User Manual" />
+  <meta name="twitter:title" content="Chapter 6 How to use R and Pmetrics | Pmetrics User Manual" />
   
   <meta name="twitter:description" content="This is the manual for the Pmetrics population modeling and simulation
 package for R." />
@@ -33,8 +33,8 @@ package for R." />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="introduction.html"/>
-<link rel="next" href="general-workflow.html"/>
+<link rel="prev" href="pmetrics-input-files.html"/>
+
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -226,144 +226,165 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="pmetrics-overview" class="section level1 hasAnchor">
-<h1><span class="header-section-number">Chapter 3</span> Pmetrics Overview<a href="pmetrics-overview.html#pmetrics-overview" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="software-engines" class="section level2 hasAnchor">
-<h2><span class="header-section-number">3.1</span> Software engines<a href="pmetrics-overview.html#software-engines" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>There are three main software engines that Pmetrics controls.</p>
+<div id="how-to-use-r-and-pmetrics" class="section level1 hasAnchor">
+<h1><span class="header-section-number">Chapter 6</span> How to use R and Pmetrics<a href="how-to-use-r-and-pmetrics.html#how-to-use-r-and-pmetrics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this section, we suggest a workflow to help you maintain organized
+modeling projects.</p>
+<div id="setting-up-a-pmetrics-project" class="section level2 hasAnchor">
+<h2><span class="header-section-number">6.1</span> Setting up a Pmetrics project<a href="how-to-use-r-and-pmetrics.html#setting-up-a-pmetrics-project" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When beginning a new modeling project, it is convenient to use the
+command <code>PMtree</code>. This command will set up a new directory
+in the current working directory named whatever you have included as the
+“project name”.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">PMtree</span>(<span class="st">&quot;DrugX&quot;</span>)</a></code></pre></div>
+<p>In the above example, a directory called “DrugX” will be created
+in the current working directory in R, which you can check with the <code>getwd</code> function. Beneath the new DrugX directory, several subdirectories will
+be also created.</p>
 <ul>
-<li><p><strong>IT2B</strong> is the ITerative 2-stage Bayesian parametric population PK modeling
-program. It is generally used to estimate parameter ranges to pass to
-NPAG. It will estimate values for population model parameters under the
-assumption that the underlying distributions of those values are normal
-or transformed to normal.</p></li>
-<li><p><strong>NPAG</strong> is the Non-parametric Adaptive Grid software. It will create a
-non-parametric population model consisting of discrete support points,
-each with a set of estimates for all parameters in the model plus an
-associated probability (weight) of that set of estimates. There can be
-at most one point for each subject in the study population. There is no
-need for any assumption about the underlying distribution of model
-parameter values.</p></li>
-<li><p>The <strong>Simulator</strong> is a semi-parametric Monte Carlo simulation software
-program that can use the output of IT2B or NPAG to build randomly
-generated response profiles (e.g. time-concentration curves) for a given
-population model, parameter estimates, and data input. Simulation from a
-non-parametric joint density model, i.e. NPAG output, is possible, with
-each point serving as the mean of a multivariate normal distribution,
-weighted according to the weight of the point. The covariance matrix of
-the entire set of support points is divided equally among the points for
-the purposes of simulation.</p></li>
+<li><strong>Rscript</strong> contains a skeleton R script to begin Pmetrics runs in the new project.</li>
+<li><strong>Runs</strong> should contain all files required for a run (described next) and it will also contain the resulting numerically ordered run directories created after each Pmetrics NPAG or IT2B run.</li>
+<li><strong>Sim</strong> can contain any files related to simulations</li>
+<li><strong>src</strong> is a repository for original and manipulated source data files</li>
 </ul>
+<p>You are free to edit this directory tree structure as you please, or make your
+own entirely.</p>
 </div>
-<div id="pmetrics-control-functions" class="section level2 hasAnchor">
-<h2><span class="header-section-number">3.2</span> Pmetrics control functions<a href="pmetrics-overview.html#pmetrics-control-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="getting-the-required-inputs-to-run-pmetrics" class="section level2 hasAnchor">
+<h2><span class="header-section-number">6.2</span> Getting the required inputs to run Pmetrics<a href="how-to-use-r-and-pmetrics.html#getting-the-required-inputs-to-run-pmetrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="r6" class="section level3 hasAnchor">
+<h3><span class="header-section-number">6.2.1</span> R6<a href="how-to-use-r-and-pmetrics.html#r6" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="r6">R6</span></p>
-<p>Pmetrics uses <code>PM_model</code> to create model objects and <code>PM_fit</code> to create
-objects that combine the model with the data, ready to be run (fitted),
-generating probability distributions for primary model parameters.</p>
-<p>These functions replace the following Legacy functions: <code>ITrun</code>, <code>ERRrun</code>,
-<code>NPrun</code>.</p>
-<p><code>PMload</code> is aliased as <code>PM_load</code> for consistency with the above functions.
-Similar to the Legacy version, it loads the results of a run into R to be
-accessible to the user for analysis, plotting, etc. Different from the Legacy
-version, it loads the results into another R6 object, <code>PM_result</code> instead of
-the current environment.</p>
-<p>Invoking the simulator in R6 is unchanged, i.e. use <code>SIMrun</code>.</p>
+<p>There is a full tutorial encoded inside Pmetrics to teach new users the basic functionality of the whole package. To start that tutorial in R type:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">library</span>(Pmetrics)</a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">PM_tutorial</span>()</a></code></pre></div>
+<p>And follow the instructions prompted in the terminal.</p>
+<p>To setup a R6 Pmetrics run, you must provide a <code>PM_data</code> and a <code>PM_model</code> objects.
+It does not matter where the files (if there are any) that represent those files are located on your system.</p>
+<p>Both objects provide a <code>$check</code> method to validate the consistency of each one:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">my_model &lt;-<span class="st"> </span>PM_model<span class="op">$</span><span class="kw">new</span>(...)</a>
+<a class="sourceLine" id="cb23-2" title="2">my_data &lt;-<span class="st"> </span>PM_data<span class="op">$</span><span class="kw">new</span>(...)</a>
+<a class="sourceLine" id="cb23-3" title="3"></a>
+<a class="sourceLine" id="cb23-4" title="4"><span class="co"># Scan both model and data for errors</span></a>
+<a class="sourceLine" id="cb23-5" title="5">my_model<span class="op">$</span><span class="kw">check</span>()</a>
+<a class="sourceLine" id="cb23-6" title="6">my_data<span class="op">$</span><span class="kw">check</span>()</a></code></pre></div>
+<p>The next step is to define a fitting problem, this is an object that represents a fitting proccess that will be solved by Pmetrics. On its minimum a fitting problem consists of a data object and a model object. This object is represented by the <code>PM_fit</code> class, let’s see a couple of examples:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">my_data &lt;-<span class="st"> </span>PM_data<span class="op">$</span><span class="kw">new</span>(...)</a>
+<a class="sourceLine" id="cb24-2" title="2">my_simple_model &lt;-<span class="st"> </span>PM_model<span class="op">$</span><span class="kw">new</span>(...)</a>
+<a class="sourceLine" id="cb24-3" title="3">my_complex_model &lt;-<span class="st"> </span>PM_model<span class="op">$</span><span class="kw">new</span>(...)</a>
+<a class="sourceLine" id="cb24-4" title="4"></a>
+<a class="sourceLine" id="cb24-5" title="5"><span class="co">#Here we&#39;re defining a fitting problem using the drug&#39;s data and a simple model:</span></a>
+<a class="sourceLine" id="cb24-6" title="6">simple_fit &lt;-<span class="st"> </span>PM_fit<span class="op">$</span><span class="kw">new</span>(my_data, my_simple_model)</a>
+<a class="sourceLine" id="cb24-7" title="7"></a>
+<a class="sourceLine" id="cb24-8" title="8"><span class="co">#Let&#39;s do the same but using the other model</span></a>
+<a class="sourceLine" id="cb24-9" title="9">complex_fit &lt;-<span class="st"> </span>PM_fit<span class="op">$</span><span class="kw">new</span>(my_data, my_complex_model)</a></code></pre></div>
+<p>The fit object also contains a cumple of methods attached to it, i.e:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">simple_fit<span class="op">$</span><span class="kw">check</span>() <span class="co">#This will check the consistency between the model and the data</span></a>
+<a class="sourceLine" id="cb25-2" title="2">complex_fit<span class="op">$</span><span class="kw">save</span>(<span class="st">&quot;complex_fit.rds&quot;</span>) <span class="co">#This will save the fit to a file in your working directory</span></a>
+<a class="sourceLine" id="cb25-3" title="3"></a>
+<a class="sourceLine" id="cb25-4" title="4">my_complex_fit_again &lt;-<span class="st"> </span>PM_fit<span class="op">$</span><span class="kw">load</span>(<span class="st">&quot;complex_fit.rds&quot;</span>) <span class="co">#This will load the fit again from disk</span></a></code></pre></div>
+<p>To see the full list of methods available see <code>?PM_fit</code>.</p>
+</div>
+<div id="legacy" class="section level3 hasAnchor">
+<h3><span class="header-section-number">6.2.2</span> Legacy<a href="how-to-use-r-and-pmetrics.html#legacy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><span class="legacy">Legacy</span></p>
-<p>Pmetrics has groups of R functions named logically to run each of these
-programs and to extract the output. Again, these are extensively
-documented within R by using the <code>help(command)</code> or <code>?command syntax</code>.</p>
-<ul>
-<li><p><code>ITrun</code>, <code>ITparse</code>, <code>ERRrun</code></p></li>
-<li><p><code>NPrun</code>, <code>NPparse</code></p></li>
-<li><p><code>PMload</code>, <code>PMsave</code>, <code>PMreport</code></p></li>
-<li><p><code>SIMrun</code>, <code>SIMparse</code></p></li>
-</ul>
-<div id="run-functions" class="section level3 hasAnchor">
-<h3><span class="header-section-number">3.2.1</span> Run functions<a href="pmetrics-overview.html#run-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><span class="r6">R6</span></p>
-<p>Once a <code>PM_fit</code> object is created, which combines a model with a data file,
-it can be run by using the syntax <code>$run()</code> to access the appropriate function
-defined for the <code>PM_fit</code> object.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">run1 &lt;-<span class="st"> </span><span class="kw">PM_fit</span>(model,data)</a>
-<a class="sourceLine" id="cb3-2" title="2">run1<span class="op">$</span><span class="kw">run</span>(options)</a></code></pre></div>
-<p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
-<p>For IT2B and NPAG, the “run” functions generate batch files, which when
-executed, launch the software programs to do the analysis. <code>$run(engine="err")</code>
-or <code>ERRrun()</code> is a special implementation of IT2B designed to estimate
-the assay error polynomial coefficients from the data, when they cannot be calculated from assay validation data (using <code>makeErrorPoly()</code>) supplied by the
-analytical laboratory. The batch files contain all the information
-necessary to complete a run, tidy the output into a date/time stamped
-directory with meaningful subdirectories, extract the information,
-generate a report, and a saved Rdata file of parsed output which can be
-quickly and easily loaded into R. On Mac (Unix) and Linux systems,
-the batch file automatically launches in a Terminal window.
-Prior to v1.9, on Windows systems, the batch file was launched manually,
-but as of v1.9, this manual step is no longer necessary. The execution of
-the program to do the actual model parameter estimation is independent
-of R, so that the user is free to use R for other purposes.</p>
-<p>For the Simulator, the <code>SIMrun</code> function will execute the program
-directly within R.</p>
+<p>When you wish to execute a Pmetrics run, you must ensure that
+appropriate Pmetrics model.txt and data.csv files are in the working
+directory, i.e. the Runs subdirectory of the project directory. R can be
+used to help prepare the data.csv file by importing and manipulating
+spreadsheets (e.g. <code>read.csv</code>). The Pmetrics function <code>PMcheck</code> can be
+used to check a .csv file or an R dataframe that is to be saved as a
+Pmetrics data.csv file for errors. It can also check a model file for
+errors in the context of a datafile, e.g. covariates that do not match.
+<code>PMcheck(...,fix=T)</code> attempts to automatically rid data files of errors.
+The function <code>PMwriteMatrix</code> can be used to write the R data object in
+the correct format for use by IT2B, NPAG, or the Simulator.</p>
+<p>You can also download sample data and scripts from the <a href="http://lapk.org/pmetrics.php">Pmetrics
+downloads</a> section of our
+website. Edit prior versions of model files to make new model files.</p>
 </div>
-<div id="parse-functions" class="section level3 hasAnchor">
-<h3><span class="header-section-number">3.2.2</span> Parse functions<a href="pmetrics-overview.html#parse-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
-<p>For all programs, the “parse” functions will extract the primary output
-from the program into meaningful R data objects. For IT2B and NPAG, this
-is done automatically at the end of a successful run, and the objects
-are saved in the output subdirectory as IT2Bout.Rdata or NPAGout.Rdata,
-respectively. These functions generally run automatically and are not
-necessary for the user to access.</p>
 </div>
-<div id="saving-and-loading-functions" class="section level3 hasAnchor">
-<h3><span class="header-section-number">3.2.3</span> Saving and loading functions<a href="pmetrics-overview.html#saving-and-loading-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><span class="r6">R6</span></p>
-<p>After a successful IT2B or NPAG run, <code>PMload</code> or <code>PM_load</code> creates a
-<code>PM_result</code> object rather than loading run results into the current
-environment and suffixed with the run number.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">fit1 &lt;-<span class="st"> </span><span class="kw">PM_load</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">plot</span>(fit1<span class="op">$</span>op)</a></code></pre></div>
+<div id="using-scripts-to-control-pmetrics" class="section level2 hasAnchor">
+<h2><span class="header-section-number">6.3</span> Using scripts to control Pmetrics<a href="how-to-use-r-and-pmetrics.html#using-scripts-to-control-pmetrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><span class="legacy">Legacy</span></p>
-<p>For IT2B and NPAG, the <code>PM_load</code> function can be used to load either
-of the above .Rdata files after a successful run. Objects will be loaded
-into the current environment in R and suffixed with “.run”, where “run” is
-the run number.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">PM_load</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">plot</span>(op<span class="fl">.1</span>)</a></code></pre></div>
-<p><span class="update">Update</span>
-<code>PMsave</code> is the
-companion to <code>PMload</code> and can re-save modified objects to the .Rdata file.</p>
+<p>As you will see in the skeleton R script made by <code>PMtree</code> and placed in
+the Rscript subdirectory, if this is a first-time run, the R commands to
+run IT2B or NPAG are as follows. Recall that the “#” character is a
+comment character.</p>
+<p>library(Pmetrics)</p>
+<p>#Run 1 - add your run description here</p>
+<p>setwd(“working directory”)</p>
+<p>NPrun() #for NPAG or ITrun() for IT2B</p>
+<p>The first line will load the Pmetrics library of functions. The second
+line sets the working directory to the specified path. The third line
+generates the batch file to run NPAG or IT2B and saves it to the working
+directory.</p>
+<p><strong>NOTE</strong>: On Mac systems, the batch file will be automatically launched
+in a Terminal window. On Windows systems prior to version 1.9, the batch
+file must be launched manually by double clicking the <em>npscript.bat</em> or
+<em>itscript.bat</em> file in the working directory. As of version 1.9, Windows
+users no longer need to do this.</p>
+<p><code>ITrun</code> and <code>NPrun</code> are described in full detail via their help commands in R. At minimum, they require a data file and a model file. If the default names of “data.csv” and “model.txt” are used, they may be called with no arguments. Again, the data and model files must be in the current working directory, usually the Runs folder.</p>
+<p>Both functions return the full path of the output directory to
+the clipboard. By default, runs are placed in folders numbered
+sequentially, beginning with “1”.</p>
+<p><span class="r6">R6</span></p>
 </div>
-<div id="report-generation" class="section level3 hasAnchor">
-<h3><span class="header-section-number">3.2.4</span> Report generation<a href="pmetrics-overview.html#report-generation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
-<p>The <code>PMreport</code> function is automatically run at the end of a successful
-NPAG and IT2B run, and it will generate an HTML page with summaries of
-the run, as well as the .Rdata files and other objects. The default
-browser will be automatically launched for viewing of the HTML report
-page. <!--It will also generate a .tex file suitable for processing by a
-LATEX engine to generate a pdf report.--> See the <a href="#outputs">Pmetrics
-Outputs</a> section.</p>
+<div id="loading-results-after-a-completed-run" class="section level2 hasAnchor">
+<h2><span class="header-section-number">6.4</span> Loading results after a completed run<a href="how-to-use-r-and-pmetrics.html#loading-results-after-a-completed-run" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="legacy">Legacy</span></p>
+<p>Now the output of IT2B or NPAG needs to be loaded into R, so the next
+command does this.</p>
+<p><code>PMload(run_number)</code></p>
+<p>Details of these commands and what is loaded are described in the R
+documentation (?PMload) and in the following section. The run_number
+should be included within the parentheses to be appended to the names of
+loaded R objects, allowing for comparison between runs, e.g. <code>PMload(1)</code>.
+Finally, at this point other Pmetrics commands can be added to the
+script to process the data, such as the following.</p>
+<div class="script">
+<p>plot(final.1)<br />
+plot(cycle.1)<br />
+plot(op.1,type=“pop”) or plot(op.1$pop1)<br />
+plot(op.1) #default is to plot posterior predictions for output 1<br />
+plot(op.1,type=“pop”,resid=T)<br />
+</p>
 </div>
+<p>Of course, the full power of R can be used in scripts to analyze data,
+but these simple statements serve as examples.</p>
+<p>If you do not use the <code>PMtree</code> structure, we suggest that the R script
+for a particular project be saved into a folder called “Rscript” or some
+other meaningful name in the working directory. Folders are not be moved
+by the batch file. Within the script, number runs sequentially and use
+comments liberally to distinguish runs, as shown below.</p>
+<p>library(Pmetrics)</p>
+<p>#Run 1 - Ka, Kel, V, all subjects</p>
+<p>setwd(“working directory”)</p>
+<p>NPrun() #assumes model=“model.txt” and data=“data.csv”</p>
+<p>PMload(1)</p>
+<p>...</p>
+<p>Remember in R that the command <code>example(function)</code> will provide examples
+for the specified function. Most Pmetrics functions have examples.</p>
 </div>
-<div id="data-manipulation-functions" class="section level2 hasAnchor">
-<h2><span class="header-section-number">3.3</span> Data manipulation functions<a href="pmetrics-overview.html#data-manipulation-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><span class="r6">R6</span> <span class="legacy">Legacy</span></p>
-<p>Within Pmetrics there are also functions to manipulate data .csv files
-and process and plot extracted data.</p>
-<ul>
-<li><p>Manipulate data .csv files: <code>PMreadMatrix</code>, <code>PMcheck</code>, <code>PMwriteMatrix</code>,
-<code>PMmatrixRelTime</code>, <code>PMwrk2csv</code>, <code>NM2PM</code>, <code>PMmb2csv</code></p></li>
-<li><p>Process data: <code>makeAUC</code>, <code>makeCov</code>, <code>makeCycle</code>, <code>makeFinal</code>, <code>makeOP</code>, <code>makePTA</code>,
-<code>makeErrorPoly</code></p></li>
-<li><p>Plot data: <code>plot.PMcov</code>, <code>plot.PMcycle</code>, <code>plot.PMfinal</code>, <code>plot.PMmatrix</code>,
-<code>plot.PMop</code>,<code>plot.PMsim</code>, <code>plot.PMvalid</code>, <code>plot.PMpta</code></p></li>
-<li><p>Model selection and diagnostics: <code>PMcompare</code>, <code>plot.PMop</code> (with residual
-option), <code>makeValid</code>, <code>plot.PMvalid</code>, <code>PMstep</code></p></li>
-<li><p>Pmetrics function defaults: <code>setPMoptions</code>, <code>getPMoptions</code></p></li>
-</ul>
-<p>Again, all functions have extensive help files and examples which can be
-examined in R by using the <code>help(command)</code> or <code>?command</code> syntax.</p>
+<div id="using-shiny-to-control-pmetrics" class="section level2 hasAnchor">
+<h2><span class="header-section-number">6.5</span> Using Shiny to control Pmetrics<a href="how-to-use-r-and-pmetrics.html#using-shiny-to-control-pmetrics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Shiny is an R package made by the same group who produces Rstudio. While
+you are learning to use Pmetrics, you can use a graphical user interface
+that teaches you how to build code. Currently we have implemented Shiny
+interfaces for NPAG, IT2B and many plots in Pmetrics.</p>
+<p>To use these Shiny interfaces, type <code>PMcode("x")</code>, where x is the function
+you wish. Currently you have two choices: “run” and “plot”.</p>
+<p><code>PMcode("run")</code> will launch the following dialog window in your default
+browser. As you make your selections, you will see R code generated
+which you can copy back to your script and execute. Simply close the
+browser window when you are finished.</p>
+<p>You can select from an NPAG or IT2B run, and then use the Data, Model,
+and Run tabs to navigate to different options. With a valid Pmetrics
+model and data file loaded, you will see a summary of the model in the
+Current Model window.</p>
+<p>If you use <code>PMcode("plot")</code> you will see the dialog window below. It will
+allow you to select various Pmetrics objects that have been already
+loaded with <code>PMload</code>, and offer you many plot options, as well as the
+code to generate you selected plot.</p>
 
 </div>
 </div>
@@ -372,8 +393,8 @@ examined in R by using the <code>help(command)</code> or <code>?command</code> s
           </div>
         </div>
       </div>
-<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="general-workflow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="pmetrics-input-files.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -404,7 +425,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-Overview.Rmd",
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/05-Using.Rmd",
 "text": "Edit"
 },
 "history": {
