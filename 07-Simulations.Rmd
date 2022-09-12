@@ -1,0 +1,30 @@
+# Performing Simulations
+The Pmetrics simulator is a powerful Monte Carlo engine that is smoothly integrated with Pmetrics inputs and 
+outputs. Unlike NPAG and IT2B, it is run from within R. No batch file is created or terminal window opened. 
+However, the actual simulator is a Fortran executable compiled and run in an OS shell. It is documented with an 
+example within R. You can access this by using the `?SIMrun` in <span class="legacy">Legacy</span> or 
+`?PM_sim` for <span class="r6">R6</span> commands from R.
+
+In order to complete a simulator run you must include a data .csv file and a model file in the working directory. 
+The structure of these files is identical to those used by NPAG and IT2B. The data .csv contains the template dosing 
+and observation history as well as any covariates. Observation values (the OUT column) for EVID=0 events can be 
+any number; they will be replaced with the simulated values. However, do not use -99, as this will simulate a 
+missing value, which might be useful if you are testing the effects of such values. A good choice for the OUT value 
+in the simulator template .csv file is -1.
+
+You can have any number of subject records within a data .csv file, each with its own covariates if applicable. Each 
+subject will cause the simulator to run one time, generating as many simulated profiles as you specify from each 
+template subject. This is controlled from the `SIMrun` in <span class="legacy">Legacy</span> or 
+`PM_sim$run()` for <span class="r6">R6</span> command with the include and nsim arguments. The 
+first specifies which subjects in the data .csv file will serve as templates for simulation. The second specifies how 
+many profiles are to be generated from each included subject.
+
+
+```{r echo=F, results='asis'}
+
+```
+
+
+
+
+ 

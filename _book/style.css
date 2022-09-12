@@ -53,3 +53,7 @@ h1 {
   background-color: lightgrey;
   color: #446e9b;
 }
+
+body {
+  text-align: justify;
+}
