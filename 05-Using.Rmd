@@ -209,7 +209,7 @@ script to process the data, such as the following.
 ``` {r echo=T, eval=F}
 plot(final.1)
 plot(cycle.1)
-plot(op.1,type="pop") or plot(op.1$pop1)
+plot(op.1,type="pop") #or plot(op.1$pop1)
 plot(op.1) #default is to plot posterior predictions for output 1
 plot(op.1,type="pop",resid=T)
 ```
@@ -227,12 +227,31 @@ comments liberally to distinguish runs, as shown below.
 library(Pmetrics)
 #Run 1 - Ka, Kel, V, all subjects
 setwd("working directory")
-NPrun() \#assumes model="model.txt" and data="data.csv"
+NPrun() #assumes model="model.txt" and data="data.csv"
 PMload(1)
 ```
 
 Remember in R that the command `example(function)` will provide examples
 for the specified function. Most Pmetrics functions have examples.
+
+<span class="r6">R6</span>
+
+After the execution is done, you can load the output into R using `my_run<-PM_load(run_number)`, where `my_run` is the variable where the information will be stored in.
+
+Detailed information about the different elements contained in the result object can be accessed via `?PM_result` or by typing the result object into the terminal.
+
+After that, that object can be used to access the different elements of the results, for example:
+
+``` {r echo=T, eval=F}
+exRes <- PM_load(1)
+plot(exRes$final) # or exRes$final$plot() will plot the marginal distribution of the support points. See ?plot.PM_final.
+
+exRes$op$plot(type="pop") # see ?plot.PM_op,
+exRes$data$plot(overlay = F, 
+                pred = list(exRes$post, color = "green"), 
+                marker = list(symbol = "diamond-open", color = "blue", opacity = 0.8), 
+                line = F, log = T) # see ?plot.PM_data
+```
 
 <!-- ## Using Shiny to control Pmetrics -->
 

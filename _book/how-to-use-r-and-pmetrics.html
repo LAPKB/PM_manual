@@ -380,7 +380,7 @@ Finally, at this point other Pmetrics commands can be added to the
 script to process the data, such as the following.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1"><span class="kw">plot</span>(final<span class="fl">.1</span>)</a>
 <a class="sourceLine" id="cb42-2" title="2"><span class="kw">plot</span>(cycle<span class="fl">.1</span>)</a>
-<a class="sourceLine" id="cb42-3" title="3"><span class="kw">plot</span>(op<span class="fl">.1</span>,<span class="dt">type=</span><span class="st">&quot;pop&quot;</span>) or <span class="kw">plot</span>(op<span class="fl">.1</span><span class="op">$</span>pop1)</a>
+<a class="sourceLine" id="cb42-3" title="3"><span class="kw">plot</span>(op<span class="fl">.1</span>,<span class="dt">type=</span><span class="st">&quot;pop&quot;</span>) <span class="co">#or plot(op.1$pop1)</span></a>
 <a class="sourceLine" id="cb42-4" title="4"><span class="kw">plot</span>(op<span class="fl">.1</span>) <span class="co">#default is to plot posterior predictions for output 1</span></a>
 <a class="sourceLine" id="cb42-5" title="5"><span class="kw">plot</span>(op<span class="fl">.1</span>,<span class="dt">type=</span><span class="st">&quot;pop&quot;</span>,<span class="dt">resid=</span>T)</a></code></pre></div>
 <p>Of course, the full power of R can be used in scripts to analyze data,
@@ -393,10 +393,22 @@ comments liberally to distinguish runs, as shown below.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">library</span>(Pmetrics)</a>
 <a class="sourceLine" id="cb43-2" title="2"><span class="co">#Run 1 - Ka, Kel, V, all subjects</span></a>
 <a class="sourceLine" id="cb43-3" title="3"><span class="kw">setwd</span>(<span class="st">&quot;working directory&quot;</span>)</a>
-<a class="sourceLine" id="cb43-4" title="4"><span class="kw">NPrun</span>() \<span class="co">#assumes model=&quot;model.txt&quot; and data=&quot;data.csv&quot;</span></a>
+<a class="sourceLine" id="cb43-4" title="4"><span class="kw">NPrun</span>() <span class="co">#assumes model=&quot;model.txt&quot; and data=&quot;data.csv&quot;</span></a>
 <a class="sourceLine" id="cb43-5" title="5"><span class="kw">PMload</span>(<span class="dv">1</span>)</a></code></pre></div>
 <p>Remember in R that the command <code>example(function)</code> will provide examples
 for the specified function. Most Pmetrics functions have examples.</p>
+<p><span class="r6">R6</span></p>
+<p>After the execution is done, you can load the output into R using <code>my_run&lt;-PM_load(run_number)</code>, where <code>my_run</code> is the variable where the information will be stored in.</p>
+<p>Detailed information about the different elements contained in the result object can be accessed via <code>?PM_result</code> or by typing the result object into the terminal.</p>
+<p>After that, that object can be used to access the different elements of the results, for example:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">exRes &lt;-<span class="st"> </span><span class="kw">PM_load</span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="kw">plot</span>(exRes<span class="op">$</span>final) <span class="co"># or exRes$final$plot() will plot the marginal distribution of the support points. See ?plot.PM_final.</span></a>
+<a class="sourceLine" id="cb44-3" title="3"></a>
+<a class="sourceLine" id="cb44-4" title="4">exRes<span class="op">$</span>op<span class="op">$</span><span class="kw">plot</span>(<span class="dt">type=</span><span class="st">&quot;pop&quot;</span>) <span class="co"># see ?plot.PM_op,</span></a>
+<a class="sourceLine" id="cb44-5" title="5">exRes<span class="op">$</span>data<span class="op">$</span><span class="kw">plot</span>(<span class="dt">overlay =</span> F, </a>
+<a class="sourceLine" id="cb44-6" title="6">                <span class="dt">pred =</span> <span class="kw">list</span>(exRes<span class="op">$</span>post, <span class="dt">color =</span> <span class="st">&quot;green&quot;</span>), </a>
+<a class="sourceLine" id="cb44-7" title="7">                <span class="dt">marker =</span> <span class="kw">list</span>(<span class="dt">symbol =</span> <span class="st">&quot;diamond-open&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">opacity =</span> <span class="fl">0.8</span>), </a>
+<a class="sourceLine" id="cb44-8" title="8">                <span class="dt">line =</span> F, <span class="dt">log =</span> T) <span class="co"># see ?plot.PM_data</span></a></code></pre></div>
 <!-- ## Using Shiny to control Pmetrics -->
 <!-- Shiny is an R package made by the same group who produces Rstudio. While -->
 <!-- you are learning to use Pmetrics, you can use a graphical user interface -->
