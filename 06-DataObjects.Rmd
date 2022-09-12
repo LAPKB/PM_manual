@@ -7,14 +7,14 @@ the working directory. After IT2B, this file is called "IT2Bout.Rdata",
 and after NPAG it is called "NPAGout.Rdata". As mentioned in the
 previous section, these data files can be loaded by ensuring that the
 Runs folder is set as the working directory, and then using the Pmetrics
-commands `PM_load()` in <span class="r6>R6</span> or `PMload()` for 
+commands `PM_load()` in <span class="r6">R6</span> or `PMload()` for 
 <span class="legacy">Legacy</span>.
 
 There are several Pmetrics data objects contained within the Rdata files
 which are loaded, making these objects available for
 plotting and other analysis. 
 
-<span class="r6>R6</span>
+<span class="r6">R6</span>
 
 `PM_load()` returns a `PM_result` object. The fields in 
 

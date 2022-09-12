@@ -4,6 +4,7 @@ In this section, we suggest a workflow to help you maintain organized
 modeling projects.
 
 ## Setting up a Pmetrics project
+<span class="legacy">Legacy</span></br><span class="r6">R6</span>
 
 When beginning a new modeling project, it is convenient to use the
 command `PMtree`. This command will set up a new directory
@@ -28,7 +29,21 @@ own entirely.
 
 ## Getting the required inputs to run Pmetrics
 
-### R6
+<span class="legacy">Legacy</span>
+
+When you wish to execute a Pmetrics run, you must ensure that
+appropriate Pmetrics model.txt and data.csv files are in the working
+directory, i.e. the Runs subdirectory of the project directory. R can be
+used to help prepare the data.csv file by importing and manipulating
+spreadsheets (e.g. `read.csv`). The Pmetrics function `PMcheck` can be
+used to check a .csv file or an R dataframe that is to be saved as a
+Pmetrics data.csv file for errors. It can also check a model file for
+errors in the context of a datafile, e.g. covariates that do not match.
+`PMcheck(...,fix=T)` attempts to automatically rid data files of errors.
+The function `PMwriteMatrix` can be used to write the R data object in
+the correct format for use by IT2B, NPAG, or the Simulator.
+
+<!-- ### R6 -->
 <span class="r6">R6</span>
 
 There is a full tutorial encoded inside Pmetrics to teach new users the basic functionality of the whole package. To start that tutorial in R type:
@@ -77,84 +92,9 @@ my_complex_fit_again <- PM_fit$load("complex_fit.rds") #This will load the fit a
 To see the full list of methods available see `?PM_fit`.
 
 
-### Legacy
-<span class="legacy">Legacy</span>
 
-When you wish to execute a Pmetrics run, you must ensure that
-appropriate Pmetrics model.txt and data.csv files are in the working
-directory, i.e. the Runs subdirectory of the project directory. R can be
-used to help prepare the data.csv file by importing and manipulating
-spreadsheets (e.g. `read.csv`). The Pmetrics function `PMcheck` can be
-used to check a .csv file or an R dataframe that is to be saved as a
-Pmetrics data.csv file for errors. It can also check a model file for
-errors in the context of a datafile, e.g. covariates that do not match.
-`PMcheck(...,fix=T)` attempts to automatically rid data files of errors.
-The function `PMwriteMatrix` can be used to write the R data object in
-the correct format for use by IT2B, NPAG, or the Simulator.
+## Fitting models to data
 
-We have discussed the creation of model objects with `PM_model`.
-
-To bring these together, use the `PM_fit` object creator. It only needs two arguments: the name of the data file in the working directory or
-<span class="update">Update</span>in memory loaded via `PMreadMatrix`and a model object. `PM_fit` will accept a model object created by `PM_model` or the name of a model file in Legacy format and in the working directory.
-
-``` {r echo=T, eval=F}
-
-#Example 1 - data file and PM_model object
-fit1 <- PM_fit$new(data = "data.csv", model = mod1)
-
-#Example 2 - data object and model file
-PMdata <- PMreadMatrix("data.csv")
-fit2 <- PM_fit$new(data = PMdata, model = "model.txt")
-
-#Example 3 - data and model objects
-fit3 <- PM_fit$new(PMdata, mod1)
-
-```
-
-Once the `PM_fit` object is created it has only one function defined for it: `$run()`. Arguments for this function can be found in the help for `PM_fit` and later in this manual. 
-
-``` {r echo=T, eval=F}
-#default run parameters
-fit3$run()
-
-#change the cycle number from default 100
-fit3$run(cycles=500)
-
-#change the engine from default NPAG
-fit3$run(engine = "IT2B")
-```
-
-See the sections on running NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
-
-### Legacy
-<span class="legacy">Legacy</span>
-
-When you wish to execute a Pmetrics run, you must ensure that 
-both of the appropriate Pmetrics data.csv and model.txt files are in the working
-directory, i.e. the Runs subdirectory of the project directory. The names are supplied as arguments to `NPrun`, `ITrun`, and `ERRrun`. A shorthand notation is to supply the  number of a previous run for either the data, model or both files so that you do not have to manually copy them into the working directory.
-
-``` {r echo=T, eval=F}
-#Using default names data.csv and model.txt
-NPrun()
-
-#Using custom names
-ITrun(model = "model1.txt", data = "mydata.csv")
-
-#Grab data from run 1 and use default model.txt
-NPrun(data=1)
-
-#Use model and data from run 2 and continue where run 2 ended
-NPrun(data=2, model=2, prior=2, cycles=1000)
-```
-
-See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
-
-
-You can also download sample data and scripts from the [Pmetrics
-downloads](http://lapk.org/pmetrics.php) section of our
-website. Edit prior versions of model files to make new model files.
-
-## Using scripts to control Pmetrics
 <span class="legacy">Legacy</span>
 
 As you will see in the skeleton R script made by `PMtree` and placed in
@@ -188,11 +128,68 @@ Both functions return the full path of the output directory to
 the clipboard. By default, runs are placed in folders numbered
 sequentially, beginning with "1".
 
+When you wish to execute a Pmetrics run, you must ensure that 
+both of the appropriate Pmetrics data.csv and model.txt files are in the working
+directory, i.e. the Runs subdirectory of the project directory. The names are supplied as arguments to `NPrun`, `ITrun`, and `ERRrun`. A shorthand notation is to supply the  number of a previous run for either the data, model or both files so that you do not have to manually copy them into the working directory.
+
+``` {r echo=T, eval=F}
+#Using default names data.csv and model.txt
+NPrun()
+
+#Using custom names
+ITrun(model = "model1.txt", data = "mydata.csv")
+
+#Grab data from run 1 and use default model.txt
+NPrun(data=1)
+
+#Use model and data from run 2 and continue where run 2 ended
+NPrun(data=2, model=2, prior=2, cycles=1000)
+```
+
+See the sections on runing NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
+
+
+You can also download sample data and scripts from the [Pmetrics
+downloads](http://lapk.org/pmetrics.php) section of our
+website. Edit prior versions of model files to make new model files.
+
 <span class="r6">R6</span>
 
+We have discussed the creation of model objects with `PM_model`.
 
+To bring these together, use the `PM_fit` object creator. It only needs two arguments: the name of the data file in the working directory or
+<span class="update"> Update</span> in memory loaded via `PMreadMatrix`and a model object. `PM_fit` will accept a model object created by `PM_model` or the name of a model file in Legacy format and in the working directory.
 
+``` {r echo=T, eval=F}
 
+#Example 1 - data file and PM_model object
+fit1 <- PM_fit$new(data = "data.csv", model = mod1)
+
+#Example 2 - data object and model file
+PMdata <- PMreadMatrix("data.csv")
+fit2 <- PM_fit$new(data = PMdata, model = "model.txt")
+
+#Example 3 - data and model objects
+PMdata <- PM_data$new("data.csv")
+mod1 <- PM_model$new(list(...))
+fit3 <- PM_fit$new(PMdata, mod1)
+
+```
+
+Once the `PM_fit` object is created it has only one function defined for it: `$run()`. Arguments for this function can be found in the help for `PM_fit` and later in this manual. 
+
+``` {r echo=T, eval=F}
+#default run parameters
+fit3$run()
+
+#change the cycle number from default 100
+fit3$run(cycles=500)
+
+#change the engine from default NPAG
+fit3$run(engine = "IT2B")
+```
+
+See the sections on running NPAG and IT2B later in the manual for more details on arguments available to modify run behavior.
 
 ## Loading results after a completed run
 <span class="legacy">Legacy</span>
@@ -209,13 +206,13 @@ loaded R objects, allowing for comparison between runs, e.g. `PMload(1)`.
 Finally, at this point other Pmetrics commands can be added to the
 script to process the data, such as the following.
 
-<div class="script">
-plot(final.1)\
-plot(cycle.1)\
-plot(op.1,type="pop") or plot(op.1\$pop1)\
-plot(op.1) \#default is to plot posterior predictions for output 1\
-plot(op.1,type="pop",resid=T)\
-</div>
+``` {r echo=T, eval=F}
+plot(final.1)
+plot(cycle.1)
+plot(op.1,type="pop") or plot(op.1$pop1)
+plot(op.1) #default is to plot posterior predictions for output 1
+plot(op.1,type="pop",resid=T)
+```
 
 Of course, the full power of R can be used in scripts to analyze data,
 but these simple statements serve as examples.
@@ -226,14 +223,13 @@ other meaningful name in the working directory. Folders are not be moved
 by the batch file. Within the script, number runs sequentially and use
 comments liberally to distinguish runs, as shown below.
 
-<div class="script">
-library(Pmetrics)\
-\#Run 1 - Ka, Kel, V, all subjects\
-setwd("working directory")\
-NPrun() \#assumes model="model.txt" and data="data.csv"\
+``` {r echo=T, eval=F}
+library(Pmetrics)
+#Run 1 - Ka, Kel, V, all subjects
+setwd("working directory")
+NPrun() \#assumes model="model.txt" and data="data.csv"
 PMload(1)
-\...
-</div>
+```
 
 Remember in R that the command `example(function)` will provide examples
 for the specified function. Most Pmetrics functions have examples.
